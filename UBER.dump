@@ -1,0 +1,91 @@
+-- MySQL dump 10.13  Distrib 5.5.46, for debian-linux-gnu (x86_64)
+--
+-- Host: localhost    Database: UBER
+-- ------------------------------------------------------
+-- Server version	5.5.46-0ubuntu0.14.04.2
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `customer`
+--
+
+DROP TABLE IF EXISTS `customer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `customer` (
+  `ssn` varchar(80) NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) DEFAULT NULL,
+  `address` varchar(100) DEFAULT NULL,
+  `city` varchar(45) DEFAULT NULL,
+  `state` varchar(45) DEFAULT NULL,
+  `zipcode` varchar(45) DEFAULT NULL,
+  `phone` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  PRIMARY KEY (`email`),
+  UNIQUE KEY `customerid_SSN` (`ssn`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `customer`
+--
+
+LOCK TABLES `customer` WRITE;
+/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+INSERT INTO `customer` VALUES ('$2a$10$/HCx1KAxWaPyYdbz5tsiP.R73BrrZqnZIFOd.qJ4smFngO2v0WoSm','Manasa','M','2240, Bear Valley Pkwy,','San Jose','CA','92027','2341625656','manasa@gmail.com','$2a$10$SUuOaojE/LxIZwDT4TItv.Xxbh1.KJJEmbCo69thAd5DClZE7icsy'),('$2a$10$9H1LD8qZKnWCBCQUbc3dUOXwPUP9bbyfZQ8HG.mCOEqVNEmzF3M2W','Manoj','Ravi','2240, Bear Valley Pkwy,','San Diego','CA','95217','2341625656','manoj@gmail.com','$2a$10$AVyLLf6oGPEIS1EW2y2XLexRhWltZltFoYiska6nbJ1FSt0vp47Z2');
+/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payment_details`
+--
+
+DROP TABLE IF EXISTS `payment_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `payment_details` (
+  `email` varchar(45) NOT NULL,
+  `cardholdername` varchar(45) NOT NULL,
+  `cardnumber` varchar(80) NOT NULL,
+  `month` varchar(2) NOT NULL,
+  `year` varchar(2) NOT NULL,
+  `cvv` varchar(80) NOT NULL,
+  `paymentid` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`paymentid`),
+  KEY `email` (`email`),
+  CONSTRAINT `payment_details_ibfk_1` FOREIGN KEY (`email`) REFERENCES `customer` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payment_details`
+--
+
+LOCK TABLES `payment_details` WRITE;
+/*!40000 ALTER TABLE `payment_details` DISABLE KEYS */;
+INSERT INTO `payment_details` VALUES ('manasa@gmail.com','Pooja Yelure','$2a$10$g6eS5R/q9TjmtIIHO15CJOkz3KzUNdVVpg00BvQDfMgvE29o4rs6y','12','20','$2a$10$z1RGhm4Zlj7AvNuGNBTI8e9AhL32mWZv2wRlg8to9El3y1v/A.vLC',3),('manoj@gmail.com','Manoj Ravi','$2a$10$/5n0hYLdNh0HcUltrX3U9OvEZSOyvKOj2XH327gnbXrzc0FtNEVpa','11','20','$2a$10$tm.VbAPZ7Re4yRqOgzJzhO16277UQNAKRsSvF3CcR3OrjVuG8jus2',4);
+/*!40000 ALTER TABLE `payment_details` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2015-11-19 19:18:53
