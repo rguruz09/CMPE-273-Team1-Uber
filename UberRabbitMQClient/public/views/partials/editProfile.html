@@ -1,0 +1,90 @@
+<div ng-controller="ProfileController">
+	<form  role="form">		
+		<div>
+			<h2>
+				Tell us more about you! <br />
+			</h2>
+			<hr>
+			<div class="row">
+				<div class="form-group col-sm-3">
+					<input class="form-control input-lg" type="text" id="fromcity"
+						name="fromcity" placeholder="From City" ng-model="aboutForm.fromcity" />
+				</div>
+
+				<div class="form-group col-sm-3 ">
+					<input class="form-control input-lg" type="text" id="currentcity"
+						name="currentcity" placeholder="Current City" ng-model="aboutForm.currentcity"/>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<input class="form-control input-lg" type="text area" id="about"
+						name="about" placeholder="Tell us about yourself!" ng-model="aboutForm.about"/>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<input class="form-control input-lg" type=text id="work"
+						name="work" placeholder="Where do you work?" ng-model="aboutForm.work"/>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<input class="form-control input-lg" type=text id="education"
+						name="work" placeholder="Where did you Study?" ng-model="aboutForm.education"/>
+				</div>
+			</div>	
+			
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<input class="form-control input-lg" type=text id="contact"
+						name="contact" placeholder="How to reach you?" ng-model="aboutForm.contact"/>
+				</div>
+			</div>			
+			
+			<hr>
+			
+			<h2> Your Interests! </h2>
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<input class="form-control input-lg" type=text id="sports"
+						name="sports" placeholder="Sports" ng-model="aboutForm.sports"/>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<input class="form-control input-lg" type=text id="music"
+						name="music" placeholder="Music??" ng-model="aboutForm.music"/>
+				</div>
+			</div>	
+			
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<input class="form-control input-lg" type=text id="contact"
+						name="interests" placeholder="Other Interests?" ng-model="aboutForm.interests"/>
+				</div>
+			</div>
+			
+			<hr>
+			
+			<div class="row" align="center">
+				<div class="form-group col-sm-6" >
+					<input class="btn btn-success col-sm-4" type="submit" value="Update About" ng-click="updateAbout();"></input>
+				</div>
+			</div>
+			
+			<hr>
+			
+			<div class="row" align="center">
+				<div class="form-group col-sm-6" >
+					<h3>{{message}}</h3>
+				</div>
+			</div>
+			
+		</div>
+		</form>
+</div>

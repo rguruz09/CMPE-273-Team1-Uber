@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>UBER</title>
+<base href="/">
+
+<!-- JS -->
+<script src="libs/angular/angular.min.js"></script>
+<script src="libs/angular-route/angular-route.min.js"></script>
+
+
+<!-- ANGULAR CUSTOM -->
+<script src="js/controllers/frontpageController.js"></script>
+<!-- STYLE SHEETS CUSTOM -->
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link href='https://fonts.googleapis.com/css?family=Titillium+Web:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
+</head>
+
+<body ng-app ="uberApp" ng-controller ="frontpageCtrl" style="background : #000000">
+<div  >
+<!-- HEADING -->
+<header>
+
+	<div class="row">
+		<h2 class="heading" >U B E R</h2>		
+	</div>
+
+</header>		
+</div>
+
+<div class="container">
+<!-- BLANK -->
+<div class="col-md-4">
+</div>
+
+<!-- PROFILE -->
+<div class="col-md-4">
+	<div class="row">
+		<h2 align = "center"> <font color="#7CD1FF">SIGN IN</font></h2>
+		<form>
+		
+			<div class = "row">
+				<div class="form-group col-xs-3">
+					<font color="#FFFFFF">EMAIL</font> 									
+				</div>
+	
+				<div class="form-group col-xs-10">
+					<input class="form-control input" type="text" id="email" name="email" placeholder="Email Address" ng-model="email" required />												
+				</div>					
+	
+			</div>
+
+			<div class = "row">
+				<div class="form-group col-xs-3">
+					<font color="#FFFFFF">PASSWORD</font> 									
+				</div>
+				
+				<div class="form-group col-xs-10">				
+					<input class="form-control input" type="password" id="password" name="password" placeholder="Password" ng-model="password" required />
+				</div>						
+			</div>	
+
+			<div>
+			 	<input type="checkbox" name="vehicle" value="Remember Me"> <font color="#FFFFFF">Remember Me</font> </br>	
+			 	</div>
+			 <br>
+			 <div>
+			 <input type="submit" class="btn btn-default"  style="background-color: #1FBAD6; color:#FFFFFF ;height:50px; width:320px" value="SIGN IN" ng-click="driverSignIn();"></input>
+			 </div>			
+		</form>
+	</div>
+</div>
+
+<!-- BLANK -->
+<div class="col-md-4">
+</div>
+</div>
+</body>
+</html>
