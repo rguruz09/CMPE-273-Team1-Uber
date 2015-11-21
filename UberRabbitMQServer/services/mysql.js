@@ -3,9 +3,9 @@ var mysql = require('mysql');
 function getConnection(){
 	var connection = mysql.createConnection({
 	    host     : 'localhost',
-	    user     : 'pooja',
-	    password : 'mypass',
-	    database : 'UBER',
+	    user     : 'root',
+	    password : 'raghu',
+	    database : 'uber',
 	    port	 : '/var/run/mysqld/mysqld.sock'
 	});
 	return connection;
@@ -97,3 +97,23 @@ exports.getData = function(tableName, id, whereParam, callback) {
 	});
 };
 
+
+//getting driver details
+exports.executeQuery = function(query, callback){
+	console.log("In execute query - "+ query);
+	var connection = getConnection();
+	if(connection){
+		connection.query(query, function(err, results) {
+			if (err) {
+				console.log(err);
+				callback(true, err);
+				return;
+			}
+			callback(false, results);
+		})
+	}
+	else{
+		console.log("Unable to get SQL connection");
+		callback(true, err);
+	}
+};

@@ -13,7 +13,8 @@
 
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="libs/bootstrap-rating-input.min.js" type="text/javascript"></script> 
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=en&libraries=places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWg6y54fPggynfD8TVQbK9HnL-KMYHahU &libraries=places&callback=initAutocomplete"
+         async defer></script>
   
 <!-- ANGULAR CUSTOM -->
 <script src="js/app.js"></script>
@@ -23,48 +24,7 @@
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link href='https://fonts.googleapis.com/css?family=Titillium+Web:300' rel='stylesheet' type='text/css'>
 
-<script type="text/javascript">
-  
-  	var source, destination;
-	var directionsDisplay;
-	var directionsService = new google.maps.DirectionsService();
-
-	google.maps.event.addDomListener(window, 'load', function () {
-	    new google.maps.places.SearchBox(document.getElementById('txtSource'));
-	    new google.maps.places.SearchBox(document.getElementById('txtDestination'));
-	    directionsDisplay = new google.maps.DirectionsRenderer({ 'draggable': true });
-	});
-	 
-	function GetRoute() {
-	    var mumbai = new google.maps.LatLng(18.9750, 72.8258);
-	    var mapOptions = {
-	        zoom: 7,
-	        center: mumbai
-	    };
-	    
-	    map = new google.maps.Map(document.getElementById('dvMap'), mapOptions);
-	    alert(map);
-	    directionsDisplay.setMap(map);
-	    directionsDisplay.setPanel(document.getElementById('dvPanel'));
-	 
-	    //*********DIRECTIONS AND ROUTE**********************//
-	    source = document.getElementById("txtSource").value;
-	    destination = document.getElementById("txtDestination").value;
-	 
-	    var request = {
-	        origin: source,
-	        destination: destination,
-	        travelMode: google.maps.TravelMode.DRIVING
-	    };
-	    directionsService.route(request, function (response, status) {
-	        if (status == google.maps.DirectionsStatus.OK) {
-	            directionsDisplay.setDirections(response);
-	        }
-	    });
-	 
-	    
-	}	
-	</script>  
+<script src="../js/mymaps.js"></script>
 </head>
 
 <body ng-app = "uberApp" ng-controller= "RideController" >
@@ -148,27 +108,38 @@
 						<input class="form-control input-lg" type="text" id = "txtDestination"  name="endLocation" placeholder="End Location" ng-model="endLocation" required />								
 					</div>	
 					<div align="center">						
-        				<input type="button" class="btn btn-info" value="Get Route" onclick="GetRoute()" />
+        				<input type="button" class="btn btn-info" value="Get Route" onclick="setRoutes()" />
 					</div>							
 				</div>			
 				<hr/>				
 			</form>			
 		</div>
+
+		<!-- EMBEDDED MAP WITH ROUTE -->
+
 		<div class="row">
-			<div align="center" id="dvMap" style="width: 500px; height: 500px"></div>
+			<div align="center" id="dvMap" style="width: 1000px; height: 500px"></div>
 		</div>
 		
-		<!-- EMBEDDED MAP WITH ROUTE -->
+		<div>
+       			<button ng-hide="true" type="button" id="loaddrivers" ng-click="loaddriver()"></button> 
+	    	</div>
+
+    		<div>
+       			<button ng-hide="true" type="button" id="btnGetDriver" ng-model="btDriver" ng-click="getDriverDetails()"></button> 
+	    	</div>
+		<!-- EMBEDDED MAP WITH ROUTE END-->
 		
 		<div class="row">
 			<a href="#Foo" class="btn btn-default" data-toggle="collapse">Toggle Foo</a>
 		</div>	
 					 	
 		<hr/>
-		<div class= "row">
-			<div id="Foo" class="collapse " align="center" >
+		<div class= "row" ng-hide= bDriverDiv >
+			<div id="Foo"  align="center" >
 			    <h3>{{driverDetails.driver}}</h3>
-				<hr/>
+			    <input type="text" id="txtDriverID" ng-hide=false ng-model="strDriverID" required />	
+			    <hr/>
 			     <video controls loop>
 					  <source src="../images/H264_test2_Talkinghead_mp4_480x320.mp4" type="video/mp4">				  
 				  Your browser does not support the video tag.
