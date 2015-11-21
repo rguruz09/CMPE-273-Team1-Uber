@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>UBER</title>
+<base href="/">
+
+<script src="libs/angular/angular.min.js"></script>
+<script src="libs/angular-route/angular-route.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
+
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+<!-- ANGULAR CUSTOM -->
+<script src="js/controllers/frontpageController.js"></script>
+
+<!-- STYLE SHEETS CUSTOM -->
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link href='https://fonts.googleapis.com/css?family=Titillium+Web:300' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body ng-app ="uberApp" ng-controller ="frontpageCtrl">
+<div>
+<!-- HEADING -->
+<header class="bgimage_1">
+<div class="container" >
+	<div class="row">
+		<h3 class="heading" > WANT TO DRIVE WITH UBER? <input type="submit" class="btn btn-info"  style="height:30px; width:200px" value="Become a Driver" ng-click="driverSignup();"></h3> 
+     BECOME A DRIVER </button> </h3>		
+	</div>
+</div>
+</header>	
+<div class="bgimage_2">
+<div class="col-md-12">
+	<div class="row">
+	<p align="right">
+	<table>
+		<tr>
+		<td><input type="submit" name="login" class="btn btn-link"  style="height:30px; width:100px" value="LOG IN" ng-click ="login();"></h2>
+		</td>
+		<td><input type="submit" name="signup" class="btn btn-primary" style="height:30px; width:100px" value="SIGN UP" ng-click = "signup();"></h2>
+		</td>
+		</tr>
+	</table>
+</p>
+</div>	
+</div>
+
+<div class="container-fluid">
+<!-- BLANK -->
+<div class="col-md-3">
+</div>
+</div>
+</div>
+
+</body>
+</html>
