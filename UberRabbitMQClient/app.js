@@ -7,6 +7,7 @@ var express = require('express')
   , http = require('http')
   , home = require('./routes/home')
   , rider = require('./routes/rider')
+  , driver = require('./routes/driver')
   , path = require('path');
 
 
@@ -52,6 +53,10 @@ app.get('/riderSignup', home.riderSignup);
 app.get('/commonLogin', home.commonLogin);
 app.get('/driverSignin', home.driverSignin);
 app.get('/riderSignin', home.riderSignin);
+
+
+//Drivers APIs
+app.post('/getDrivers', driver.getDrivers);
 
 //Rider Signin
 app.get('/bookRide',rider.bookRide);
