@@ -57,6 +57,9 @@ app.get('/riderSignin', home.riderSignin);
 
 //Drivers APIs
 app.post('/getDrivers', driver.getDrivers);
+app.post('/addDrivers',driver.addDrivers);
+
+
 
 //Rider Signin
 app.get('/bookRide',rider.bookRide);
