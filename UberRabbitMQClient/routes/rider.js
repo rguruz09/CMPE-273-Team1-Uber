@@ -23,6 +23,7 @@ function addRider(req, res) {
 	var passwordHash = bcrypt.hashSync(password, salt1);
 	
 	var salt2 = bcrypt.genSaltSync(10);
+	console.log("SSN - "+ ssn);
 	var ssnHash = bcrypt.hashSync(ssn, salt2);
 	
 	var salt3 = bcrypt.genSaltSync(10);

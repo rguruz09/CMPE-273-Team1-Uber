@@ -19,6 +19,8 @@
 -- Table structure for table `customer`
 --
 
+CREATE DATABASE UBERDB;
+USE UBERDB;
 DROP TABLE IF EXISTS `customer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
