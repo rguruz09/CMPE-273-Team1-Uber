@@ -3,6 +3,7 @@ var amqp = require('amqp'), util = require('util');
 var login = require('./services/login'), 
 rider = require('./services/rider'), 
 driver = require('./services/driver'),
+driversignup = require('./services/driversignup'),
 http = require('http');
 
 var cnn = amqp.createConnection({
@@ -83,6 +84,24 @@ cnn.on('ready', function() {
 					contentType : 'application/json',
 					contentEncoding : 'utf-8',
 					correlationId : m.correlationId
+				});
+			});
+		});
+	});
+	
+	cnn.queue('addDriver_queue', function(q){
+		q.subscribe(function(message, headers, deliveryInfo, m){
+			util.log(util.format( deliveryInfo.routingKey, message));
+			util.log("Message: "+JSON.stringify(message));
+			util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+			driversignup.handle_request(message, function(err,res){
+				console.log("Listening");
+				console.log("After Driver Signup" + res);
+				//return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType:'application/json',
+					contentEncoding:'utf-8',
+					correlationId:m.correlationId
 				});
 			});
 		});
