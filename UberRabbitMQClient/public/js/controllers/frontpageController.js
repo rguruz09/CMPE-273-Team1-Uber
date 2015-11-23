@@ -40,7 +40,7 @@ uberApp.controller('frontpageCtrl', function($scope,$http,$window) {
 		var searchStmt = $http({
 			method : 'POST',			
 			url : '/getRiderDetails',
-			data: {}
+			data: {"user" : "me"}
 		}).success(function(response) {			
 			$scope.formDetails = response.rider;
 		});

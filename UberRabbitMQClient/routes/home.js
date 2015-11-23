@@ -15,14 +15,18 @@ function commonLogin(req,res) {
 
 function driverSignin(req,res){
 	console.log("In driver signin");
-res.render("driverSignin");
+	res.render("driverSignin");
 }
 
 function riderSignin(req,res){
-res.render("riderSignin");
+	res.render("riderSignin");
 }
 
+function adminSignin(req,res){
+	res.render("adminSignin");
+}
 
+exports.adminSignin = adminSignin;
 exports.driverSignup= driverSignup;
 exports.commonLogin= commonLogin;
 exports.driverSignin= driverSignin;

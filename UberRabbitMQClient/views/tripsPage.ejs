@@ -21,20 +21,12 @@
 <!-- STYLE SHEETS CUSTOM -->
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link href='https://fonts.googleapis.com/css?family=Titillium+Web:300' rel='stylesheet' type='text/css'>
-
-<script>
-   $(function(){
-   $('input').on('change', function(){
-        alert("Changed: " + $(this).val())
-    });
-    });
-</script>
-    
 </head>
 
 <body ng-app = "uberApp" ng-controller="TripsController" >
 <div>
 		<!-- HEADING -->
+		<p>My rating: <input type="number" name="your_awesome_parameter" id="some_id" class="rating" data-clearable="remove"/></p> 
 		<header class="bgimage_1">
 		<div class="container-fluid" >
 			<div class="row">
@@ -139,7 +131,19 @@
 		  		    		{{ride.pickup}} <hr class ="marginClass"/>
 		  		    		{{ride.dropoff}}</small>
 		  		    	</td>
-		  		    	<td colspan="3"><p>My rating: <input type="number" name="your_awesome_parameter" id="some_id" class="rating" data-clearable="remove"/></p> </td>
+		  		    	<!-- <td colspan="3"><p>My rating: <input type="number" name="your_awesome_parameter" id="some_id" class="rating" data-clearable="remove"/></p> </td> -->
+
+		  		    	<td>My rating: 
+		  		    	<div class="rating-input">
+		  		    	<i class="glyphicon glyphicon-star-empty" data-value="1"></i>
+		  		    	<i class="glyphicon glyphicon-star-empty" data-value="2"></i>
+		  		    	<i class="glyphicon glyphicon-star-empty" data-value="3"></i>
+		  		    	<i class="glyphicon glyphicon-star-empty" data-value="4"></i>
+		  		    	<i class="glyphicon glyphicon-star-empty" data-value="5"></i>&nbsp;
+		  		    	<a class="rating-clear hidden"><i class="glyphicon glyphicon-remove"></i>
+		  		    	remove</a></div>
+		  		    	<input name="your_awesome_parameter" id="some_id" class="rating hidden" data-clearable="remove" type="number"></td>
+		  		    	
 					</tr>		  		    
 			    </tbody>
 			    

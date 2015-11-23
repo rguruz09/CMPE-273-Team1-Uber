@@ -6,9 +6,9 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , home = require('./routes/home')
+  , admin = require('./routes/admin')
   , rider = require('./routes/rider')
   , path = require('path');
-
 
 var mongoSessionConnectURL = "mongodb://localhost:27017/sessions";
 var expressSession = require("express-session");
@@ -52,17 +52,24 @@ app.get('/riderSignup', home.riderSignup);
 app.get('/commonLogin', home.commonLogin);
 app.get('/driverSignin', home.driverSignin);
 app.get('/riderSignin', home.riderSignin);
+app.get('/adminSignin',home.adminSignin);
 
 //Rider Signin
 app.get('/bookRide',rider.bookRide);
 app.get('/homePageRider', rider.homePageRider);
-app.get('/paymentDetails',rider.paymentDetails);
+app.get('/paymentPage',rider.paymentPage);
 app.get('/tripsPage',rider.tripsPage);
 app.post('/checkRiderLogin',rider.checkRiderLogin);
 app.post('/addRider',rider.addRider);
 app.post('/getRiderDetails',rider.getRiderDetails);
 app.get('/logout',rider.logout);
 
+//Admin Module
+app.post('/checkAdminLogin',admin.checkAdminLogin);
+app.get('/adminDashBoard',admin.adminDashBoard);
+app.get('/getAllRidersPage',admin.getAllRidersPage);
+app.post('/getAllRiders',admin.getAllRiders);
+app.get('/adminViewRider',admin.adminViewRider);
 
 //connect to the mongo collection session and then createServer
 mongo.connect(mongoSessionConnectURL, function(){

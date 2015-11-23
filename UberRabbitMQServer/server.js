@@ -1,7 +1,9 @@
 var amqp = require('amqp'), util = require('util');
 
 var login = require('./services/login'), 
-rider = require('./services/rider'), http = require('http')
+rider = require('./services/rider'),
+admin = require('./services/admin'),
+http = require('http')
 
 var cnn = amqp.createConnection({
 	host : '127.0.0.1'
@@ -66,4 +68,46 @@ cnn.on('ready', function() {
 			});
 		});
 	});
+	
+	
+	
+	
+	//ADMIN
+	cnn.queue('login_admin_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+			admin.handle_login_admin_queue(message, function(err, res) {
+				console.log("After Admin Sign In Handle" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});
+	
+	
+	cnn.queue('admin_get_all_riders_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+			admin.handle_admin_get_all_riders_queue(message, function(err, res) {
+				console.log("After Admin Sign In Handle" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});
+	
 });
