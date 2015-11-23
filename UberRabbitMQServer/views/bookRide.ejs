@@ -1,0 +1,200 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>UBER</title>
+<base href="/">
+
+<!-- JS -->
+<script src="libs/angular/angular.min.js"></script>
+<script src="libs/angular-route/angular-route.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
+
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-rating-input.min.js" type="text/javascript"></script> 
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=en&libraries=places"></script>
+  
+<!-- ANGULAR CUSTOM -->
+<script src="js/app.js"></script>
+<script src="js/controllers/RideController.js"></script>
+
+<!-- STYLE SHEETS CUSTOM -->
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link href='https://fonts.googleapis.com/css?family=Titillium+Web:300' rel='stylesheet' type='text/css'>
+
+<script type="text/javascript">
+  
+  	var source, destination;
+	var directionsDisplay;
+	var directionsService = new google.maps.DirectionsService();
+
+	google.maps.event.addDomListener(window, 'load', function () {
+	    new google.maps.places.SearchBox(document.getElementById('txtSource'));
+	    new google.maps.places.SearchBox(document.getElementById('txtDestination'));
+	    directionsDisplay = new google.maps.DirectionsRenderer({ 'draggable': true });
+	});
+	 
+	function GetRoute() {
+	    var mumbai = new google.maps.LatLng(18.9750, 72.8258);
+	    var mapOptions = {
+	        zoom: 7,
+	        center: mumbai
+	    };
+	    
+	    map = new google.maps.Map(document.getElementById('dvMap'), mapOptions);
+	    alert(map);
+	    directionsDisplay.setMap(map);
+	    directionsDisplay.setPanel(document.getElementById('dvPanel'));
+	 
+	    //*********DIRECTIONS AND ROUTE**********************//
+	    source = document.getElementById("txtSource").value;
+	    destination = document.getElementById("txtDestination").value;
+	 
+	    var request = {
+	        origin: source,
+	        destination: destination,
+	        travelMode: google.maps.TravelMode.DRIVING
+	    };
+	    directionsService.route(request, function (response, status) {
+	        if (status == google.maps.DirectionsStatus.OK) {
+	            directionsDisplay.setDirections(response);
+	        }
+	    });
+	 
+	    
+	}	
+	</script>  
+</head>
+
+<body ng-app = "uberApp" ng-controller= "RideController" >
+
+	<div>
+		<!-- HEADING -->
+		<header class="bgimage_1">
+		<div class="container-fluid" >
+			<div class="row">
+				<h2 class="heading" >U B E R</h2>		
+			</div>
+		</div>
+		</header>		
+	</div>
+	
+	<div class="container-fluid">	
+	<!-- BLANK -->
+	<div class="col-md-3">
+	</div>
+	<!-- SIDE MENU -->
+	<div class="col-md-1" >
+		<div>			
+			<div class="profile-sidebar_2">			
+			<!-- SIDEBAR MENU -->			
+			<div class="profile-userpic">
+				<img src="../images/default.jpeg" alt="">
+				<h4 align="center"><strong><%=firstname%>&nbsp<%=lastname%></strong></h4>
+			</div>			
+			<hr/>			
+			
+			<div class="profile-usermenu">			
+			<ul class="nav">
+			
+			<!-- BOOK A RIDE -->
+			<li><a href="/bookRide"> Book Ride
+			</a></li>
+						
+			<!-- MY TRIPS -->
+			<li><a href="/tripsPage"> My Trips
+			</a></li>
+			
+			<!-- VIEW MY PROFILE -->
+			<li><a href="/homePageRider"> Profile
+			</a></li>
+					
+			<!-- PAYMENT -->
+			<li><a href="/paymentPage"> Payment
+			</a></li>		
+			
+			
+			<!-- FREE RIDES -->
+			<li><a href="#"> Free Rides
+			</a></li>
+			
+			
+			<!-- LOGOUT -->
+			<li><a href="/logout"> Logout
+			</a></li>		
+			
+		</ul>
+		</div>
+		</div>
+	</div>
+	<!-- END MENU -->
+	</div>
+	
+	
+	<!-- PROFILE -->
+	<div class="col-md-5">
+		<div class="row">
+			<h3 align = "center"> <strong>BOOK RIDE</strong> </h3>
+			<hr/>	
+		</div>
+		<div class="row">			
+			<form>
+				<div class = "row">
+					<div class="form-group col-xs-6">
+						<input class="form-control input-lg" type="text" id = "txtSource" name="startLocation" placeholder="Start Location" ng-model="startLocation" required />												
+					</div>
+					<div class="form-group col-xs-6">				
+						<input class="form-control input-lg" type="text" id = "txtDestination"  name="endLocation" placeholder="End Location" ng-model="endLocation" required />								
+					</div>	
+					<div align="center">						
+        				<input type="button" class="btn btn-info" value="Get Route" onclick="GetRoute()" />
+					</div>							
+				</div>			
+				<hr/>				
+			</form>			
+		</div>
+		<div class="row">
+			<div align="center" id="dvMap" style="width: 500px; height: 500px"></div>
+		</div>
+		
+		<!-- EMBEDDED MAP WITH ROUTE -->
+		
+		<div class="row">
+			<a href="#Foo" class="btn btn-default" data-toggle="collapse">Toggle Foo</a>
+		</div>	
+					 	
+		<hr/>
+		<div class= "row">
+			<div id="Foo" class="collapse " align="center" >
+			    <h3>{{driverDetails.driver}}</h3>
+				<hr/>
+			     <video controls loop>
+					  <source src="../images/H264_test2_Talkinghead_mp4_480x320.mp4" type="video/mp4">				  
+				  Your browser does not support the video tag.
+				</video> 
+				<br/>
+				<br/>
+			</div>
+		</div>	
+		<hr/>
+		<div class="row" align="center">
+			<b><input type="submit" class="btn btn-info btn-lg col-md-4" data-toggle="collapse" value="REQUEST UBERX"></b>
+			<br/><br/>
+			<b><input type="submit" class="btn btn-info btn-lg col-md-4" data-toggle="collapse" value="FARE ESTIMATOR"></b>
+		</div>	
+	</div>
+	
+	
+    		
+   
+		
+	<!-- BLANK -->
+	<div class="col-md-3">
+	</div>
+	</div>
+	
+	
+
+</body>
+</html>

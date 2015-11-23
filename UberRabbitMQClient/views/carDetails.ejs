@@ -1,0 +1,174 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>UBER</title>
+<base href="/">
+
+<!-- JS -->
+<script src="libs/angular/angular.min.js"></script>
+<script src="libs/angular-route/angular-route.min.js"></script>
+
+
+<!-- ANGULAR CUSTOM -->
+
+<!-- STYLE SHEETS CUSTOM -->
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+
+<body>
+<div  >
+<!-- HEADING -->
+<header class="bgimage_1">
+<div class="container-fluid" >
+	<div class="row">
+	<div class="logoimage_1" style ="height: 70px; width : 70px" > <h4 style="padding-left:80px; color : #FFFFFF">CAR DETAILS </h4> </div>
+	</div>
+</div>
+</header>		
+</div>
+
+<div class="container-fluid">
+<!-- BLANK -->
+
+<!-- SIDE MENU -->
+<div class="col-md-2" >
+	<div ng-app="uberApp" ng-controller = "SidebarController" >
+		
+		<div class="profile-sidebar_2">
+		
+		<!-- SIDEBAR MENU -->
+		
+		<div class="profile-userpic">
+			<img src="../images/default.jpeg" alt="">
+			<h5 align="center"> UserName </h5>
+		</div>
+		
+		<hr/>
+		
+		<div class="profile-usermenu">
+		<ul class="nav">
+		
+		<!-- MY Profile -->
+		<li><a href="/myProfile"> My Profile
+		</a></li>
+		
+		<!-- Car Details -->
+		<li><a href="#"> Car Details
+		</a></li>
+				
+		
+		<!-- Document Upload -->
+		<li><a href="#"> Upload Document
+		</a></li>		
+		
+		
+		<!-- INTRO VIDEO -->
+		<li><a href="#"> Introduction Video
+		</a></li>
+		
+		
+		<!-- RIDE HISTORY -->
+		<li><a href="#"> Ride History
+		</a></li>
+		
+		
+		<!-- BILLING HISTORY -->
+		<li><a href="#"> Billing History
+		</a></li>
+		
+		<!-- LOGOUT -->
+		<li><a href="#"> Logout
+		</a></li>		
+	</ul>
+	</div>
+	</div>
+</div>
+<!-- END MENU -->
+</div>
+
+
+<!-- PROFILE -->
+<div class="col-md-1">
+</div>
+<div class="col-md-4">
+	<div class="row">
+		
+		</div>
+		&nbsp &nbsp
+		
+		<form>
+			<div class = "row">
+				<div class="form-group col-xs-6">
+					MAKE:									
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-xs-6">
+				<select aria-label="Make" name="Make" ng-model="formDetails.make">
+				<option value="" selected="">Choose Vehicle Make</option>
+				<option value="1">Ashok Leyland</option>
+				<option value="2">Audi</option>
+				<option value="3">BMW</option>
+				<option value="4">Maruti Suzuki</option>
+				<option value="5">Mahindra</option>
+				<option value="6">Chevrolet</option>
+				<option value="7">Ford</option>
+				<option value="8">Mercedes Benz</option>
+				<option value="9">Mini</option>
+				<option value="10">Nissan</option>
+				<option value="11">Skoda</option>
+				<option value="12">Fiat</option>
+				</select>
+				</div>
+				<br>
+			</div>
+			<hr/>
+			<div class="row">
+				
+				<div class="form-group col-xs-6">
+					YEAR:									
+				</div>
+			</div>
+			<div class="row">
+			<div class="form-group col-xs-6">
+			<select aria-label="Year" name="Year" ng-model="formDetails.year">
+			<option value="" selected="">Choose Vehicle Year</option>
+			<option value="1">2010</option>
+			<option value="2">2011</option>
+			<option value="3">2012</option>
+			<option value="4">2013</option>
+			<option value="5">2014</option>
+			<option value="6">2015</option>
+			<option value="7">2016</option>
+			</select>
+			</div>
+			<br>
+		</div>			
+			<hr/>
+			<div class="row">
+				
+				<div class="form-group col-xs-6">
+					LICENSE PLATE NUMBER:									
+				</div>
+			</div>	
+			<div class="row">
+				<div class="form-group col-xs-6">
+					<input class="form-control input-sm" type="tel" id="license" name="license" placeholder="License Plate Number" ng-model="formDetails.license" required />
+				</div>	
+			</div>
+			<hr/>
+			<div class="row" align = "center">
+				<input type="submit" class="btn btn-info" value="SAVE & CONTINUE" ng-click="saveAndContinue()"></input>
+			</div>
+			<hr/>
+		</form>
+	</div>
+</div>
+
+<!-- BLANK -->
+<div class="col-md-3">
+</div>
+</div>
+</body>
+</html>

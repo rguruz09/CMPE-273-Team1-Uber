@@ -1,0 +1,82 @@
+<section ng-controller="ProfileController as panel">
+	<ul class="nav nav-pills navbar-custom ">
+		<li ng-class="{ active:panel.isSelected(1)}"><a href
+			ng-click="panel.selectedTab(1);postsByMe();">Timeline</a></li>
+		<li ng-class="{ active:panel.isSelected(2)}"><a href
+			ng-click="panel.selectedTab(2);getAbout();">About</a></li>
+		<li ng-class="{ active:panel.isSelected(3)}"><a href
+			ng-click="panel.selectedTab(3);loadFriendList();loadPendingFriendList();">Friends</a></li>
+		<li ng-class="{ active:panel.isSelected(4)}"><a href
+			ng-click="panel.selectedTab(4)">Photos</a></li>
+		<li ng-class="{active:panel.isSelected(5)}"><a href
+			ng-click="panel.selectedTab(5)">More</a></li>
+	</ul>
+	<br />
+	<div ng-show="panel.isSelected(1)">
+		<div class="alert alert-gray" ng-repeat="post in myNewsFeedList">
+			<h4>{{post.details}}</h4>
+			<h6>
+				<i> {{post.date_posted}}</i>i>
+			</h6>
+		</div>
+	</div>
+
+	<div ng-show="panel.isSelected(2)">
+		<h2>About</h2>
+		<hr>
+		<h4>From City: {{aboutInfo.fromcity}}</h4>
+		<h4>Current Lives in: {{aboutInfo.currentcity}}</h4>
+		<hr>
+		<h4>Works at: {{aboutInfo.work}}</h4>
+		<h4>Studies/Studied at: {{aboutInfo.education}}</h4>
+		<h4>Contact me at: {{aboutInfo.contact}}</h4>
+		<h4>More about me: {{aboutInfo.about}}</h4>
+		<h2>Interests</h2>
+		<hr>
+		<h4>My Choice of Music: {{aboutInfo.music}}</h4>
+		<h4>My Favourite Sports: {{aboutInfo.sports}}</h4>
+		<h4>Shows I love watching: {{aboutInfo.interests}}</h4>
+		<br /> <br /> <br /> <br />
+	</div>
+
+	<div ng-show="panel.isSelected(3)">
+
+		<div class="row">
+			<div ng-show="(pendingFriendList.length > 0)">
+				<h3>Pending Friend Requests</h3>
+				<div class="alert alert-gray col-sm-4"
+					ng-repeat="friend in pendingFriendList">
+					<h4 ng-click="displayAnotherUser(friend.user_id)">{{friend.firstname}}
+						{{friend.lastname}}</h4>
+					<img src="../images/avatar.png" alt="logo"
+						style="width: 40px; height: 40px;"></img> <input type="submit"
+						ng-click="acceptFriend(friend._id,friend.firstname,friend.lastname,true);"
+						class="btn btn-success " value="Accept "> <input
+						type="submit" ng-click="acceptFriend(friend._id,friend.firstname,friend.lastname,false);"
+						class="btn btn-danger " value="Reject ">
+				</div>
+
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="row">
+			<div ng-click="displayAnotherUser(friend.user_id)"
+				class="alert alert-gray col-sm-4" ng-repeat="friend in friendList">
+				<h4>{{friend.firstname}} {{friend.lastname}}</h4>
+				<img src="../images/avatar.png" alt="logo"
+					style="width: 40px; height: 40px;"></img>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel" ng-show="panel.isSelected(4)">
+		<h4>Photos</h4>
+	</div>
+
+	<div class="panel" ng-show="panel.isSelected(5)">
+		<h4>More</h4>
+	</div>
+
+</section>

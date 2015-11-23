@@ -1,0 +1,90 @@
+<div class="col-md-6">
+	<img alt="Connection Image" src="../images/fbimg.png"
+		style="margin-left: 100px; margin-top: 50px; height: 350px; width: 800px;">
+</div>
+
+<div ng-app="facebook" class="col-md-6" style="float: right;" ng-controller="LoginController">
+	<div>
+		<h1>
+			Sign Up <br /> <small>It's free and always will be.</small>
+		</h1>
+		<form novalidate role="form" name="loginForm">
+			<div>
+				<div class="row">
+					<div class="form-group col-sm-3">
+						<input class="form-control input-lg" type="text" id="firstName"
+							name="firstName" placeholder="First Name"
+							ng-model="signUpForm.firstname" required />
+							<span class="error" ng-show="signUpForm.firstname.$error.required">required</span>
+					</div>
+
+					<div class="form-group col-sm-3 ">
+						<input class="form-control input-lg" type="text" id="lastName"
+							name="lastName" placeholder="Last Name"
+							ng-model="signUpForm.lastname" required />
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-6">
+						<input class="form-control input-lg" type="email" id="userName"
+							name="userName" placeholder="Username"
+							ng-model="signUpForm.email" required />
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-6">
+						<input class="form-control input-lg" type="password" id="password"
+							name="password" placeholder="Password"
+							ng-model="signUpForm.password" required />
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-6">
+						<label>Date of Birth </label>
+						<div id='datetimepicker1' class="input-append date">
+							<input id='dob' name='dob' data-format="YYYY/MM/DD" type="text"
+								class="form-control input-lg" ng-model="signUpForm.dob"></input>
+							<span class="add-on"> <i data-time-icon="icon-time"
+								data-date-icon="icon-calendar"> </i>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-6">
+						<label class="radio-inline"> <input id="female"
+							type="radio" name="gender" value="female"
+							ng-model="signUpForm.gender"> Female
+						</label> <label class="radio-inline"> <input id="male"
+							type="radio" name="gender" value="male"
+							ng-model="signUpForm.gender"> Male
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-6" align="center">
+						<input type="submit" class="btn btn-success" value="Signup"
+							ng-click="signup()"></input>
+					</div>
+				</div>
+
+				<hr>
+				<div class="row">
+					<div class="form-group col-sm-6" align="center">
+						<div class="alert alert-danger" ng-hide="invalid_signup">
+							<strong>User Already Exists!</strong>
+						</div>
+						<div class="alert alert-success" ng-hide="valid_signup">
+							<strong>User Inserted!</strong>
+						</div>
+						<div class="alert alert-danger" ng-hide="unexpected_error_signup">
+							<strong>Unexpected error, try again</strong>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</form>
+	</div>
+</div>
+
