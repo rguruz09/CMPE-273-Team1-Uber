@@ -58,6 +58,8 @@ app.get('/riderSignin', home.riderSignin);
 //Drivers APIs
 app.post('/getDrivers', driver.getDrivers);
 app.post('/addDrivers',driver.addDrivers);
+app.post('/getDriverInfo',driver.getDriverInfo);
+
 
 
 

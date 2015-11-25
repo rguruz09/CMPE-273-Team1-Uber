@@ -1,5 +1,5 @@
 var mongo = require("./mongo");
-var mongoURL = "mongodb://localhost:27017/driver";
+var mongoURL = "mongodb://localhost:27017/UBERDB";
 function handle_request(msg, callback){
 	var res = {};
 	var driver_details = {
@@ -15,7 +15,7 @@ function handle_request(msg, callback){
 	console.log("In signup handle request:"+ msg.username);
 	mongo.connect(mongoURL, function(){
 		console.log('Connected to mongo at driversignup: ' + mongoURL);
-		var coll = mongo.collection('users');
+		var coll = mongo.collection('drivers');
 
 		coll.insert({firstname:msg.firstname,lastname:msg.lastname,password:msg.password,city:msg.city,zip:msg.zip,mobile:msg.mobile,email:msg.email}, function(err, user){
 			
