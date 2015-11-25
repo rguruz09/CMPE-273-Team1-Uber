@@ -37,6 +37,10 @@ exports.getDrivers = function(req,res){
 	});
 };
 
+exports.getDriverInfo = function(req,res){
+	console.log(req.param('drivers'));
+};
+
 exports.addDrivers = function(req,res){
 	console.log("In addDriver client ");
 	var email = req.param("email");

@@ -1,6 +1,8 @@
 var mongo = require("./mongo");
+
 var mongoURL = "mongodb://localhost:27017/uberdb";
 var autoIncrement = require("mongodb-autoincrement");
+
 function handle_request(msg, callback){
 	var res = {};
 	var driver_details = {
@@ -18,7 +20,8 @@ function handle_request(msg, callback){
 		var coll = mongo.collection('drivers');
 		autoIncrement.getNextSequence(db, coll, function (err, autoIndex) {
 		console.log('Connected to mongo at driversignup: ' + mongoURL);
-		
+
+		var coll = mongo.collection('drivers');
 
 		coll.insert({_id: autoIndex,firstname:msg.firstname,lastname:msg.lastname,password:msg.password,city:msg.city,zip:msg.zip,mobile:msg.mobile,email:msg.email}, function(err, user){
 			

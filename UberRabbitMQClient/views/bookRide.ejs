@@ -141,8 +141,9 @@
 		<hr/>
 		<div class= "row" ng-hide= bDriverDiv >
 			<div id="Foo"  align="center" >
-			    <h3>{{driverDetails.driver}}</h3>
-			    <input type="text" id="txtDriverID" ng-hide=false ng-model="strDriverID" required />	
+			    <h3 align="left">Name: {{driverDetails.driver}}</h3>			    
+			    <h3 align="left">Ratings: {{driverDetails.rating}}</h3>			    
+			    <h3 align="left">Car Details: {{driverDetails.Detais}}</h3>
 			    <hr/>
 			     <video controls loop>
 					  <source src="../images/H264_test2_Talkinghead_mp4_480x320.mp4" type="video/mp4">				  
@@ -153,9 +154,8 @@
 			</div>
 		</div>	
 		<hr/>
-		<div class="row" align="center">
+		<div class="row">
 			<b><input type="submit" class="btn btn-info btn-lg col-md-4" data-toggle="collapse" value="REQUEST UBERX"></b>
-			<br/><br/>
 			<b><input type="button" class="btn btn-info btn-lg col-md-4" data-toggle="collapse" ng-model="btnFareEstimate" ng-click="GetFare()" value="FARE ESTIMATOR"></b>
 		</div>	
 	</div>

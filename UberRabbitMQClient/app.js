@@ -60,6 +60,8 @@ app.post('/getDrivers', driver.getDrivers);
 app.post('/addDrivers',driver.addDrivers);
 app.post('/checkDrivers',driver.checkDrivers);
 app.post('/addcarDetails',driver.addcarDetails);
+app.post('/getDriverInfo',driver.getDriverInfo);
+
 
 
 

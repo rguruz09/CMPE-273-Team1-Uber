@@ -11,7 +11,8 @@
 				$scope.driverDetails = {
 					"driver" : "KEVIN",
 					"rating" : "4",
-					"video" : "s"
+					"video" : "s",
+					"Detais" : "Yellow SX4 KA 06 V 7546"
 				} ;
 
 				$scope.bDriverDiv = true;
@@ -80,7 +81,7 @@
 				//Load drivers
 				$scope.loaddriver = function(){
 
-					var res = {};
+					
 					console.log("Im triggered");
 
 					if (navigator.geolocation) {
@@ -103,10 +104,11 @@
 								if(data.code == 404){
 									console.log("SQL failed");
 								}else{								
-									res = data.data;
-									if(res.length > 0){
+									$scope.res = data.data;
+									if($scope.res.length > 0){
 										console.log("success");
-										$scope.loadDrivers(res);				
+										$scope.loadDrivers();		
+										$scope.getDriverInfo();
 									}else{
 										console.log("No drivers available");								
 									}					
@@ -121,17 +123,47 @@
     					// Browser doesn't support Geolocation
     					//handleLocationError(false, infoWindow, map.getCenter());
   					}	
-				}
+				};
 
 
-				$scope.loadDrivers = function(res){
+				//get mode details about the driver.
+				$scope.getDriverInfo= function(){
+					
+					var driverID = [];
+					
+					for(i=0;i<$scope.res.length;i++){
+						driverID[i]=$scope.res[i].DRIVER_ID;
+						//console.log("driverID : "+driverID[i]);
+					}
+					
+					$http({
+						method : 'post',
+						url : '/getDriverInfo',
+						data : {
+							"drivers" : driverID							
+						}
+					}).success(function(data) {
+						if(data.code == 404){
+							console.log("SQL failed");
+						}else{		
+							$scope.Drivers = data.details;
+							console.log("Here in success");
+						}				
+					});
+					
+				};
+				
 
+				$scope.loadDrivers = function(){
+
+				  var res1 = $scope.res;
 				  console.log("In loaddrivers");
 
 				  for (var i = 0; i < res.length; i++) {
 				    var x = res[i].LATITUDE;
 				    var y = res[i].LANGITUDE;
 				    var setlab=String(res[i].DRIVER_ID);
+
 				  //  console.log(x + "," + y); 
 				    var marker = new google.maps.Marker({
 				      position: new google.maps.LatLng(x,y),
@@ -263,7 +295,18 @@
 				}
 
 				$scope.GetFare = function(){
+
 					console.log("getting fare estimate");
+
+					var source = document.getElementById('txtSource').value;
+					var destination = document.getElementById('txtDestination').value;
+				  
+				  	if(source == "" || destination == ""){
+				    	alert("Source/Destination can not be empty");
+				    	return;
+				  	}
+
+
 				}
 
 				$scope.getDistance = function(src, desc){
@@ -308,6 +351,19 @@
 					console.log("Im here--getting driver details");
 					$scope.bDriverDiv = false;
 					console.log("Driver is : " + $scope.selectedDriver);
+
+					for(var i=0; i<$scope.Drivers.length; i++){
+						if($scope.Drivers[i].driverID == $scope.selectedDriver ){
+							$scope.driverDetails = {
+								"driver" : $scope.Drivers[i].fname,
+								"rating" : $scope.Drivers[i].rating,
+								"video" : $scope.Drivers[i].video,
+								"Detais" : $scope.Drivers[i].details
+							} ;
+						}
+					}
+
+
 				}
 			}
 		]);
