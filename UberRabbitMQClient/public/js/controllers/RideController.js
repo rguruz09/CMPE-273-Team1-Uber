@@ -131,16 +131,16 @@
 				  for (var i = 0; i < res.length; i++) {
 				    var x = res[i].LATITUDE;
 				    var y = res[i].LANGITUDE;
-
+				    var setlab=String(res[i].DRIVER_ID);
 				  //  console.log(x + "," + y); 
 				    var marker = new google.maps.Marker({
 				      position: new google.maps.LatLng(x,y),
 				      map: map,
-				      label: res[i].DRIVER_ID,
+				      label: setlab,
 				      labelStyle: {opacity: 0},
 				      icon:'../images/car.png'
 				    });
-
+				    console.log(res[i].DRIVER_ID);
 				    google.maps.event.addListener(marker, 'click', (function(marker, i) {
 				         return function() {
 				            console.log("Yes here: " + marker.label);

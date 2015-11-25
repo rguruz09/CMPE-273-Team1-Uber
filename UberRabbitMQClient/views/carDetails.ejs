@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="en" ng-app ="uberApp">
 <head>
 <meta charset="UTF-8">
 <title>UBER</title>
@@ -10,13 +10,14 @@
 
 
 <!-- ANGULAR CUSTOM -->
+<script src="js/controllers/driverSignupController.js"></script>
 
 <!-- STYLE SHEETS CUSTOM -->
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 
-<body>
+<body  ng-controller="driverSignupCtrl">
 <div  >
 <!-- HEADING -->
 <header class="bgimage_1">
@@ -33,7 +34,7 @@
 
 <!-- SIDE MENU -->
 <div class="col-md-2" >
-	<div ng-app="uberApp" ng-controller = "SidebarController" >
+	<div ng-app="uberApp" >
 		
 		<div class="profile-sidebar_2">
 		
@@ -107,18 +108,18 @@
 				<div class="form-group col-xs-6">
 				<select aria-label="Make" name="Make" ng-model="formDetails.make">
 				<option value="" selected="">Choose Vehicle Make</option>
-				<option value="1">Ashok Leyland</option>
-				<option value="2">Audi</option>
-				<option value="3">BMW</option>
-				<option value="4">Maruti Suzuki</option>
-				<option value="5">Mahindra</option>
-				<option value="6">Chevrolet</option>
-				<option value="7">Ford</option>
-				<option value="8">Mercedes Benz</option>
-				<option value="9">Mini</option>
-				<option value="10">Nissan</option>
-				<option value="11">Skoda</option>
-				<option value="12">Fiat</option>
+				<option value="Ashok Leyland">Ashok Leyland</option>
+				<option value="Audi">Audi</option>
+				<option value="BMW">BMW</option>
+				<option value="Maruti Suzuki">Maruti Suzuki</option>
+				<option value="Mahindra">Mahindra</option>
+				<option value="Chevrolet">Chevrolet</option>
+				<option value="Ford">Ford</option>
+				<option value="Mercedes Benz">Mercedes Benz</option>
+				<option value="Mini">Mini</option>
+				<option value="Nissan">Nissan</option>
+				<option value="Skoda">Skoda</option>
+				<option value="Fiat">Fiat</option>
 				</select>
 				</div>
 				<br>
@@ -134,13 +135,33 @@
 			<div class="form-group col-xs-6">
 			<select aria-label="Year" name="Year" ng-model="formDetails.year">
 			<option value="" selected="">Choose Vehicle Year</option>
-			<option value="1">2010</option>
-			<option value="2">2011</option>
-			<option value="3">2012</option>
-			<option value="4">2013</option>
-			<option value="5">2014</option>
-			<option value="6">2015</option>
-			<option value="7">2016</option>
+			<option value="2010">2010</option>
+			<option value="2011">2011</option>
+			<option value="2012">2012</option>
+			<option value="2013">2013</option>
+			<option value="2014">2014</option>
+			<option value="2015">2015</option>
+			<option value="2016">2016</option>
+			</select>
+			</div>
+			<br>
+		</div>			
+			<hr/>
+				<div class="row">
+				
+				<div class="form-group col-xs-6">
+					COLOR:									
+				</div>
+			</div>
+			<div class="row">
+			<div class="form-group col-xs-6">
+			<select aria-label="Color" name="Color" ng-model="formDetails.Color">
+			<option value="" selected="">Choose Vehicle Year</option>
+			<option value="Black">Black</option>
+			<option value="White">White</option>
+			<option value="Grey">Grey</option>
+			<option value="Silver">Silver</option>
+			<option value="Yellow">Yellow</option>
 			</select>
 			</div>
 			<br>
