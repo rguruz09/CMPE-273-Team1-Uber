@@ -37,8 +37,46 @@ exports.getDrivers = function(req,res){
 	});
 };
 
+
+//getting the driver info
 exports.getDriverInfo = function(req,res){
-	console.log(req.param('drivers'));
+	
+	var drivers = req.param('drivers');
+	console.log(drivers);
+	
+	
+	var json_responses;
+
+	var msg_payload = {
+			"drivers" : drivers
+	};	
+	
+	mq_client.make_request('getDriverInfo_queue', msg_payload,
+			function(err, results) {
+				console.log("RESULTS::" + results.statusCode);
+					if (err) {
+						throw err;
+					} else {
+						if (results.statusCode == 200) {
+							
+							json_responses = {
+								"statusCode" : results.code,
+								"details" : results.data
+							};
+							
+							console.log("Sending driver data - " + json_responses.details );
+							res.json(json_responses);
+							
+						} else if (results.statusCode != 200) {
+								json_responses = {
+									"statusCode" : results.code
+								};
+								console.log("Could not Sigin Up");
+								res.json(json_responses);
+						}
+					}
+		});
+	
 };
 
 exports.addDrivers = function(req,res){
@@ -135,13 +173,60 @@ exports.checkDrivers = function(req,res){
 	});
 };
 
+
+// Update the driver location on login.
+exports.updateDriverLoc = function(req, res){
+	
+	console.log("Updating driver locaion details on login");
+	var driverID = req.param("driverID");
+	var lat = req.param("lat");
+	var lang = req.param("lang");
+	
+	var msg_payload = {
+			"driverID" : driverID,
+			"lat" : lat,
+			"lang" : lang	
+	};	
+	
+	console.log("Message : " + msg_payload.driverID + "  " + msg_payload.lat +" "+msg_payload.lang);
+	
+	var json_responses;
+	
+	mq_client.make_request('Update_DriverLocation_queue', msg_payload,
+			function(err, results) {
+		console.log("RESULTS::" + results.code);
+		if (err) {
+			throw err;
+		} else {
+			if (results.code == 200) {
+				json_responses = {
+						"statusCode" : results.code
+				};
+				console.log("Update successful");
+				res.json(json_responses);
+
+			} else if (results.code != 200) {
+				json_responses = {
+						"statusCode" : results.code
+				};
+				console.log("Couldnt update location details");
+				res.json(json_responses);
+			}
+		}
+	});
+	
+	
+	
+};
+
+
 	exports.addcarDetails = function(req,res){
 		console.log("In addcarDetails client ");
 
 		var email = req.param("email");
 		var Make = req.param("Make");
 		var Year = req.param("Year");
-		var Color = req.param("Color");
+		var color = req.param("color");
 		var license = req.param("license");
 
 
@@ -151,10 +236,12 @@ exports.checkDrivers = function(req,res){
 				"email" : email,
 				"Make" : Make,
 				"Year" : Year,
-				"Color" : Color,
+				"color" : color,
 				"license" : license	
 		};	
-		console.log("RESULTS::" + email +Make +Year + Color +license);
+		
+		console.log("Message : " + msg_payload.email + "  " + msg_payload.Make +" "+msg_payload.Year+" "+msg_payload.color+" "+" "+msg_payload.license );
+		
 		mq_client.make_request('add_carDetails_queue', msg_payload,
 				function(err, results) {
 			console.log("RESULTS::" + results.code);

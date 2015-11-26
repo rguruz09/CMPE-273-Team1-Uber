@@ -142,5 +142,40 @@ cnn.on('ready', function() {
 		});
 	});
 	
+	//Updating the Driver location -Update_DriverLocation_queue
+	cnn.queue('Update_DriverLocation_queue', function(q){
+		q.subscribe(function(message, headers, deliveryInfo, m){
+			util.log(util.format( deliveryInfo.routingKey, message));
+			util.log("Message: "+JSON.stringify(message));
+			util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+			driver.handle_request_updateLoca(message, function(err,res){
+				console.log("After Fetching Car Details" + res);
+				//return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType:'application/json',
+					contentEncoding:'utf-8',
+					correlationId:m.correlationId
+				});
+			});
+		});
+	});
+	
+	//get the driver details - getDriverInfo_queue
+	cnn.queue('getDriverInfo_queue', function(q){
+		q.subscribe(function(message, headers, deliveryInfo, m){
+			util.log(util.format( deliveryInfo.routingKey, message));
+			util.log("Message: "+JSON.stringify(message));
+			util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+			driver.handle_request_getDriverDetails(message, function(err,res){
+				console.log("After Fetching Car Details" + res);
+				//return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType:'application/json',
+					contentEncoding:'utf-8',
+					correlationId:m.correlationId
+				});
+			});
+		});
+	});
 	
 });

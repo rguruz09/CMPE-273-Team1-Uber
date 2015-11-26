@@ -9,14 +9,14 @@
 			function($scope, $http, $window) {
 
 				$scope.driverDetails = {
-					"driver" : "KEVIN",
-					"rating" : "4",
-					"video" : "s",
-					"Detais" : "Yellow SX4 KA 06 V 7546"
+//					"driver" : "KEVIN",
+//					"rating" : "4",
+//					"video" : "s",
+//					"Detais" : "Yellow SX4 KA 06 V 7546"
 				} ;
 
 				$scope.bDriverDiv = true;
-				//$scope.strDriverID = 20;
+				//$scope.strDriverID = 20;	
 				
 				//global variables
 				//var polyline;
@@ -143,7 +143,7 @@
 							"drivers" : driverID							
 						}
 					}).success(function(data) {
-						if(data.code == 404){
+						if(data.statusCode == 404){
 							console.log("SQL failed");
 						}else{		
 							$scope.Drivers = data.details;
@@ -156,7 +156,7 @@
 
 				$scope.loadDrivers = function(){
 
-				  var res1 = $scope.res;
+				  var res = $scope.res;
 				  console.log("In loaddrivers");
 
 				  for (var i = 0; i < res.length; i++) {
@@ -352,18 +352,19 @@
 					$scope.bDriverDiv = false;
 					console.log("Driver is : " + $scope.selectedDriver);
 
+					
+					
+					
 					for(var i=0; i<$scope.Drivers.length; i++){
-						if($scope.Drivers[i].driverID == $scope.selectedDriver ){
+						if($scope.Drivers[i].email == $scope.selectedDriver ){
 							$scope.driverDetails = {
-								"driver" : $scope.Drivers[i].fname,
-								"rating" : $scope.Drivers[i].rating,
+								"driver" : $scope.Drivers[i].firstname +" "+ $scope.Drivers[i].lastname,
+								"rating" : $scope.Drivers[i].ratings,
 								"video" : $scope.Drivers[i].video,
-								"Detais" : $scope.Drivers[i].details
+								"Detais" : $scope.Drivers[i].Make+" "+ $scope.Drivers[i].Color+" "+ $scope.Drivers[i].licence
 							} ;
 						}
 					}
-
-
 				}
 			}
 		]);

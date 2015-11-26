@@ -4,7 +4,6 @@ var uberApp = angular.module('uberApp', []);
 uberApp.factory('globalservice',function(){
 	
 	var sharedValues= {};
-
 	sharedValues.setEmail = function (giveEmailid){
 		console.log("In service "+ giveEmailid);
 		this.email=giveEmailid;
@@ -22,10 +21,9 @@ uberApp.factory('globalservice',function(){
 //defining the Signup controller
 uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globalservice) {
 	
-	
 	$scope.driverSignUp = function() {
 		console.log("Email is::" + $scope.email);
-		console.log("Email is::" + $scope.password);
+		console.log("PWD is::" + $scope.password);
 		$http({
 			method : "POST",
 			url : '/addDrivers',
@@ -92,13 +90,17 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 
 	};
 	$scope.saveAndContinue = function() {
-		console.log("Email is::" + globalservice.getEmail());
-		console.log("MAke is::" + $scope.formDetails.make);
+		//console.log("Email is::" + globalservice.getEmail());
+		console.log("Make is::" + $scope.formDetails.make);
+		console.log("Year is::" +  $scope.formDetails.year);
+		console.log("color is::" + $scope.formDetails.Color);
+		console.log("licence is::" + $scope.formDetails.license);
+		
 		$http({
 			method : "POST",
 			url : '/addcarDetails',
 			data : {
-				"email" : globalservice.getEmail(),
+				"email" : "raghavendra1810@gmail.com",
 				"Make" : $scope.formDetails.make,
 				"Year" : $scope.formDetails.year,
 				"color" : $scope.formDetails.Color,
@@ -115,7 +117,7 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 				$scope.invalid_signup = false;
 				$scope.valid_signup = true;
 				$scope.unexpected_error_signup = true;
-				window.location.assign("/carDetails");
+				//window.location.assign("/carDetails");
 			}
 		}).error(function(error) {
 			console.log("Error car Details Insert");
@@ -128,7 +130,7 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 	
 	  $scope.driverSigninpage=function(){
 	    	window.location.assign("/driverSignin");	
-	    }
+	    };
 	  
 	  
 	  $scope.updatedriverlocation = function(){

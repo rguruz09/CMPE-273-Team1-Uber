@@ -23,7 +23,7 @@ function handle_request(msg, callback){
 
 		var coll = mongo.collection('drivers');
 
-		coll.insert({_id: autoIndex,firstname:msg.firstname,lastname:msg.lastname,password:msg.password,city:msg.city,zip:msg.zip,mobile:msg.mobile,email:msg.email}, function(err, user){
+		coll.insert({_id: autoIndex,sequence_value:0,firstname:msg.firstname,lastname:msg.lastname,password:msg.password,city:msg.city,zip:msg.zip,mobile:msg.mobile,email:msg.email}, function(err, user){
 			
 				console.log("results");
 				console.log(res.code);
@@ -82,7 +82,7 @@ function handle_request_cardetails(msg, callback){
 		var coll = mongo.collection('drivers');
 		//db.users.update({email: msg.email},{$set : {"car": {"Make":msg.Make,"Color":msg.Color,"Year":msg.Year,"license":msg.license}}});
 		
-		coll.update({email:"david@gmail.com"},{$set : {"car": {"Make":msg.Make,"Color":msg.Color,"Year":msg.Year,"license":msg.license}}}, 
+		coll.update({email:"david@gmail.com"},{$set : {"car": {"Make":msg.Make,"Color":msg.color,"Year":msg.Year,"license":msg.license}}}, 
 			//	coll.insert({email:msg.email},	
 				function(err, user){
 			if (user) {
