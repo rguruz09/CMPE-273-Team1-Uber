@@ -20,7 +20,7 @@
 <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
 </head>
 
-<body ng-app ="myApp" ng-controller ="driverSignupCtrl">
+<body ng-app ="uberApp" ng-controller ="driverSignupCtrl">
 
 <div  >
 <!-- HEADING -->
@@ -48,7 +48,7 @@
 <div class="container-fluid">
 <!-- BLANK -->
 <div class="col-md-8">
-<img src="../images/driver_signup.jpg" style="height:700px; width:900px"/>
+<img src="../images/driver_signup.jpg" style="height:800px; width:900px"/>
 
 </div>
 <!-- SIDE MENU --> 
@@ -63,7 +63,7 @@
 		<h2 align = "center"> <font color="#09091A">SIGN UP TO DRIVE</font></h2>
 		<div class="row" align = "center">
 		
-		<button type="button" class="btn btn-default" style="background-color: #09091A; color:#FFFFFF; width:260px;">
+		<button type="button" class="btn btn-default" style="background-color: #09091A; color:#FFFFFF; width:260px;" ng-click="driverSigninpage()";>
      		<div class="logoimage_1"> <p style="padding-left:29px"> ALREADY HAVE AN ACCOUNT? </p> </div>
       	</button>
 		<br/>
@@ -75,12 +75,12 @@
 		<form>
 		<div class = "row">
 		<div class="form-group col-xs-6">
-				<input class="form-control input-sm"  type="text" id="firstname" name="firstname" placeholder="First Name" ng-model="firstName" required />												
+				<input class="form-control input-sm"  type="text" id="firstname" name="firstname" placeholder="First Name" ng-model="firstname" required />												
 			</div>		
 			
 			
 			<div class="form-group col-xs-6">				
-				<input class="form-control input-sm" type="text" id="lastName" name="lastName" placeholder="Last Name" ng-model="lastName" required />								
+				<input class="form-control input-sm" type="text" id="lastname" name="lastname" placeholder="Last Name" ng-model="lastname" required />								
 			</div>							
 		</div>
 		
@@ -100,8 +100,16 @@
 				<div class = "row">
 				<div class="form-group col-xs-12">				
 					<input class="form-control input-sm" type="password" id="password" name="password" placeholder="Password (Atleast 5 Characters)" ng-model="password" required/>
+				</div>	
+				</div>
+				
+				<div class = "row">
+				<div class="form-group col-xs-12">				
+					<input class="form-control input-sm" type="text" id="address" name="address" placeholder="Address" ng-model="address" required />
 				</div>						
-				</div>			
+				</div>
+									
+						
 				<div class = "row">
 				<div class="form-group col-xs-12">				
 					<input class="form-control input-sm" type="text" id="city" name="city" placeholder="City" ng-model="city" required />
@@ -111,6 +119,12 @@
 				<div class = "row">
 				<div class="form-group col-xs-12">				
 					<input class="form-control input-sm" type="text" id="zip" name="zip" placeholder="Zip Code" ng-model="zip" required />
+				</div>						
+				</div>
+				
+				<div class = "row">
+				<div class="form-group col-xs-12">				
+					<input class="form-control input-sm" type="text" id="state" name="state" placeholder="State" ng-model="state" required />
 				</div>						
 				</div>
 				

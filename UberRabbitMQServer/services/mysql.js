@@ -3,10 +3,10 @@ var mysql = require('mysql');
 function getConnection(){
 	var connection = mysql.createConnection({
 	    host     : 'localhost',
-	    user     : 'pooja',
-	    password : 'mypass',
-	    database : 'UBER',
-	    port	 : '/var/run/mysqld/mysqld.sock'
+	    user     : 'root',
+	    password : 'root',
+	    database : 'UBER_V1',
+	    port	 : '3306'
 	});
 	return connection;
 }
@@ -64,7 +64,7 @@ exports.insert1 = function(tableName, arr, callback) {
 	});
 };
 
-exports.update = function(tableName,arr,whereParam, callback){
+/*exports.update = function(tableName,arr,whereParam, callback){
     var sql = "UPDATE  "+tableName+" SET ? WHERE id="+whereParam;
     console.log(sql);
     pool.getConnection(function(err, connection){
@@ -78,6 +78,23 @@ exports.update = function(tableName,arr,whereParam, callback){
         });
     });
 };
+*/
+
+exports.update = function(tableName,arr,whereParam, callback){
+	console.log(arr);
+    var sql = "UPDATE  "+tableName+" SET ? WHERE email='"+whereParam+"'"; 
+    console.log(sql);
+       var connection = getConnection();
+	connection.query(sql,arr,function(err, results) {
+		if (err) {
+			console.log(err);
+			callback(true, err);
+			return;
+		}
+		callback(false, results);
+	});
+};
+
 
 exports.getData = function(tableName, id, whereParam, callback) {
 	console.log(tableName + " " + id + " " + whereParam);
@@ -97,3 +114,46 @@ exports.getData = function(tableName, id, whereParam, callback) {
 	});
 };
 
+
+exports.deleteData = function(tableName, whereParam1, whereParam2, callback) {
+	console.log(tableName + " " + whereParam1 + " " + whereParam2);
+	//console.log("connection.escape(whereParam);" + connection.escape(whereParam));
+	var sql = "DELETE FROM  " + tableName + " WHERE email =\"" + whereParam1+"\" AND cardnumber_4= \""+ whereParam2 +"\";";
+	console.log(sql);
+	
+	//sql = "SELECT * FROM  customer WHERE email = \"manasa@gmail.com\"";
+	var connection = getConnection();
+	connection.query(sql,function(err, results) {
+		if (err) {
+			console.log(err);
+			callback(true, err);
+			return;
+		}
+		callback(false, results);
+	});
+};
+
+
+
+
+
+
+//getting driver details
+exports.executeQuery = function(query, callback){
+	console.log("In execute query - "+ query);
+	var connection = getConnection();
+	if(connection){
+		connection.query(query, function(err, results) {
+			if (err) {
+				console.log(err);
+				callback(true, err);
+				return;
+			}
+			callback(false, results);
+		})
+	}
+	else{
+		console.log("Unable to get SQL connection");
+		callback(true, err);
+	}
+};

@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>UBER</title>
+
+<!-- JS -->
+<script src="libs/angular/angular.min.js"></script>
+<script src="libs/angular-route/angular-route.min.js"></script>
+
+
+<!-- ANGULAR CUSTOM -->
+
+<!-- STYLE SHEETS CUSTOM -->
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+
+    <script src="//code.angularjs.org/1.2.26/angular-route.js"></script>
+    <script src="js/controllers/SidebarController.js"></script>
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Welcome</title>
+  </head>
+
+  <body ng-app="driverProfile" ng-controller = "SidebarController" >
+  <div  >
+  <!-- HEADING -->
+  <header class="bgimage_1">
+  <div class="container-fluid" >
+  	<div class="row">
+  	<div class="logoimage_1" style ="height: 70px; width : 70px" > <h4 style="padding-left:80px; color : #FFFFFF">Welcome to UBER </h4> </div>
+  	</div>
+  </div>
+  </header>		
+  </div>
+
+  <div class="container-fluid">
+  <!-- BLANK -->
+
+  <!-- SIDE MENU -->
+  <div class="col-md-2" >
+  	<div >
+  		
+  		<div class="profile-sidebar_2">
+  		
+  		<!-- SIDEBAR MENU -->
+  		
+  		<div class="profile-userpic">
+  			<img src="../images/default.jpeg" alt="">
+  			<h5 align="center"> UserName </h5>
+  		</div>
+  		
+  		<hr/>
+  		
+  		<div class="profile-usermenu">
+  		<ul class="nav">
+  		
+  		<!-- MY Profile -->
+  		<li><a href="#/myProfile"> My Profile
+  		</a></li>
+  		
+  		<!-- Car Details -->
+  		<li><a href="#/carDetails"> Car Details
+  		</a></li>
+  				
+  		
+  		<!-- Document Upload -->
+  		<li><a href="#/uploadDocument"> Upload Document
+  		</a></li>		
+  		
+  		
+  		<!-- INTRO VIDEO -->
+  		<li><a href="#/introVideo"> Introduction Video
+  		</a></li>
+  		
+  		
+  		<!-- RIDE HISTORY -->
+  		<li><a href="#/rideHistory"> Ride History
+  		</a></li>
+  		
+  		
+  		<!-- BILLING HISTORY -->
+  		<li><a href="#/billHistory"> Billing History
+  		</a></li>
+  		
+  		<!-- LOGOUT -->
+  		<li><a href="#"> Logout
+  		</a></li>		
+  	</ul>
+  	</div>
+  	</div>
+  </div>
+  <!-- END MENU -->
+  </div>
+
+<div class="container-fluid">
+<div ng-view> </div>
+</div>
+
+<!-- BLANK -->
+<div class="col-md-3">
+</div>
+</div>
+</body>
+</html>

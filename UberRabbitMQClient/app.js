@@ -7,6 +7,7 @@ var express = require('express')
   , http = require('http')
   , home = require('./routes/home')
   , rider = require('./routes/rider')
+  , driver = require('./routes/driver')
   , path = require('path');
 
 
@@ -14,7 +15,7 @@ var mongoSessionConnectURL = "mongodb://localhost:27017/sessions";
 var expressSession = require("express-session");
 var mongoStore = require("connect-mongo")(expressSession);
 var mongo = require("./routes/mongo");
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt-nodejs');
 
 var app = express();
 
@@ -39,7 +40,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use("/views", express.static(path.join(__dirname, 'views')));
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
@@ -52,15 +53,32 @@ app.get('/riderSignup', home.riderSignup);
 app.get('/commonLogin', home.commonLogin);
 app.get('/driverSignin', home.driverSignin);
 app.get('/riderSignin', home.riderSignin);
+app.get('/driverProfile',home.driverProfile);
+
+//Drivers APIs
+app.post('/getDrivers', driver.getDrivers);
+app.post('/addDrivers',driver.addDrivers);
+app.post('/checkDrivers',driver.checkDrivers);
+app.post('/addcarDetails',driver.addcarDetails);
+app.post('/getDriverInfo',driver.getDriverInfo);
+app.post('/getDriverDetails',driver.getDriverDetails);
 
 //Rider Signin
 app.get('/bookRide',rider.bookRide);
 app.get('/homePageRider', rider.homePageRider);
 app.get('/paymentDetails',rider.paymentDetails);
+app.get('/paymentPage', rider.paymentPage);
 app.get('/tripsPage',rider.tripsPage);
 app.post('/checkRiderLogin',rider.checkRiderLogin);
 app.post('/addRider',rider.addRider);
 app.post('/getRiderDetails',rider.getRiderDetails);
+app.post('/actionUpdate',rider.actionUpdate);
+app.post('/riderSignin', home.riderSignin);
+app.get('/paymentInfo',rider.paymentInfo);
+app.post('/paymentDelete', rider.paymentDelete);
+app.post('/saveNewCard', rider.saveNewCard);
+
+
 app.get('/logout',rider.logout);
 
 

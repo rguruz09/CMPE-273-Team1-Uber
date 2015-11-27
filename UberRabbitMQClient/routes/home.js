@@ -1,4 +1,4 @@
-var bcrypt = require("bcrypt");
+var bcrypt = require("bcrypt-nodejs");
 var mq_client = require('../rpc/client');
 
 function driverSignup(req,res) {
@@ -22,9 +22,16 @@ function riderSignin(req,res){
 res.render("riderSignin");
 }
 
+function driverProfile(req,res){
+	res.render("driverProfile");
+	}
+
+
+
 
 exports.driverSignup= driverSignup;
 exports.commonLogin= commonLogin;
 exports.driverSignin= driverSignin;
 exports.riderSignin= riderSignin;
 exports.riderSignup = riderSignup;
+exports.driverProfile = driverProfile;
