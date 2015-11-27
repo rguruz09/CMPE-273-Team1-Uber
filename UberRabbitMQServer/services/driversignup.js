@@ -18,12 +18,9 @@ function handle_request(msg, callback){
 	console.log("In signup handle request:"+ msg.username);
 	mongo.connect(mongoURL, function(db){
 		var coll = mongo.collection('drivers');
-		autoIncrement.getNextSequence(db, coll, function (err, autoIndex) {
 		console.log('Connected to mongo at driversignup: ' + mongoURL);
 
-		var coll = mongo.collection('drivers');
-
-		coll.insert({_id: autoIndex,sequence_value:0,firstname:msg.firstname,lastname:msg.lastname,password:msg.password,city:msg.city,zip:msg.zip,mobile:msg.mobile,email:msg.email}, function(err, user){
+		coll.insert({_id: autoIndex,firstname:msg.firstname,lastname:msg.lastname,password:msg.password,city:msg.city,zip:msg.zip,mobile:msg.mobile,email:msg.email}, function(err, user){
 			
 				console.log("results");
 				console.log(res.code);
@@ -36,11 +33,9 @@ function handle_request(msg, callback){
 				res.code = "200";
 				res.value = "Success Signup";
 				callback(null, res);
-
 		});
-	});
 	
-	}	);
+	});
 }
 
 
@@ -49,8 +44,10 @@ function handle_request_login(msg, callback){
 	var driver_login = {
 			"email" : msg.email,
 			"password" : msg.password
-		}
+		};
+	
 	console.log("In Driver Login handle request:"+ msg.email);
+	
 	mongo.connect(mongoURL, function(){
 		var coll = mongo.collection('drivers');
 
