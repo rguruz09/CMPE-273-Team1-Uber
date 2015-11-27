@@ -4,6 +4,8 @@ var login = require('./services/login'),
 rider = require('./services/rider'), 
 driver = require('./services/driver'),
 driversignup = require('./services/driversignup'),
+billing = require('./services/billing'),
+rides = require('./services/rides'),
 http = require('http');
 
 var cnn = amqp.createConnection({
@@ -177,5 +179,42 @@ cnn.on('ready', function() {
 			});
 		});
 	});
+	
+	//getting fare estimate: get_FareEstimate_queue
+	cnn.queue('get_FareEstimate_queue', function(q){
+		q.subscribe(function(message, headers, deliveryInfo, m){
+			util.log(util.format( deliveryInfo.routingKey, message));
+			util.log("Message: "+JSON.stringify(message));
+			util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+			billing.handle_request_getFareEstimate(message, function(err,res){
+				console.log("After Fetching Car Details" + res);
+				//return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType:'application/json',
+					contentEncoding:'utf-8',
+					correlationId:m.correlationId
+				});
+			});
+		});
+	});
+	
+	//book a ride - bookaRide_queue
+	cnn.queue('bookaRide_queue', function(q){
+		q.subscribe(function(message, headers, deliveryInfo, m){
+			util.log(util.format( deliveryInfo.routingKey, message));
+			util.log("Message: "+JSON.stringify(message));
+			util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+			rides.handle_request_bookaRide(message, function(err,res){
+				console.log("After Fetching Car Details" + res);
+				//return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType:'application/json',
+					contentEncoding:'utf-8',
+					correlationId:m.correlationId
+				});
+			});
+		});
+	});
+	
 	
 });

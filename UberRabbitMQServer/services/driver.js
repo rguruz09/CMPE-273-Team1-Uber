@@ -34,16 +34,23 @@ function handle_get_drivers_queue (msg,callback) {
 	});	
 }
 
+
 function handle_request_updateLoca(msg,callback) {
 
 	console.log("In handle_request_updateLoca request: "+ msg.driverID + " " + msg.lat +"  "+msg.lang );	
 	
 	var driverID = msg.driverID;
 	var lat = msg.lat 
-	var lang = msg.lang;	
+	var lng = msg.lang;	
 	
 	var res = {};
-	var query = "update ";
+	
+	
+	  
+	var query = "INSERT INTO DRIVER_LOCATION (DRIVER_ID, LATITUDE, LANGITUDE) VALUES ('"+driverID+"' ,"+lat+","+lng+") ON DUPLICATE KEY UPDATE " +
+	 " LATITUDE    = VALUES(LATITUDE), LANGITUDE = VALUES(LANGITUDE)";
+	
+	console.log("Query "+query);
 	
 	mysql.executeQuery(query, function(err, rows) {		
 		if (err) {			

@@ -16,6 +16,7 @@
 				} ;
 
 				$scope.bDriverDiv = true;
+				$scope.bFareDiv = true;
 				//$scope.strDriverID = 20;	
 				
 				//global variables
@@ -273,27 +274,122 @@
 
 
 
-				$scope.geocodeAddress = function(addr) {
+				$scope.geocodeAddress = function(addr, callback) {
 
 				  var geoloc;
+				  var latlang ={};
 				  var geocoder = new google.maps.Geocoder();  
 				  geocoder.geocode({'address': addr}, function(results, status) {
 				    if (status === google.maps.GeocoderStatus.OK) {
 				      geoloc = results[0].geometry.location;      
-				      alert('Location is: ' + results[0].geometry.location.lat());     
-				      alert('Location is: ' + results[0].geometry.location.lng());     
-				      var latlang = {
+				         latlang = {
 				      		lat: results[0].geometry.location.lat(),
 				      		lang: results[0].geometry.location.lng()
 				      };
-
-				      return latlang;	
 				    } else {
 				      alert('Geocode was not successful for the following reason: ' + status);
 				    }
+				    callback(latlang);
 				  });
 				}
 
+				
+				// request for a ride
+				$scope.BookRide = function(){
+					
+					console.log("In book ride module");
+					
+					var source = document.getElementById('txtSource').value;
+					var destination = document.getElementById('txtDestination').value;
+				  
+				  	if(source == "" || destination == ""){
+				    	alert("Source/Destination can not be empty");
+				    	return;
+				  	}
+				  	
+				  	if( angular.isUndefined($scope.selectedDriver ) == true){
+				  		alert("Please select a driver");
+				  		return;
+				  	}
+				  	
+				  	console.log("Driver is "+ $scope.selectedDriver );
+				  	
+				  	$scope.time = new Date();
+				  	$scope.month = $scope.time.getMonth() + 1;
+				  	$scope.reqTime = $scope.time.getFullYear()+"-"+$scope.month+"-"+$scope.time.getDate()+" "+$scope.time.getHours()+":"+$scope.time.getMinutes()+":"+$scope.time.getSeconds(); 
+				  	console.log("datetime"+$scope.reqTime);
+					
+				  	$scope.day = $scope.time.getDay();
+				  	var weekend = 0;
+				  	
+				  	if($scope.day == 5 || $scope.day == 6 || $scope.day == 7){
+				  		weekend = 1;
+				  	}
+				  	
+				  	$scope.getDistance(source, destination, function(){	
+				  		
+				  		$scope.geocodeAddress(source, function(latlang) {
+				  		
+				  			$scope.srclatlang =  latlang;
+				  			
+				  			$scope.geocodeAddress(destination, function(latlang) {
+				  				$scope.deslatlang = latlang;
+				  			
+				  				$scope.distance = parseInt($scope.distance);
+					  			
+						  		console.log("Distance is - "+ $scope.distance);
+						  		console.log("Duration is - "+$scope.duration );
+						  
+						  		var dur = $scope.duration.split(" ");
+						  		var hr = 0;
+						  		var min = 0;
+						  		
+						  		if(dur.length == 2){
+						  			var min = dur[0];
+						  			$scope.duration = min;
+						  		}else if(dur.length == 4){
+						  			var hr = dur[0];
+						  			var min = dur[2];
+						  			$scope.duration = (hr * 60) + min;
+						  		}else{
+						  			return;
+						  		}
+						  		
+						  		$scope.ridests = -1;
+						  		
+						  		
+						  		$http({
+									method : 'post',
+									url : '/bookaride',
+									data : {
+										"distance" : $scope.distance,
+										"duration" : $scope.duration,
+										"reqtime" : $scope.reqTime,
+										"weekend" : weekend,
+										"driverID" : $scope.selectedDriver,
+										"srcLat" : $scope.srclatlang.lat,
+										"srcLng" : $scope.srclatlang.lang,
+										"descLng" : $scope.deslatlang.lang,
+										"descLat" : $scope.deslatlang.lat,
+										
+									}
+								}).success(function(data) {
+									if(data.code == 404){
+										console.log("couldnt book the ride");
+									}else{		
+										console.log("booking done");
+									}				
+								});
+				  			})		  			
+				  		})
+				  		  		
+				  	});
+				  	
+				  	
+				}
+				
+				
+				// Calculate the fare estimate
 				$scope.GetFare = function(){
 
 					console.log("getting fare estimate");
@@ -305,29 +401,91 @@
 				    	alert("Source/Destination can not be empty");
 				    	return;
 				  	}
-
+				  	
+				  	$scope.time = new Date();
+				  	
+				  	$scope.curTime = $scope.time.getHours() + ":" +  $scope.time.getMinutes();
+				  	$scope.day = $scope.time.getDay();
+				  	var weekend = 0;
+				  	
+				  	if($scope.day == 5 || $scope.day == 6 || $scope.day == 7){
+				  		weekend = 1;
+				  	}
+				  	
+				  	console.log("time is - "+ $scope.curTime);
+				  	
+				  	$scope.getDistance(source, destination, function(){
+				  		
+				  		$scope.distance = parseInt($scope.distance);
+				  		console.log("Distance is - "+ $scope.distance);
+				  		console.log("Duration is - "+$scope.duration );
+				  
+				  		var dur = $scope.duration.split(" ");
+				  		var hr = 0;
+				  		var min = 0;
+				  		
+				  		if(dur.length == 2){
+				  			var min = dur[0];
+				  			$scope.duration = min;
+				  		}else if(dur.length == 4){
+				  			var hr = dur[0];
+				  			var min = dur[2];
+				  			$scope.duration = (hr * 60) + min;
+				  		}else{
+				  			return;
+				  		}
+				  		
+				  		
+				  		$http({
+							method : 'post',
+							url : '/getfareEstimate',
+							data : {
+								"distance" : $scope.distance,
+								"duration" : $scope.duration,
+								"time" : $scope.curTime,
+								"weekend" : weekend
+							}
+						}).success(function(data) {
+							if(data.code == 404){
+								console.log("Cannot get fare estimate");
+							}else{		
+//								$scope.minPrice = Math.round(data.minfare,2);
+//								$scope.maxPrice = Math.round(data.maxfare,2);
+								$scope.minPrice = data.minfare.toFixed(2);
+								$scope.maxPrice = data.maxfare.toFixed(2);
+								
+								$scope.bFareDiv = false;
+							}				
+						});
+				  		
+				  		
+				  	});
+				  				  	
 
 				}
 
-				$scope.getDistance = function(src, desc){
+				$scope.getDistance = function(src, desc, callback){
 					
 					var service = new google.maps.DistanceMatrixService();
 					service.getDistanceMatrix({
 						origins: [src],
 						destinations: [desc],
-						travelMode: google.maps.TravelMode.DRIVING,
-						unitSystem: google.maps.UnitSystem.METRIC,
+						travelMode: google.maps.TravelMode.DRIVING,						
+						unitSystem: google.maps.UnitSystem.IMPERIAL,
 						avoidHighways: false,
 						avoidTolls: false
 					},  function (response, status) {
 							if (status == google.maps.DistanceMatrixStatus.OK && response.rows[0].elements[0].status != "ZERO_RESULTS") {
-						    	$scope.distance = response.rows[0].elements[0].distance.text;
+						    	$scope.distance = response.rows[0].elements[0].distance.text;  
+						    	//Math.round( totalDuration / 60 )+' minutes'
 						    	console.log("Distcs - "+$scope.distance);
 						        $scope.duration = response.rows[0].elements[0].duration.text;						        						        
 						        console.log("duration - "+$scope.duration );
 						} else {
 							alert("Unable to find the distance via road.");
 						}
+						callback();
+						
 					});
 				}
 
@@ -366,6 +524,35 @@
 						}
 					}
 				}
+				
+				
+				//get geoloca for address
+				$scope.getLatLangfrmAddress=function(callback){
+					var geocoder = new google.maps.Geocoder();
+					var source = document.getElementById('txtSource').value;
+					var destination = document.getElementById('txtDestination').value;
+					
+					geocoder.geocode( { 'address': source}, function(results, status) {
+
+						if (status == google.maps.GeocoderStatus.OK) {
+							
+						    $scope.srclatitude = results[0].geometry.location.latitude;
+						    $scope.srclongitude = results[0].geometry.location.longitude;
+						     
+						}
+						
+						geocoder.geocode( { 'address': destination }, function(results, status) {
+							
+							if (status == google.maps.GeocoderStatus.OK) {
+								$scope.destlatitude = results[0].geometry.location.latitude;
+								$scope.destlongitude = results[0].geometry.location.longitude;
+							    
+							} 
+						});
+						callback();
+					});
+				}
+				
 			}
 		]);
 }());

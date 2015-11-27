@@ -55,17 +55,25 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 		});
 
 	};
+	
+	
+	//Sign-In the driver
 	$scope.driverSignin = function() {
+
+
 		console.log("Email is::" + $scope.email);
-		console.log("Email is::" + $scope.password);
-		globalservice.setEmail("rag@gm.com");
+		console.log("Password is::" + $scope.password);
+	
+		
+		
+		//globalservice.setEmail("rag@gm.com");
 		console.log(globalservice.getEmail());
 		$http({
 			method : "POST",
 			url : '/checkDrivers',
 			data : {
 				"email" : $scope.email,
-				"password" : $scope.password
+				"password" : $scope.password				
 			}
 		}).success(function(data) {
 			$scope.curUser = $scope.email;
@@ -79,7 +87,7 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 				$scope.invalid_signup = false;
 				$scope.valid_signup = true;
 				$scope.unexpected_error_signup = true;
-				window.location.assign("/carDetails");
+				$scope.updatedriverlocation($scope.email);				
 			}
 		}).error(function(error) {
 			console.log("Error Driver Login");
@@ -133,10 +141,10 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 	    };
 	  
 	  
-	  $scope.updatedriverlocation = function(){
+	  $scope.updatedriverlocation = function(email){
 
 			var res = {};
-			console.log("Im triggered");
+			console.log("Im in updating driver loc ctrl");
 
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(function(position) {
@@ -149,12 +157,14 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 					//get drivers from that circle.
 					$http({
 						method : 'post',
-						url : '/getDrivers',
+						url : '/updateDriverLoc',
 						data : {
+							"email" : email,
 							"lat" : $scope.curlat,
 							"lang" : $scope.curlang
 						}
 					}).success(function(data) {
+						window.location.assign("/carDetails");
 						if(data.code == 404){
 							console.log("SQL failed");
 						}else{								
@@ -181,3 +191,10 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 	
 });
 
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+	  infoWindow.setPosition(pos);
+	  infoWindow.setContent(browserHasGeolocation ?
+	                        'Error: The Geolocation service failed.' :
+	                        'Error: Your browser doesn\'t support geolocation.');
+	}

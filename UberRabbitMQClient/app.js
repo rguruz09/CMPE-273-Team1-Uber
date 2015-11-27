@@ -8,6 +8,8 @@ var express = require('express')
   , home = require('./routes/home')
   , rider = require('./routes/rider')
   , driver = require('./routes/driver')
+  , billing = require('./routes/billing')
+  , rides = require('./routes/rides')
   , path = require('path');
 
 
@@ -61,6 +63,7 @@ app.post('/addDrivers',driver.addDrivers);
 app.post('/checkDrivers',driver.checkDrivers);
 app.post('/addcarDetails',driver.addcarDetails);
 app.post('/getDriverInfo',driver.getDriverInfo);
+app.post('/updateDriverLoc',driver.updateDriverLoc);
 
 
 
@@ -75,6 +78,12 @@ app.post('/addRider',rider.addRider);
 app.post('/getRiderDetails',rider.getRiderDetails);
 app.get('/logout',rider.logout);
 
+
+//Billing
+app.post('/getfareEstimate',billing.getfareEstimate); 
+
+//Rides
+app.post('/bookaride',rides.bookaride);
 
 //connect to the mongo collection session and then createServer
 mongo.connect(mongoSessionConnectURL, function(){

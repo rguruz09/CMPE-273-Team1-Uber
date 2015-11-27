@@ -153,9 +153,17 @@
 				<br/>
 			</div>
 		</div>	
+		
+		<div class= "row" ng-hide= bFareDiv >
+			<div id="Foo1"  align="center" >
+			    <h3 align="left"> Estimated total cost: ${{minPrice}} - ${{maxPrice}} </h3>			    
+			    <hr/><br/>
+			</div>
+		</div>
+		
 		<hr/>
 		<div class="row">
-			<b><input type="submit" class="btn btn-info btn-lg col-md-4" data-toggle="collapse" value="REQUEST UBERX"></b>
+			<b><input type="button" class="btn btn-info btn-lg col-md-4" data-toggle="collapse" ng-model="btnBookRide" ng-click="BookRide()" value="REQUEST UBERX"></b>
 			<b><input type="button" class="btn btn-info btn-lg col-md-4" data-toggle="collapse" ng-model="btnFareEstimate" ng-click="GetFare()" value="FARE ESTIMATOR"></b>
 		</div>	
 	</div>

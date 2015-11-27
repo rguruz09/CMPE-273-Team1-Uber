@@ -178,7 +178,7 @@ exports.checkDrivers = function(req,res){
 exports.updateDriverLoc = function(req, res){
 	
 	console.log("Updating driver locaion details on login");
-	var driverID = req.param("driverID");
+	var driverID = req.param("email");
 	var lat = req.param("lat");
 	var lang = req.param("lang");
 	
