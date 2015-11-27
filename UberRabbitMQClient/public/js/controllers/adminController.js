@@ -1,17 +1,34 @@
 var uberApp = angular.module('uberApp', []);
+
+
+uberApp.factory('myService', function() {
+	var savedData = "";
+	function set(data) {
+		savedData = data;
+	}
+	function get() {
+		return savedData;
+	}
+
+	return {
+		set : set,
+		get : get
+	}
+
+});
+
 uberApp.controller('AdminController', function($rootScope,$scope, $http, $window) {
-
 	console.log("Inside Admin Controller");
-
 	$scope.adminForm = {};
 	$scope.formDetails = {};
 	$scope.selectedEmail = ""; 
+	$scope.allDriversList = {};
 	$scope.adminSignin = function() {
 		console.log("In adminSignin");
 		$http({
 			method : "POST",
 			url : '/checkAdminLogin',
-			data : {
+			data : {	
 				"email" : $scope.adminForm.email,
 				"password" : $scope.adminForm.password
 			}
@@ -40,13 +57,11 @@ uberApp.controller('AdminController', function($rootScope,$scope, $http, $window
 		window.location = '/getAllRidersPage';
 	}
 	
-	$scope.getAllRiders = function() {
-		
+	$scope.getAllRiders = function() {		
 		$http({
 			method : "POST",
 			url : '/getAllRiders',
-			data : {
-				
+			data : {				
 			}
 		}).success(function(data) {			
 			if (data) {
@@ -62,16 +77,19 @@ uberApp.controller('AdminController', function($rootScope,$scope, $http, $window
 		});
 	}
 	
-	$scope.getRiderDetailsPage = function(email) {
+	$scope.getRiderDetailsPage = function(email) {		
 		$rootScope.selectedEmail = email;
-		$scope.selectedEmail = email;
-		
+		this.selectedEmail = email;
+		alert($rootScope.selectedEmail);
+		//myService.set(email);
+		//alert("YAYYY" + myService.get());
 		window.location = '/adminViewRider';
 		
 	}
 	
-	$scope.getRiderDetails = function() {		
-		console.log("getRiderDetails" +  $rootScope.selectedEmail);		
+	$scope.getRiderDetails = function() {	
+		console.log("Inside Rider Details");
+		console.log("getRiderDetails" +  this.selectedEmail);		
 		$http({
 			method : "POST",
 			url : '/getRiderDetails',
@@ -85,6 +103,31 @@ uberApp.controller('AdminController', function($rootScope,$scope, $http, $window
 			
 			}
 		}).error(function(error) {			
+			$scope.unexpected_error = true;
+		});
+	}
+	
+	$scope.getAllDriversPage = function() {
+		window.location = '/getAllDriversPage';
+	}
+	
+	$scope.getAllDrivers = function() {		
+		$http({
+			method : "POST",
+			url : '/getAllDrivers',
+			data : {
+				
+			}
+		}).success(function(data) {			
+			if (data) {
+				console.log("allRidersList" + data);
+				$scope.allDriversList = data.allDriversList;				
+			} else {
+				console.log("Error in Data Fetching");
+				$scope.unexpected_error = true;
+			}
+		}).error(function(error) {
+			console.log("In Admin Controller Fail Login");
 			$scope.unexpected_error = true;
 		});
 	}

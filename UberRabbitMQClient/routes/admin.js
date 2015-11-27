@@ -70,6 +70,25 @@ function getAllRiders(req,res) {
 	});	
 }
 
+function getAllDrivers(req,res) {
+	var msg_payload = {};
+	mq_client.make_request('admin_get_all_drivers_queue',msg_payload, function(err,results) {		
+		if(err) {
+			throw err;
+		}
+		else {
+			console.log("After admin_get_all_drivers_queue::" + results.code);
+			if(results.code == 200)	{				
+				res.send({"allDriversList":results.allDriversList});		
+				
+			}
+			else {    				
+				console.log("Error in Fetching all riders");			
+			}
+		}  
+	});	
+}
+
 function getAllRidersPage(req,res) {
 	res.render('getAllRiders',{ "firstname":req.session.firstname,"lastname":req.session.lastname});
 }
@@ -78,6 +97,57 @@ function adminViewRider(req,res) {
 	res.render('adminViewRider',{ "firstname":req.session.firstname,"lastname":req.session.lastname});
 }
 
+function getAllDriversPage(req,res) {
+	res.render('getAllDrivers',{ "firstname":req.session.firstname,"lastname":req.session.lastname});
+}
+
+function getUnappDrivers(req,res) {
+	var msg_payload = {};
+	mq_client.make_request('admin_get_unapproved_drivers_queue',msg_payload, function(err,results) {		
+		if(err) {
+			throw err;
+		}
+		else {
+			console.log("After admin_get_unapproved_drivers_queue::" + results.code);
+			if(results.code == 200)	{				
+				res.send({"allUnapprovedDriversList":results.allUnapprovedDriversList});						
+			}
+			else {    				
+				console.log("Error in Fetching all riders");			
+			}
+		}  
+	});	
+}
+
+function approveDriver(req,res) {
+	var email = req.param("email");
+	var msg_payload = { "email": email };
+	mq_client.make_request('admin_approve_driver_queue',msg_payload, function(err,results) {		
+		if(err) {
+			throw err;
+		}
+		else {
+			console.log("After admin_get_unapproved_drivers_queue::" + results.code);
+			if(results.code == 200)	{				
+				console.log("Driver Approved..");
+				res.send({"message":"Driver Approved"});						
+			}
+			else {    				
+				console.log("Error in Fetching all riders");			
+			}
+		}  
+	});	
+}
+
+function getBillDetails(req,res) {
+	
+}
+
+exports.getBillDetails = getBillDetails;
+exports.approveDriver = approveDriver;
+exports.getUnappDrivers = getUnappDrivers;
+exports.getAllDrivers = getAllDrivers;
+exports.getAllDriversPage = getAllDriversPage;
 exports.adminViewRider = adminViewRider;
 exports.getAllRiders = getAllRiders;
 exports.getAllRidersPage = getAllRidersPage;

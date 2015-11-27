@@ -3,6 +3,10 @@ var amqp = require('amqp'), util = require('util');
 var login = require('./services/login'), 
 rider = require('./services/rider'),
 admin = require('./services/admin'),
+driver = require('./services/driver'),
+driversignup = require('./services/driversignup'),
+driverOperations = require('./services/driverOperations'),
+bill = require('./services/bill'),
 http = require('http')
 
 var cnn = amqp.createConnection({
@@ -69,7 +73,93 @@ cnn.on('ready', function() {
 		});
 	});
 	
+	//Get Drivers list 
+	cnn.queue('get_drivers_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+			driver.handle_get_drivers_queue(message, function(err, res) {
+				console.log("After Get Drivers List Handle" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});
 	
+	cnn.queue('addDriver_queue', function(q){
+		q.subscribe(function(message, headers, deliveryInfo, m){
+			util.log(util.format( deliveryInfo.routingKey, message));
+			util.log("Message: "+JSON.stringify(message));
+			util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+			driversignup.handle_request(message, function(err,res){
+				console.log("Listening");
+				console.log("After Driver Signup" + res);
+				//return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType:'application/json',
+					contentEncoding:'utf-8',
+					correlationId:m.correlationId
+				});
+			});
+		});
+	});
+	
+	//Get all drivers list
+	cnn.queue('admin_get_all_drivers_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+			driverOperations.handle_get_all_drivers_queue(message, function(err, res) {
+				console.log("After handle_get_all_drivers_queue" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});
+	
+	//Get unapproved drivers
+	cnn.queue('admin_get_unapproved_drivers_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+			driverOperations.handle_admin_get_unapproved_drivers_queue(message, function(err, res) {
+				console.log("After handle_admin_get_unapproved_drivers_queue" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});
+	cnn.queue('admin_approve_driver_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+			driverOperations.handle_admin_approve_driver_queue(message, function(err, res) {
+				console.log("After handle_admin_approve_driver_queue" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});
 	
 	
 	//ADMIN
@@ -108,6 +198,43 @@ cnn.on('ready', function() {
 				});
 			});
 		});
-	});
+	});	
+	
+	//Get all Bills
+	cnn.queue('get_all_bills_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+			bill.handle_get_all_bills_queue(message, function(err, res) {
+				console.log("After get_all_bill_queue" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});	
+	
+	cnn.queue('get_bill_details_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+			bill.handle_get_bill_details_queue(message, function(err, res) {
+				console.log("After get_all_bill_queue" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});	
 	
 });

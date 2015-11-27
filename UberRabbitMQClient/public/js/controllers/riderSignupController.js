@@ -1,5 +1,5 @@
 var uberApp = angular.module('uberApp', []);
-//defining the Signup controller
+// defining the Signup controller
 uberApp.controller('riderSignupCtrl', function($scope, $http, $location) {
 	$scope.createAccount = function() {
 		console.log("Email is::" + $scope.email);

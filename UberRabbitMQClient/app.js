@@ -8,6 +8,7 @@ var express = require('express')
   , home = require('./routes/home')
   , admin = require('./routes/admin')
   , rider = require('./routes/rider')
+  , bills = require('./routes/bills')
   , path = require('path');
 
 var mongoSessionConnectURL = "mongodb://localhost:27017/sessions";
@@ -67,9 +68,20 @@ app.get('/logout',rider.logout);
 //Admin Module
 app.post('/checkAdminLogin',admin.checkAdminLogin);
 app.get('/adminDashBoard',admin.adminDashBoard);
+
 app.get('/getAllRidersPage',admin.getAllRidersPage);
 app.post('/getAllRiders',admin.getAllRiders);
 app.get('/adminViewRider',admin.adminViewRider);
+
+app.get('/getAllUDrivers',admin.getUnappDrivers);
+app.get('/getAllDriversPage',admin.getAllDriversPage)
+app.post('/getAllDrivers',admin.getAllDrivers);
+app.post('/approveDriver',admin.approveDriver);
+
+
+//Bill Module
+app.get('/getAllBills',bills.getAllBills);
+app.post('/getBillDetails',bills.getBillDetails);
 
 //connect to the mongo collection session and then createServer
 mongo.connect(mongoSessionConnectURL, function(){
