@@ -27,6 +27,7 @@ var directionsDisplay;
 var directionsService;
 var geocoder;
 var distance;
+var driver_id;
 
 function initAutocomplete() {
 
@@ -203,13 +204,21 @@ function loadDrivers(res){
     google.maps.event.addListener(marker, 'click', (function(marker, i) {
          return function() {
             console.log(marker.label);
-            document.getElementById('btnGetDriver').value = marker.label;
+            document.getElementById('txtDriverID').value = marker.label;
             console.log("div value "+document.getElementById('btnGetDriver').value);
+            driver_id = marker.label;
             document.getElementById('btnGetDriver').click();
          }
     })(marker, i));
   }
 
+}
+
+
+//get the selected driver id
+function getDriverID(){
+	console.log("In js getdriver - "+driver_id);
+	return driver_id;
 }
 
 
@@ -231,111 +240,7 @@ function geocodeAddress(addr) {
 }
 
 
-function setRoutes(){   
 
-  var srcloc;
-  var desloc;
-
-  console.log("From setRoutes");
-  source = document.getElementById("txtSource").value;
-  destination = document.getElementById("txtDestination").value;
-  
-  if(source == "" || destination == ""){
-    alert("Source/Destination can not be empty");
-    return;
-  }
-  srcloc = geocodeAddress(source);
-  console.log("Src loc: " + srcloc);
-  
-  desloc = geocodeAddress(destination);
-  console.log("Des loc: " + desloc);
-
-  var startLoc = new Array();
-  startLoc[0] = source;
-
-  var endLoc = new Array();
-  endLoc[0] = destination;
-
-  var directionsDisplay = new Array();
-
-  for (var i=0; i< startLoc.length; i++){
-    var rendererOptions = {
-          map: map,
-          suppressMarkers : true,
-          preserveViewport: true
-    }
-    directionsService = new google.maps.DirectionsService();
-    var travelMode = google.maps.DirectionsTravelMode.DRIVING;  
-    var request = {
-          origin: startLoc[i],
-          destination: endLoc[i],
-          travelMode: travelMode
-    };  
-
-    directionsService.route(request,makeRouteCallback(i,directionsDisplay[i]));
-  }   
-  
-  function makeRouteCallback(routeNum,disp){
-    console.log("In makeRouteCallback");
-    if (polyline[routeNum] && (polyline[routeNum].getMap() != null)) {
-      startAnimation(routeNum);
-        return;
-    }
-    
-    return function(response, status){    
-      if (status == google.maps.DirectionsStatus.OK){
-        var bounds = new google.maps.LatLngBounds();
-        var route = response.routes[0];
-        startLocation[routeNum] = new Object();
-        endLocation[routeNum] = new Object();
-        polyline[routeNum] = new google.maps.Polyline({
-          path: [],
-          strokeColor: '#FFFF00',
-          strokeWeight: 3
-        });
-        
-        poly2[routeNum] = new google.maps.Polyline({
-          path: [],
-          strokeColor: '#FFFF00',
-          strokeWeight: 3
-        });     
-        // For each route, display summary information.
-        var path = response.routes[0].overview_path;
-        var legs = response.routes[0].legs;
-        disp = new google.maps.DirectionsRenderer(rendererOptions);     
-        disp.setMap(map);
-        disp.setDirections(response);
-        
-        //Markers               
-        for (i=0;i<legs.length;i++) {
-          if (i == 0) { 
-            startLocation[routeNum].latlng = legs[i].start_location;
-            startLocation[routeNum].address = legs[i].start_address;
-            // marker = google.maps.Marker({map:map,position: startLocation.latlng});
-            marker[routeNum] = createMarker(legs[i].start_location,"start",legs[i].start_address,"green");
-          }
-          endLocation[routeNum].latlng = legs[i].end_location;
-          endLocation[routeNum].address = legs[i].end_address;
-          var steps = legs[i].steps;
-
-          for (j=0;j<steps.length;j++) {
-            var nextSegment = steps[j].path;                
-            var nextSegment = steps[j].path;
-
-            for (k=0;k<nextSegment.length;k++) {
-              polyline[routeNum].getPath().push(nextSegment[k]);
-              //bounds.extend(nextSegment[k]);
-            }
-          }
-        }
-      }       
-      
-      polyline[routeNum].setMap(map);
-      //map.fitBounds(bounds);
-      startAnimation(routeNum);  
-    } // else alert("Directions request failed: "+status);
-  }
-}
 
  function updatePoly(i,d) {
  // Spawn a new polyline every 20 vertices, because updating a 100-vertex poly is too slow
@@ -401,3 +306,7 @@ function createMarker(latlng, label, html) {
         });
     return marker;
 }  
+
+
+//function to set search box
+

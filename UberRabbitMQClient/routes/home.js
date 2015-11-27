@@ -22,9 +22,14 @@ function riderSignin(req,res){
 res.render("riderSignin");
 }
 
+function carDetails(req,res){
+	res.render("carDetails");
+	}
+
 
 exports.driverSignup= driverSignup;
 exports.commonLogin= commonLogin;
 exports.driverSignin= driverSignin;
 exports.riderSignin= riderSignin;
 exports.riderSignup = riderSignup;
+exports.carDetails = carDetails;

@@ -1,0 +1,23 @@
+<div align="right" ng-controller="LoginController" >
+	<form class="form-inline" role="form">
+			<div class="form-group">
+				<label for="email">Email:</label> <input 
+					class="form-control" id="email" placeholder="Enter email"
+					type="email" ng-model="loginForm.email" required>
+			</div>
+			<div class="form-group">
+				<label for="pwd">Password:</label> <input type="password"
+					class="form-control" id="pwd" placeholder="Enter password"
+					ng-model="loginForm.password" required>
+			</div>
+			<div style="margin: 10px;">
+					<div class="alert alert-danger" ng-hide="invalid_login">
+						<strong>Incorrect username or password</strong>
+					</div>
+					<div class="alert alert-danger" ng-hide="unexpected_error">
+						<strong>Unexpected error, try again</strong>
+					</div>
+					<button class="btn btn-primary" ng-click="checkloginfunc()">Submit</button>
+			</div>			
+		</form>
+</div>

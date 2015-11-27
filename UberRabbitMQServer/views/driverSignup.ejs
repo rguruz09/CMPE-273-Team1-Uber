@@ -1,0 +1,142 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>UBER</title>
+<base href="/">
+
+<!-- JS -->
+<script src="libs/angular/angular.min.js"></script>
+<script src="libs/angular-route/angular-route.min.js"></script>
+
+
+<!-- ANGULAR CUSTOM -->
+<script src="js/controllers/driverSignupController.js"></script>
+
+<!-- STYLE SHEETS CUSTOM -->
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+
+<link href='https://fonts.googleapis.com/css?family=Titillium+Web:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
+</head>
+
+<body ng-app ="myApp" ng-controller ="driverSignupCtrl">
+
+<div  >
+<!-- HEADING -->
+<header class="bgimage_1">
+<div class="container" >
+	<div class="row">
+	<div class="col-md-4">
+	</div>
+	<div class="col-md-4">
+	<h2 class="heading" >U B E R </h2>
+	</div>
+	<div class="col-md-4">
+	<p class="heading" align="right" vertical-align: middle; style="color:#FFFFFF">
+	NOT INTERESTED IN DRIVING? <button type="button" class="btn btn-default" ng-click="riderSignUp();"> SIGN UP TO RIDE </button>
+	</p>
+	</div>
+
+	</div>		
+	</div>
+
+</header>		
+</div>
+
+
+<div class="container-fluid">
+<!-- BLANK -->
+<div class="col-md-8">
+<img src="../images/driver_signup.jpg" style="height:700px; width:900px"/>
+
+</div>
+<!-- SIDE MENU --> 
+
+
+<!-- PROFILE -->
+<div class="col-md-4">
+
+<div class="panel panel-default">
+<div class="panel-heading">
+	<div class="row">
+		<h2 align = "center"> <font color="#09091A">SIGN UP TO DRIVE</font></h2>
+		<div class="row" align = "center">
+		
+		<button type="button" class="btn btn-default" style="background-color: #09091A; color:#FFFFFF; width:260px;">
+     		<div class="logoimage_1"> <p style="padding-left:29px"> ALREADY HAVE AN ACCOUNT? </p> </div>
+      	</button>
+		<br/>
+		<br>
+		<p align="center" >OR CREATE A NEW ACCOUNT</p>
+	</div>
+		
+	<div class="panel-body">
+		<form>
+		<div class = "row">
+		<div class="form-group col-xs-6">
+				<input class="form-control input-sm"  type="text" id="firstname" name="firstname" placeholder="First Name" ng-model="firstName" required />												
+			</div>		
+			
+			
+			<div class="form-group col-xs-6">				
+				<input class="form-control input-sm" type="text" id="lastName" name="lastName" placeholder="Last Name" ng-model="lastName" required />								
+			</div>							
+		</div>
+		
+		
+			<div class = "row">
+				<div class="form-group col-xs-12">
+					<input class="form-control input-sm" class="pull-center" type="text" id="email" name="email" placeholder="name@example.com" ng-model="email" required />												
+				</div>					
+				</div>
+				
+				<div class = "row">
+				<div class="form-group col-xs-12">				
+					<input class="form-control input-sm" type="text" id="mobile" name="mobile" placeholder="Phone" ng-model="mobile" required/>								
+				</div>		
+				</div>
+
+				<div class = "row">
+				<div class="form-group col-xs-12">				
+					<input class="form-control input-sm" type="password" id="password" name="password" placeholder="Password (Atleast 5 Characters)" ng-model="password" required/>
+				</div>						
+				</div>			
+				<div class = "row">
+				<div class="form-group col-xs-12">				
+					<input class="form-control input-sm" type="text" id="city" name="city" placeholder="City" ng-model="city" required />
+				</div>						
+				</div>
+				
+				<div class = "row">
+				<div class="form-group col-xs-12">				
+					<input class="form-control input-sm" type="text" id="zip" name="zip" placeholder="Zip Code" ng-model="zip" required />
+				</div>						
+				</div>
+				
+			<div class="row" align="center">
+				<input type="submit" class="btn btn-info" value="NEXT" ng-click="driverSignUp()"></input>
+			</div>
+			<br />
+		<p align="center">By proceeding, I agree that Uber or its representatives may contact me by email, phone, or SMS (including by automatic telephone dialing system) at the email address or number I provide, including for marketing purposes. I have read and understand the relevant <font color="#7CD1FF">Driver Privacy Statement.</font> 
+		<br><br>Stated earnings where location is not specified are based on median national earnings of partners in the past month. Actual earnings may vary depending on time of day, location and other factors</p>
+
+		</form>
+		<div>
+	
+		</div>
+	</div>
+
+	
+	</div>
+	
+	
+</div>
+
+<!-- BLANK -->
+
+</div>
+
+</body>
+</html>
+	

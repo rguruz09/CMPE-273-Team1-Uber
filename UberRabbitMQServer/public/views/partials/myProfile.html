@@ -1,0 +1,49 @@
+<div ng-app="facebook" ng-controller = "ProfileController">
+	<div class="row">
+		<div class="profile-content_2">
+			<form>
+				<div class="form-group">
+					<textarea class="form-control input-lg" rows="4" id="comment"
+						placeholder="Whats on your mind?" ng-model="postDetails"></textarea>
+				</div>
+				<div align="center">
+					<input class="col-md-3 btn btn-info" value="Share!"
+						ng-click="postStatus();"></input>
+				</div>
+			</form>
+		</div>
+	</div>
+	<br />
+
+	<div class="row">
+		<div ng-show="(allFriendsList.length > 0)">
+			<h3>Search Results</h3>
+			<div class="alert alert-gray col-sm-6"
+				ng-repeat="friend in allFriendsList">
+				<h4 ng-click="displayAnotherUser(friend.user_id)">{{friend.firstname}}
+					{{friend.lastname}}</h4>
+				<img src="../images/avatar.png" alt="logo"
+					style="width: 40px; height: 40px;"></img> <input type="submit"
+					ng-click="addFriend(friend.user_id);" class="btn btn-success "
+					value="Add Friend">
+			</div>
+			<hr>
+		</div>
+	</div>
+
+	<br /> <br />
+	<div class="row">
+		<div class="profile-content_2">
+			<div class="alert alert-gray" ng-repeat="news in newsFeedList">
+				<img src="../images/avatar.png" alt="logo"
+					style="width: 40px; height: 40px;"></img> <strong>
+					{{news.firstname}} {{news.lastname}}</strong>
+				<hr>
+				<h4>{{news.post_details}}</h4>
+				<h6>
+					<i> {{news.date_posted}}</i>i>
+				</h6>
+			</div>
+		</div>
+	</div>
+</div>

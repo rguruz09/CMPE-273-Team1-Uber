@@ -9,8 +9,9 @@
 <script src="libs/angular-route/angular-route.min.js"></script>
 
 
-<!-- ANGULAR CUSTOM -->
 
+<!-- ANGULAR CUSTOM -->
+<script src="js/controllers/driverSignupController.js"></script>
 <!-- STYLE SHEETS CUSTOM -->
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
@@ -19,7 +20,8 @@
 <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
 </head>
 
-<body style="background : #000000">
+<body style="background : #000000" ng-app ="uberApp" ng-controller ="driverSignupCtrl">
+
 <div  >
 <!-- HEADING -->
 <header>
@@ -67,7 +69,7 @@
 			 </div>
 			 <br	>
 			 <div>
-			 <input type="submit" class="btn btn-default"  style="background-color: #1FBAD6; color:#FFFFFF ;height:50px; width:350px" value="SIGN IN" ng-click="driverSignIn()"></input>
+			 <input type="submit" class="btn btn-default"  style="background-color: #1FBAD6; color:#FFFFFF ;height:50px; width:350px" value="SIGN IN" ng-click="driverSignin()"></input>
 			 </div>
 			 <p align ="center">
 			 <input type="submit" name= "Forgot Password" class="btn btn-link" value = "Forgot Password">

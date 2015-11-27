@@ -53,10 +53,17 @@ app.get('/riderSignup', home.riderSignup);
 app.get('/commonLogin', home.commonLogin);
 app.get('/driverSignin', home.driverSignin);
 app.get('/riderSignin', home.riderSignin);
-
+app.get('/carDetails',home.carDetails);
 
 //Drivers APIs
 app.post('/getDrivers', driver.getDrivers);
+app.post('/addDrivers',driver.addDrivers);
+app.post('/checkDrivers',driver.checkDrivers);
+app.post('/addcarDetails',driver.addcarDetails);
+app.post('/getDriverInfo',driver.getDriverInfo);
+
+
+
 
 //Rider Signin
 app.get('/bookRide',rider.bookRide);
