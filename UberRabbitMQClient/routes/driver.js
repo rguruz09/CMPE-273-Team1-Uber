@@ -262,49 +262,53 @@ exports.updateDriverLoc = function(req, res){
 };
 
 
-	exports.addcarDetails = function(req,res){
-		console.log("In addcarDetails client ");
+exports.addcarDetails = function(req,res){
+	console.log("In addcarDetails client ");
 
-		var email = req.param("email");
-		var Make = req.param("Make");
-		var Year = req.param("Year");
-		var color = req.param("color");
-		var license = req.param("license");
+	var email = req.param("email");
+	var Make = req.param("Make");
+	var Year = req.param("Year");
+	var color = req.param("color");
+	var license = req.param("license");
 
 
-		var json_responses;
+	var json_responses;
 
-		var msg_payload = {
-				"email" : email,
-				"Make" : Make,
-				"Year" : Year,
-				"color" : color,
-				"license" : license	
-		};	
-		
-		console.log("Message : " + msg_payload.email + "  " + msg_payload.Make +" "+msg_payload.Year+" "+msg_payload.color+" "+" "+msg_payload.license );
-		
-		mq_client.make_request('add_carDetails_queue', msg_payload,
-				function(err, results) {
-			console.log("RESULTS::" + results.code);
-			if (err) {
-				throw err;
-			} else {
-				if (results.code == 200) {
-					json_responses = {
-							"statusCode" : results.code
-					};
-					console.log("Valid CarDetails");
-					res.json(json_responses);
+	var msg_payload = {
+			"email" : email,
+			"Make" : Make,
+			"Year" : Year,
+			"color" : color,
+			"license" : license	
+	};	
+	
+	console.log("Message : " + msg_payload.email + "  " + msg_payload.Make +" "+msg_payload.Year+" "+msg_payload.color+" "+" "+msg_payload.license );
+	
+	mq_client.make_request('add_carDetails_queue', msg_payload,
+			function(err, results) {
+		console.log("RESULTS::" + results.code);
+		if (err) {
+			throw err;
+		} else {
+			if (results.code == 200) {
+				json_responses = {
+						"statusCode" : results.code
+				};
+				console.log("Valid CarDetails");
+				res.json(json_responses);
 
-				} else if (results.code != 200) {
-					json_responses = {
-							"statusCode" : results.code
-					};
-					console.log("Could not save Car Details");
-					res.json(json_responses);
-				}
+			} else if (results.code != 200) {
+				json_responses = {
+						"statusCode" : results.code
+				};
+				console.log("Could not save Car Details");
+				res.json(json_responses);
 			}
-		});
-	};
+		}
+	});
+};
 
+
+exports.driverRides = function(req,res){
+	res.render('driverRides');
+};

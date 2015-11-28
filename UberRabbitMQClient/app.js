@@ -94,6 +94,12 @@ app.post('/getfareEstimate',billing.getfareEstimate);
 
 //Rides
 app.post('/bookaride',rides.bookaride);
+app.post('/getRideRequest',rides.getRideRequest);
+
+
+//testing:
+app.get('/driverRides', driver.driverRides);
+
 
 //connect to the mongo collection session and then createServer
 mongo.connect(mongoSessionConnectURL, function(){

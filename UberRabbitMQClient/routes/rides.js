@@ -51,7 +51,51 @@ exports.bookaride = function(req, res){
 			}
 		}  
 	});
+};
+
+
+exports.getRideRequest = function(req, res){
 	
+	//var driverID = req.session.email;
+	var driverID = "Curabitur.sed.tortor@sem.net"; //remove after the sessions implemented.
+
+	console.log("In getting ride request "+driverID);
 	
+	var msg_payload = { "driverID" : driverID };
+
+	console.log(msg_payload);
 	
+	mq_client.make_request('getRideRequest_queue',msg_payload, function(err,results){
+		
+		console.log(results);
+		if(err){
+			throw err;
+		}
+		else 
+		{
+			console.log("Result is: " + results.code);
+			if(results.code == 404){
+				console.log("unable to post");
+				res.json({
+					code : 404 
+				});		
+				res.send(res_json);	
+			}
+			else if(results.code == 201){  
+				console.log(" No requests yet :P ");	
+				res.json({
+					code : 201
+				});		
+				res.send(res_json);				
+			}
+			else if(results.code == 200){  
+				console.log("Got a ride request ");	
+				res.json({
+					code : 200,
+					request: results.request
+				});		
+				res.send(res_json);				
+			}
+		}  
+	});
 };
