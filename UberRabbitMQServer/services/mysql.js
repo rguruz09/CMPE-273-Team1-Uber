@@ -64,20 +64,22 @@ exports.insert1 = function(tableName, arr, callback) {
 	});
 };
 
+
 exports.update = function(tableName,arr,whereParam, callback){
-    var sql = "UPDATE  "+tableName+" SET ? WHERE id="+whereParam;
+	console.log(arr);
+    var sql = "UPDATE  "+tableName+" SET ? WHERE email='"+whereParam+"'"; 
     console.log(sql);
-    pool.getConnection(function(err, connection){
-        if(err){console.log(err); callback(true); return;}
-
-        connection.query(sql, arr, function(err, results){
-            connection.release();
-            if(err) { console.log(err); callback(true,err); return; }
-            callback(false, results);
-
-        });
-    });
+       var connection = getConnection();
+	connection.query(sql,arr,function(err, results) {
+		if (err) {
+			console.log(err);
+			callback(true, err);
+			return;
+		}
+		callback(false, results);
+	});
 };
+
 
 exports.getData = function(tableName, id, whereParam, callback) {
 	console.log(tableName + " " + id + " " + whereParam);
@@ -96,6 +98,29 @@ exports.getData = function(tableName, id, whereParam, callback) {
 		callback(false, results);
 	});
 };
+
+
+exports.deleteData = function(tableName, whereParam1, whereParam2, callback) {
+	console.log(tableName + " " + whereParam1 + " " + whereParam2);
+	//console.log("connection.escape(whereParam);" + connection.escape(whereParam));
+	var sql = "DELETE FROM  " + tableName + " WHERE email =\"" + whereParam1+"\" AND cardnumber_4= \""+ whereParam2 +"\";";
+	console.log(sql);
+	
+	//sql = "SELECT * FROM  customer WHERE email = \"manasa@gmail.com\"";
+	var connection = getConnection();
+	connection.query(sql,function(err, results) {
+		if (err) {
+			console.log(err);
+			callback(true, err);
+			return;
+		}
+		callback(false, results);
+	});
+};
+
+
+
+
 
 
 //getting driver details

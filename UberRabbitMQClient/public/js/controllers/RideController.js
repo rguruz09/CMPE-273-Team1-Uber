@@ -4,7 +4,7 @@
 (function() {
 	console.log("In Ride Controller");
 	'use strict';
-	var app = angular.module('uberApp');
+	var app = angular.module('uberApp1',[]);
 	app.controller('RideController', [ '$scope', '$http', '$window',
 			function($scope, $http, $window) {
 

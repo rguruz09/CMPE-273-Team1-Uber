@@ -13,14 +13,17 @@ function handle_request(msg, callback){
 			"zip" : msg.zip,
 			"mobile" : msg.mobile,
 			"email" : msg.email,
-			"password" : msg.password
+			"password" : msg.password,
+			"address" : msg.address,
+			"state" : msg.state
 		}
 	console.log("In signup handle request:"+ msg.username);
 	mongo.connect(mongoURL, function(db){
 		var coll = mongo.collection('drivers');
 		console.log('Connected to mongo at driversignup: ' + mongoURL);
 
-		coll.insert({_id: autoIndex,firstname:msg.firstname,lastname:msg.lastname,password:msg.password,city:msg.city,zip:msg.zip,mobile:msg.mobile,email:msg.email}, function(err, user){
+
+		coll.insert({firstname:msg.firstname,lastname:msg.lastname,password:msg.password,address:msg.address,city:msg.city,zip:msg.zip,state:msg.state,mobile:msg.mobile,email:msg.email}, function(err, user){
 			
 				console.log("results");
 				console.log(res.code);
@@ -30,6 +33,8 @@ function handle_request(msg, callback){
 				res.zip=msg.zip;
 				res.email=msg.email;
 				res.mobile=msg.mobile;
+				res.address=msg.address;
+				res.state=msg.state;
 				res.code = "200";
 				res.value = "Success Signup";
 				callback(null, res);
@@ -79,7 +84,7 @@ function handle_request_cardetails(msg, callback){
 		var coll = mongo.collection('drivers');
 		//db.users.update({email: msg.email},{$set : {"car": {"Make":msg.Make,"Color":msg.Color,"Year":msg.Year,"license":msg.license}}});
 		
-		coll.update({email:"david@gmail.com"},{$set : {"car": {"Make":msg.Make,"Color":msg.color,"Year":msg.Year,"license":msg.license}}}, 
+		coll.update({email:msg.email},{$set : {"car": {"Make":msg.Make,"Color":msg.color,"Year":msg.Year,"license":msg.license}}}, 
 			//	coll.insert({email:msg.email},	
 				function(err, user){
 			if (user) {

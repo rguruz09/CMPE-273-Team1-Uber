@@ -3,6 +3,10 @@ var uberApp = angular.module('uberApp', []);
 uberApp.controller('riderSignupCtrl', function($scope, $http, $location) {
 	$scope.createAccount = function() {
 		console.log("Email is::" + $scope.email);
+		var card_12 = $scope.creditcard.substring(0, 12 );
+		var card_4 = $scope.creditcard.substring( 12, 16 );
+		console.log("Card 12 digits " +card_12);
+		console.log("Card 4 digits" +card_4);
 		$http({
 			method : "POST",
 			url : '/addRider',
@@ -17,7 +21,9 @@ uberApp.controller('riderSignupCtrl', function($scope, $http, $location) {
 				"city" : $scope.city,
 				"state" : $scope.state,
 				"cardholder" : $scope.cardholder,
-				"creditcard" : $scope.creditcard,
+				"creditcard_12" : card_12,
+				"creditcard_4" : card_4,
+				//"creditcard" : $scope.creditcard,
 				"cvv" : $scope.cvv,
 				"month" : $scope.month,
 				"year" : $scope.year,
@@ -32,6 +38,7 @@ uberApp.controller('riderSignupCtrl', function($scope, $http, $location) {
 				$scope.invalid_signup = false;
 				$scope.valid_signup = true;
 				$scope.unexpected_error_signup = true;
+				window.location.assign("/riderSignin");
 			}
 		}).error(function(error) {
 			$scope.invalid_signup = true;

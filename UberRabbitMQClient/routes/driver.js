@@ -86,8 +86,10 @@ exports.addDrivers = function(req,res){
 	var firstname = req.param("firstname");
 	var lastname = req.param("lastname");
 	var mobile = req.param("mobile");
+	var address = req.param("address");
 	var city = req.param("city");
 	var zip = req.param("zip");
+	var state = req.param("state");
 
 	var salt1 = bcrypt.genSaltSync(10);
 	var passwordHash = bcrypt.hashSync(password, salt1);
@@ -100,8 +102,10 @@ exports.addDrivers = function(req,res){
 			"firstname" : firstname,
 			"lastname" : lastname,
 			"mobile" : mobile,
+			"address" : address,
 			"city" : city,
-			"zip" : zip		
+			"zip" : zip,
+			"state" : state
 	};	
 
 	mq_client.make_request('addDriver_queue', msg_payload,
@@ -161,7 +165,10 @@ exports.checkDrivers = function(req,res){
 					};
 					console.log("Valid Login");
 					res.json(json_responses);
-				}
+				}else
+					{
+					console.log("Passwords do not match");
+					}
 			} else if (results.code != 200) {
 				json_responses = {
 						"statusCode" : results.code
@@ -172,6 +179,41 @@ exports.checkDrivers = function(req,res){
 		}
 	});
 };
+
+
+
+
+
+exports.getDriverDetails = function getDriverDetails(req,res) {
+	
+	console.log("In Get Driver Details");
+	var msg_payload = { "email": req.session.email};
+	mq_client.make_request('get_driversInfo_queue',msg_payload, function(err,results) {		
+		if(err) {
+			console.log(err);
+		}
+		else {
+			console.log("After get_driversInfo_queue Queue::" + results.code);
+			if(results.code == 200)	{
+				
+				console.log("inside driver.js. Result passed is : ");
+				console.log(results.user);
+				
+				res.send({"driver" : results.user});
+			}
+			else {    				
+				console.log("Invalid Login");
+				res.send({"login":"Fail"});
+			}
+		}  
+	});	
+}
+
+
+
+
+
+
 
 
 // Update the driver location on login.

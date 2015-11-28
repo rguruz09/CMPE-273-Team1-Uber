@@ -72,7 +72,7 @@ function calprice (totCnt, avlCnt, dist, dur, time, weekend, callback){
 	price = 0 ;
 	factor = 0;
 	
-	basefare =2.2; // base fare	
+	basefare = 2.2; // base fare	
 	minFare = 6; //Minimum fare	
 	ratio =  avlCnt / totCnt; //ration of avail drivers/total drivers	
 	minutefare=0.26*dur; //price on duration of the ride	

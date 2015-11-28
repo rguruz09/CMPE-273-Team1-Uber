@@ -12,7 +12,10 @@ uberApp.controller('frontpageCtrl', function($scope,$http,$window) {
     	window.location.assign("/driverSignup");	
     }
     
-    $scope.driverSignIn = function() {
+    $scope.riderSignIn = function() {
+    	
+    	console.log("In frontpage controller, rider email:" + $scope.email);
+    	console.log("In frontpage controller, rider password:" + $scope.password);
     	$http({
 			method : "POST",
 			url : '/checkRiderLogin',
@@ -43,6 +46,33 @@ uberApp.controller('frontpageCtrl', function($scope,$http,$window) {
 			data: {}
 		}).success(function(response) {			
 			$scope.formDetails = response.rider;
+			console.log("value of $scope from frontpage controller " + $scope.formDetails);
 		});
 	}
+	
+	
+	
+	$scope.updateProfile = function(details){
+		
+		console.log("inside updateProfile function");
+	        console.log(details);
+	        $http({
+	            method: "POST",
+	            url: "/actionUpdate",
+	            data: details
+
+	        }).success(function (customer, status, headers, config) {
+	            console.log(customer);
+	            $("#success-alert").show();
+	            $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+
+	                //
+	            });
+	        })
+	            .error(function (data, status, headers, config) {
+	                alert("Could not update data");
+	         });
+
+	    }	
+	
 });

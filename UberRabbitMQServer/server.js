@@ -73,6 +73,27 @@ cnn.on('ready', function() {
 		});
 	});
 	
+	
+	//Get Driver information for pre-populating the form
+	cnn.queue('get_driversInfo_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+			driver.handle_get_driverInfo_queue(message, function(err, res) {
+				console.log("After Get Rider Handle" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});
+	
+	
 	//Get Drivers list 
 	cnn.queue('get_drivers_queue', function(q) {
 		q.subscribe(function(message, headers, deliveryInfo, m) {
@@ -134,6 +155,25 @@ cnn.on('ready', function() {
 			util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
 			driversignup.handle_request_cardetails(message, function(err,res){
 				console.log("After Fetching Car Details" + res);
+				//return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType:'application/json',
+					contentEncoding:'utf-8',
+					correlationId:m.correlationId
+				});
+			});
+		});
+	});
+
+
+	//saveNewCard_queue
+	cnn.queue('saveNewCard_queue', function(q){
+		q.subscribe(function(message, headers, deliveryInfo, m){
+			util.log(util.format( deliveryInfo.routingKey, message));
+			util.log("Message: "+JSON.stringify(message));
+			util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+			rider.handle_request_saveNewCard(message, function(err,res){
+				console.log("After save new Card Details" + res);
 				//return index sent
 				cnn.publish(m.replyTo, res, {
 					contentType:'application/json',
@@ -216,5 +256,82 @@ cnn.on('ready', function() {
 		});
 	});
 	
+//get the driver details - getDriverInfo_queue
+	cnn.queue('getDriverInfo_queue', function(q){
+		q.subscribe(function(message, headers, deliveryInfo, m){
+			util.log(util.format( deliveryInfo.routingKey, message));
+			util.log("Message: "+JSON.stringify(message));
+			util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+			driver.handle_request_getDriverDetails(message, function(err,res){
+				console.log("After Fetching Car Details" + res);
+				//return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType:'application/json',
+					contentEncoding:'utf-8',
+					correlationId:m.correlationId
+				});
+			});
+		});
+	});
+
 	
+		//updateRider_queue
+	cnn.queue('updateRider_queue', function(q) {
+	q.subscribe(function(message, headers, deliveryInfo, m) {
+		util.log(util.format(deliveryInfo.routingKey, message));
+		util.log("Message: " + JSON.stringify(message));
+		util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+		rider.handle_updateRider_queue(message, function(err, res) {
+			console.log("After  updateRider_queue Handle" + res);
+			// return index sent
+			cnn.publish(m.replyTo, res, {
+				contentType : 'application/json',
+				contentEncoding : 'utf-8',
+				correlationId : m.correlationId
+			});
+		});
+	});
+});
+
+	
+		//get_paymentInfo
+	cnn.queue('get_paymentInfo_queue', function(q) {
+	q.subscribe(function(message, headers, deliveryInfo, m) {
+		util.log(util.format(deliveryInfo.routingKey, message));
+		util.log("Message: " + JSON.stringify(message));
+		util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+		rider.handle_get_paymentInfo_queue(message, function(err, res) {
+			console.log("After  get_paymentInfo Handle" + res);
+			// return index sent
+			cnn.publish(m.replyTo, res, {
+				contentType : 'application/json',
+				contentEncoding : 'utf-8',
+				correlationId : m.correlationId
+			});
+		});
+	});
+});
+	
+	
+	//delete_paymentInfo
+	cnn.queue('delete_paymentInfo_queue', function(q) {
+	q.subscribe(function(message, headers, deliveryInfo, m) {
+		util.log(util.format(deliveryInfo.routingKey, message));
+		util.log("Message: " + JSON.stringify(message));
+		util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+		rider.handle_delete_paymentInfo_queue(message, function(err, res) {
+			console.log("After  delete_paymentInfo_queue Handle" + res);
+			// return index sent
+			cnn.publish(m.replyTo, res, {
+				contentType : 'application/json',
+				contentEncoding : 'utf-8',
+				correlationId : m.correlationId
+			});
+		});
+	});
+});
+
 });

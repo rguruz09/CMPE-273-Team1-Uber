@@ -42,7 +42,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use("/views", express.static(path.join(__dirname, 'views')));
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
@@ -55,7 +55,8 @@ app.get('/riderSignup', home.riderSignup);
 app.get('/commonLogin', home.commonLogin);
 app.get('/driverSignin', home.driverSignin);
 app.get('/riderSignin', home.riderSignin);
-app.get('/carDetails',home.carDetails);
+//app.get('/carDetails',home.carDetails);
+app.get('/driverProfile',home.driverProfile);
 
 //Drivers APIs
 app.post('/getDrivers', driver.getDrivers);
@@ -64,6 +65,7 @@ app.post('/checkDrivers',driver.checkDrivers);
 app.post('/addcarDetails',driver.addcarDetails);
 app.post('/getDriverInfo',driver.getDriverInfo);
 app.post('/updateDriverLoc',driver.updateDriverLoc);
+app.post('/getDriverDetails',driver.getDriverDetails);
 
 
 
@@ -72,11 +74,19 @@ app.post('/updateDriverLoc',driver.updateDriverLoc);
 app.get('/bookRide',rider.bookRide);
 app.get('/homePageRider', rider.homePageRider);
 app.get('/paymentDetails',rider.paymentDetails);
+app.get('/paymentPage', rider.paymentPage);
 app.get('/tripsPage',rider.tripsPage);
 app.post('/checkRiderLogin',rider.checkRiderLogin);
 app.post('/addRider',rider.addRider);
 app.post('/getRiderDetails',rider.getRiderDetails);
+app.post('/actionUpdate',rider.actionUpdate);
 app.get('/logout',rider.logout);
+
+//payments
+app.post('/riderSignin', home.riderSignin);
+app.get('/paymentInfo',rider.paymentInfo);
+app.post('/paymentDelete', rider.paymentDelete);
+app.post('/saveNewCard', rider.saveNewCard);
 
 
 //Billing

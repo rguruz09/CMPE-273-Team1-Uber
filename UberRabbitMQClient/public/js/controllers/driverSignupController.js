@@ -33,8 +33,10 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 				"firstname" : $scope.firstname,
 				"lastname" : $scope.lastname,
 				"mobile" : $scope.mobile,
+				"address" : $scope.address,
 				"city" : $scope.city,
-				"zip" : $scope.zip
+				"zip" : $scope.zip,
+				"state" : $scope.state
 			}
 		}).success(function(data) {
 			if (data.status == "User Inserted!") {
@@ -87,7 +89,10 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 				$scope.invalid_signup = false;
 				$scope.valid_signup = true;
 				$scope.unexpected_error_signup = true;
-				$scope.updatedriverlocation($scope.email);				
+				$scope.updatedriverlocation($scope.email);
+				$scope.email = data.email;
+				window.location.assign("/driverProfile");
+				
 			}
 		}).error(function(error) {
 			console.log("Error Driver Login");
@@ -108,7 +113,7 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 			method : "POST",
 			url : '/addcarDetails',
 			data : {
-				"email" : "raghavendra1810@gmail.com",
+				"email" : "manoj@gmail.com",
 				"Make" : $scope.formDetails.make,
 				"Year" : $scope.formDetails.year,
 				"color" : $scope.formDetails.Color,

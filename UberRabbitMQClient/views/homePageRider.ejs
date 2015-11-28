@@ -28,6 +28,11 @@
 		<div class="container-fluid">
 			<div class="row">
 				<h2 class="heading">U B E R</h2>
+				<div class="alert alert-success col-md-10" id="success-alert" style="display: none ">
+
+                <center> <strong> Your Profile has been updated! </strong></center>
+
+             </div>
 			</div>
 		</div>
 	</header>
@@ -142,6 +147,9 @@
 				<div class="form-group col-xs-4">
 					<input class="form-control input-sm" type="tel" id="phone" name="phone" placeholder="Phone" ng-model="formDetails.phone" required />
 				</div>	
+				<div class="form-group col-xs-4">
+					<input class="form-control input-sm" type="text" id="ssn" name="ssn" placeholder="ssn" ng-model="formDetails.ssn" required disabled/>
+				</div>	
 			</div>
 			<hr/>
 			
@@ -166,7 +174,7 @@
 			</div>
 			<hr/>
 			<div class="row" align = "center">
-				<input type="submit" class="btn btn-info" value="Update Profile" ng-click="updateProfile()"></input>
+				<input type="submit" class="btn btn-info" value="Update Profile" ng-click="updateProfile(formDetails)"></input>
 			</div>
 			<hr/>
 

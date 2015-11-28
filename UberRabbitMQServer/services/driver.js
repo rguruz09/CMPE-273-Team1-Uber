@@ -100,8 +100,35 @@ exports.handle_request_getDriverDetails = function(msg, callback){
 	});		
 };
 
+function handle_get_driverInfo_queue(msg,callback) {
+
+	console.log("In handle_get_driver_queue request:"+ msg.email);	
+	var json_responses;
+	var email = msg.email;	
+	var res = {};
+	
+	console.log('Connected to mongo at: ' + mongoURL);	
+	var coll = mongo.collection('drivers');
+	
+	coll.findOne({email: msg.email}, function(err, user){
+		if (user) {
+			console.log("From Get Driver result of querydb: "	+ JSON.stringify(user));			
+			res.code = "200";
+			res.value = "Success";
+			res.user = user;						
+			callback(null,res);
+
+		} else {
+				console.log("Unexpected Error in Getting Driver");
+				res.code = err.code;
+				res.value = "Unexpected Error!";
+				console.log(err);			
+				callback(null,res);			
+		}
+	});
+};
 
 
-
+exports.handle_get_driverInfo_queue = handle_get_driverInfo_queue;
 exports.handle_request_updateLoca = handle_request_updateLoca;
 exports.handle_get_drivers_queue = handle_get_drivers_queue;

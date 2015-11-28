@@ -22,8 +22,8 @@ function riderSignin(req,res){
 res.render("riderSignin");
 }
 
-function carDetails(req,res){
-	res.render("carDetails");
+function driverProfile(req,res){
+	res.render("driverProfile");
 	}
 
 
@@ -32,4 +32,4 @@ exports.commonLogin= commonLogin;
 exports.driverSignin= driverSignin;
 exports.riderSignin= riderSignin;
 exports.riderSignup = riderSignup;
-exports.carDetails = carDetails;
+exports.driverProfile = driverProfile;
