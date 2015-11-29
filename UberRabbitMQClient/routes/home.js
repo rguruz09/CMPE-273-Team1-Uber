@@ -23,9 +23,11 @@ res.render("riderSignin");
 }
 
 function driverProfile(req,res){
-	res.render("driverProfile");
+	 if (!req.session.driverID) 
+		 res.redirect('/');
+	 else
+		 res.render('driverProfile',{ "email":req.session.driverID});
 	}
-
 
 exports.driverSignup= driverSignup;
 exports.commonLogin= commonLogin;

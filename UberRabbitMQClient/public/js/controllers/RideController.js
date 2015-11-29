@@ -8,16 +8,10 @@
 	app.controller('RideController', [ '$scope', '$http', '$window',
 			function($scope, $http, $window) {
 
-				$scope.driverDetails = {
-//					"driver" : "KEVIN",
-//					"rating" : "4",
-//					"video" : "s",
-//					"Detais" : "Yellow SX4 KA 06 V 7546"
-				} ;
+				$scope.driverDetails = {} ;
 
 				$scope.bDriverDiv = true;
 				$scope.bFareDiv = true;
-				//$scope.strDriverID = 20;	
 				
 				//global variables
 				//var polyline;

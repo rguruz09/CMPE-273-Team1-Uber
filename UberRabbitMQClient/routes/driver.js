@@ -351,8 +351,12 @@ exports.addcarDetails = function(req,res){
 
 
 exports.driverRides = function(req,res){
-	res.render('driverRides');
+	 if (!req.session.driverID) 
+		 res.redirect('/');
+	 else
+		 res.render('driverRides',{ "email":req.session.driverID});
 };
+
 
 exports.driverlogout = function(req, res){
 	req.session.destroy();
