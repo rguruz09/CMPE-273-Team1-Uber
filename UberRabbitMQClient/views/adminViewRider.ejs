@@ -1,0 +1,130 @@
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <title>UBER</title>
+      <base href="/">
+      <script src="libs/angular/angular.min.js"></script>
+      <script src="libs/angular-route/angular-route.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
+      <!-- ANGULAR CUSTOM -->
+      <script src="js/controllers/adminController.js"></script>
+      <!-- STYLE SHEETS CUSTOM -->
+      <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="css/style.css" />
+      <link href='https://fonts.googleapis.com/css?family=Titillium+Web:300' rel='stylesheet' type='text/css'>
+   </head>
+   
+   <body ng-app ="uberApp" ng-controller ="AdminController" ng-init="getRiderDetails();">
+      <div>
+         <!-- HEADING -->
+         <header class="bgimage_1">
+            <div class="container-fluid">
+               <div class="row">
+                  <h2 class="heading">U B E R</h2>
+               </div>
+            </div>
+         </header>
+      </div>
+      <p> selectedEmail {{ selectedEmail}}</p>
+      <div class="container-fluid">
+         <!-- BLANK -->
+         <div class="col-md-2"></div>
+         <!-- SIDE MENU -->
+         <div class="col-md-1">
+            <div>
+               <div class="profile-sidebar_2">
+                  <!-- SIDEBAR MENU -->
+                  <div class="profile-userpic">
+                     <img src="../images/default.jpeg" alt="">
+                     <h4 align="center"><strong><%=firstname%>&nbsp<%=lastname%></strong></h4>
+                  </div>
+                  <hr />
+               </div>
+            </div>
+            <!-- END MENU -->
+         </div>
+         <!-- PROFILE -->
+         <div class="col-md-6" align="center">
+            <div class="row">
+               <br/><br/>
+               <h3 align = "center"> <strong>WELCOME TO ADMIN DASHBOARD</strong> </h3>
+            </div>
+            <hr/>
+            <h3 align = "center"> <strong>PROFILE</strong> </h3>
+            <hr/>
+            <h4 ><strong> General Information </strong> </h4>
+            <hr/>
+            <form>
+               <div class = "row">
+               	  <div class="form-group col-xs-2"></div>
+                  <div class="form-group col-xs-2">
+                     Name:									
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="form-group col-xs-3">
+                     <input class="form-control input-sm" type="text" id="firstName" name="firstname" placeholder="First Name" ng-model="formDetails.firstname" required />												
+                  </div>
+                  <div class="form-group col-xs-3">				
+                     <input class="form-control input-sm" type="text" id="lastName" name="lastname" placeholder="Last Name" ng-model="formDetails.lastname" required />								
+                  </div>
+               </div>
+               <hr/>
+               <div class="row">
+                  <div class="form-group col-xs-2">
+                     Address:									
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="form-group col-xs-6">
+                     <input class="form-control input-sm" type="text" id="address" name="address" placeholder="Address" ng-model="formDetails.address" required />								
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="form-group col-xs-2">
+                     <input class="form-control input-sm" type="text" id="city" name="city" placeholder="City" ng-model="formDetails.city" required />
+                  </div>
+                  <div class="form-group col-xs-2">
+                     <input class="form-control input-sm" type="text" id="zipcode" name="zipcode" placeholder="Zip Code" ng-model="formDetails.zipcode" required />
+                  </div>
+                  <div class="form-group col-xs-2">
+                     <input class="form-control input-sm" type="text" id="state" name="state" placeholder="State" ng-model="formDetails.state" required />
+                  </div>
+               </div>
+               <hr/>
+               <div class="row">
+                  <div class="form-group col-xs-4">
+                     Phone Number:									
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="form-group col-xs-4">
+                     <input class="form-control input-sm" type="tel" id="phone" name="phone" placeholder="Phone" ng-model="formDetails.phone" required />
+                  </div>
+               </div>
+               <hr/>
+               <div class = "row">
+                  <div class="form-group col-xs-4">
+                     Profile Photo:									
+                  </div>
+                  <div class="form-group col-xs-2">
+                  </div>
+                  <div class="form-group col-xs-2">
+                     Password:									
+                  </div>
+                  <div class="form-group col-xs-3">				
+                     <input class="form-control input-sm" type="password" id="password" name="password" placeholder="*********" ng-model="formDetails.password" required />
+                  </div>
+               </div>
+               <hr/>
+               <div class="row" align = "center">
+                  <input type="submit" class="btn btn-info" value="Update Profile" ng-click="updateProfile()"></input>
+               </div>
+               <hr/>
+            </form>
+         </div>
+      </div>
+   </body>
+</html>

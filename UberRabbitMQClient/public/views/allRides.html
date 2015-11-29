@@ -1,0 +1,42 @@
+<div ng-controller="RidesController" ng-init="getAllRides();">
+	<h2 align>
+		<strong>RIDE HISTORY</strong>
+	</h2>
+	<hr />
+	<div class="row" align="center">
+		<h4 align>
+			<strong>SEARCH OPTIONS</strong>
+		</h4>
+		<label>All <input class="form-control input-sm" ng-model="search.$"></label> <br /> 
+			<label>Driver ID <input class="form-control input-sm" ng-model="search.DRIVER_ID"></label> 
+			<label>Rider ID <input class="form-control input-sm" ng-model="search.CUSTOMER_ID">
+			</label> <label>Duration<input class="form-control input-sm" ng-model="search.DURATION"></label> <br> 
+			<label>DISTANCE<input class="form-control input-sm" ng-model="search.DISTANCE"></label> 
+			<label>PRICE<input class="form-control input-sm" ng-model="search.PRICE"></label> 			
+	</div>
+	<div class="row">
+
+		<table class="table table-striped hover">
+			<tr>
+				<th colspan="1">#</th>
+				<th colspan="1">RideID</th>
+				<th colspan="1">Driver Id</th>
+				<th colspan="1">Customer Id</th>
+				<th colspan="1">Duration</th>
+				<th colspan="1">Distance</th>
+				<th colspan="1">Price</th>
+			</tr>
+			<tbody>
+				<tr ng-repeat="ride in rides | filter:search">
+					<td>{{$index+1}}</td>	
+					<td>{{$index+1}}</td>					
+					<td>{{ride.DRIVER_ID}}</td>
+					<td>{{ride.CUSTOMER_ID}}</td>					
+					<td>{{ride.DURATION}}</td>
+					<td>{{ride.DISTANCE}}</td>
+					<td>{{ride.PRICE}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

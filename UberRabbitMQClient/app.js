@@ -6,7 +6,10 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , home = require('./routes/home')
+  , admin = require('./routes/admin')
   , rider = require('./routes/rider')
+  , bills = require('./routes/bills')
+  , stats = require('./routes/stats')
   , driver = require('./routes/driver')
   , billing = require('./routes/billing')
   , rides = require('./routes/rides')
@@ -68,14 +71,14 @@ app.post('/getDriverInfo',driver.getDriverInfo);
 app.post('/updateDriverLoc',driver.updateDriverLoc);
 app.post('/getDriverDetails',driver.getDriverDetails);
 app.post('/getCurDriverLatlng',driver.getCurDriverLatlng);
-
-
+app.get('/adminSignin',home.adminSignin);
 
 //Rider Signin
 app.get('/bookRide',rider.bookRide);
 app.get('/homePageRider', rider.homePageRider);
 app.get('/paymentDetails',rider.paymentDetails);
 app.get('/paymentPage', rider.paymentPage);
+app.get('/paymentPage',rider.paymentPage);
 app.get('/tripsPage',rider.tripsPage);
 app.post('/checkRiderLogin',rider.checkRiderLogin);
 app.post('/addRider',rider.addRider);
@@ -88,10 +91,25 @@ app.post('/riderSignin', home.riderSignin);
 app.get('/paymentInfo',rider.paymentInfo);
 app.post('/paymentDelete', rider.paymentDelete);
 app.post('/saveNewCard', rider.saveNewCard);
+//Admin Module
+app.post('/checkAdminLogin',admin.checkAdminLogin);
+app.get('/adminDashBoard',admin.adminDashBoard);
 
+app.get('/getAllRidersPage',admin.getAllRidersPage);
+app.post('/getAllRiders',admin.getAllRiders);
+app.get('/adminViewRider',admin.adminViewRider);
 
+app.get('/getAllUDrivers',admin.getUnappDrivers);
+app.get('/getAllDriversPage',admin.getAllDriversPage)
+app.post('/getAllDrivers',admin.getAllDrivers);
+app.post('/approveDriver',admin.approveDriver);
+app.get('/getRides',admin.getRides);
 //Billing
 app.post('/getfareEstimate',billing.getfareEstimate); 
+
+//Bill Module
+app.get('/getAllBills',bills.getAllBills);
+app.post('/getBillDetails',bills.getBillDetails);
 
 //Rides
 app.post('/bookaride',rides.bookaride);
@@ -102,6 +120,11 @@ app.post('/checkForRide',rides.checkForRide);
 app.post('/getDriverLoc',rides.getDriverLoc);
 app.post('/updatearide',rides.updatearide);
 
+//Statistics
+app.get('/getDriverBasedStats',stats.getDriverBasedStats);
+app.get('/getRiderBasedStats',stats.getRiderBasedStats);
+app.get('/timebasedstats',stats.timebasedstats);
+app.get('/locationbasedstats',stats.locationbasedstats);
 
 //testing:
 app.get('/driverRides', driver.driverRides);

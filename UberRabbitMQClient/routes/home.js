@@ -29,6 +29,11 @@ function driverProfile(req,res){
 		 res.render('driverProfile',{ "email":req.session.driverID});
 	}
 
+function adminSignin(req,res){
+	res.render("adminSignin");
+}
+
+exports.adminSignin = adminSignin;
 exports.driverSignup= driverSignup;
 exports.commonLogin= commonLogin;
 exports.driverSignin= driverSignin;
