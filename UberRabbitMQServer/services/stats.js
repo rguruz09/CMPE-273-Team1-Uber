@@ -73,10 +73,11 @@ function handle_locationbasedstats(msg,callback) {
 	var json_responses;
 	var res = {};
 	
-	var sql = "SELECT HOUR(START_TIME) AS label, COUNT(*) as value FROM RIDES GROUP BY label";
+	//var sql = "SELECT SOURCE_LAT,SOURCE_LANG FROM RIDES";
+	var sql = "SELECT SUM(PRICE) as revenue, COUNT(*) as value, year(START_TIME) as label FROM RIDES GROUP BY label";
 	mysql.getStatsData(sql, function(err, rows) {		
 		if (err) {			
-			console.log("Unexpected Error in Getting Rider");
+			console.log("Unexpected Error in Getting locbasedstats");
 			res.code = err.code;
 			res.value = "Unexpected Error!";
 			console.log(err);			
@@ -85,7 +86,7 @@ function handle_locationbasedstats(msg,callback) {
 			console.log("From Get Rider result of querydb: "	+ JSON.stringify(rows));			
 			res.code = "200";
 			res.value = "Success";
-			res.timebasedstats = rows;				
+			res.revenuebasedstats = rows;				
 			callback(null,res);
 		}		
 	});		

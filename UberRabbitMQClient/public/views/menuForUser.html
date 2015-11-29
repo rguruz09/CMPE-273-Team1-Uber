@@ -9,7 +9,7 @@
 		<li ng-class="{ active:panel.isSelected(4)}"><a href
 			ng-click="panel.selectedTab(4);gettimebasedstats();">Time Based</a></li>
 		<li ng-class="{active:panel.isSelected(5)}"><a href
-			ng-click="panel.selectedTab(5)">Location Based</a></li>
+			ng-click="panel.selectedTab(5);getlocationbasedstats();">Location Based</a></li>
 	</ul>
 	<br />
 	<div ng-show="panel.isSelected(1)">
@@ -82,7 +82,7 @@
 		<h3>Time Based Bar Chart</h3>
 		<div id="timebased1"></div>
 		<hr/>
-		<div id="timebased1"></div>
+		<div id="timebased2"></div>
 		<hr/>		
 				
 		<h3>Tabular Format</h3>
@@ -103,7 +103,29 @@
 	</div>
 
 	<div class="panel" ng-show="panel.isSelected(5)">
-		<h4>More</h4>
+		<h3>Rides/Year - Pie Chart</h3>
+		<div id="revenuebased1"></div>
+		<hr/>
+		<h3>Revenue Share/Year - Pie Chart</h3>
+		<div id="revenuebased2"></div>
+		<hr/>		
+				
+		<h3>Tabular Format</h3>
+		<table class="table table-striped hover">
+		<tr>
+			<th colspan="1">#</th>
+			<th colspan="1">Year</th>
+			<th colspan="1">Rides Requested</th>
+			<th colspan="1">Revenue</th>								
+		</tr>
+		<tbody>
+			<tr ng-repeat="stat in revenuebasedstats">
+				<td>{{$index+1}}</td>
+				<td>{{stat.label}}</td>
+				<td>{{stat.value}}</td>	
+				<td>{{stat.revenue}}</td>								
+			</tr>
+		</tbody>
 	</div>
 
 </section>

@@ -89,9 +89,6 @@ if (!d3) {
     d3.animatedBarChart = {}
     d3.animatedBarChart.build = function(selector, datajson, options) {
 
-    	alert("plotBarChart");
-   
-
     	var margin = {top: 20, right: 20, bottom: 30, left: 40},
     	    width = 700 - margin.left - margin.right,
     	    height = 500 - margin.top - margin.bottom;

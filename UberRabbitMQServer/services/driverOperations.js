@@ -40,13 +40,23 @@ function handle_admin_get_unapproved_drivers_queue(msg, callback) {
 	
 }
 
+/*
+ * db.collection('restaurants').updateOne(
+      { "restaurant_id" : "41156888" },
+      { $set: { "address.street": "East 31st Street" } },
+      function(err, results) {
+        console.log(results);
+        callback();
+   });
+ * */
+
 function handle_admin_approve_driver_queue(msg, callback) {	
 	var res = {};
 	var email = msg.email;	
 	console.log("Approving Details of " + email);
 	mongo.connect(mongoURL, function() {
 		var coll = mongo.collection('driver');
-		coll.updateOne({"email":email},{$set:{"isApproved":"true"}},function(err, result) {
+		coll.updateOne({"email":email} , { $set : {"isApproved":"true"}},function(err, result) {
 			console.log(result);
 			if (err) {
 				console.log("Fail")

@@ -548,6 +548,35 @@ home.controller("StatsController", function($scope, $http, $location,
 		});		
 	}
 	
+	$scope.getlocationbasedstats = function() {		
+		console.log("inside getlocationbasedstats");
+		$http({
+			method : "GET",
+			url : '/locationbasedstats',
+			data : {				
+			}
+		}).success(function(data) {			
+			if (data) {				
+				console.log(data.revenuebasedstats);
+				$scope.revenuebasedstats = data.revenuebasedstats;				
+				d3.piechart_2.build('#revenuebased1', data.revenuebasedstats, {
+					width : 700,
+					height : 600
+				});	
+				d3.piechart_3.build('#revenuebased2', data.revenuebasedstats, {
+					width : 700,
+					height : 600
+				});	
+			} else {
+				console.log("Error in Data Fetching");
+				$scope.unexpected_error = true;
+			}
+		}).error(function(error) {
+			console.log("In getDriverDetails failed");
+			$scope.unexpected_error = true;
+		});		
+	}
+	
 });
 
 home.controller("RidesController", function($scope, $http, $location,sharedProperties) {

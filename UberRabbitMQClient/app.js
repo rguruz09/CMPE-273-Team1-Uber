@@ -88,6 +88,7 @@ app.post('/getBillDetails',bills.getBillDetails);
 app.get('/getDriverBasedStats',stats.getDriverBasedStats);
 app.get('/getRiderBasedStats',stats.getRiderBasedStats);
 app.get('/timebasedstats',stats.timebasedstats);
+app.get('/locationbasedstats',stats.locationbasedstats);
 
 //connect to the mongo collection session and then createServer
 mongo.connect(mongoSessionConnectURL, function(){
