@@ -5,8 +5,7 @@ function getConnection(){
 	    host     : 'localhost',
 	    user     : 'root',
 	    password : 'raghu',
-	    database : 'uber',
-	    port	 : '/var/run/mysqld/mysqld.sock'
+	    database : 'uber'
 	});
 	return connection;
 }
@@ -119,7 +118,26 @@ exports.deleteData = function(tableName, whereParam1, whereParam2, callback) {
 };
 
 
-
+exports.executeQuerywithParam = function(query, param, callback){
+	console.log("In execute query1 "+ query);
+	var connection = getConnection();
+	if(connection){
+		connection.query(query, param, function(err, results) {
+			if (err) {
+				console.log("Error "+err);
+			//	connection.end();
+				callback(err, null );
+				return;
+			}
+			//connection.d
+			callback(false, results);
+		})
+	}
+	else{
+		console.log("Unable to get SQL connection");
+		callback(true, null);
+	}
+}
 
 
 
@@ -130,15 +148,17 @@ exports.executeQuery = function(query, callback){
 	if(connection){
 		connection.query(query, function(err, results) {
 			if (err) {
-				console.log(err);
-				callback(true, err);
+				console.log("Error "+err);
+			//	connection.end();
+				callback(err, null );
 				return;
 			}
+			//connection.d
 			callback(false, results);
 		})
 	}
 	else{
 		console.log("Unable to get SQL connection");
-		callback(true, err);
+		callback(true, null);
 	}
 };
