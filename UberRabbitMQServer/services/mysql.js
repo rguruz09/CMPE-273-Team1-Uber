@@ -97,6 +97,19 @@ exports.getData = function(tableName, id, whereParam, callback) {
 	});
 };
 
+
+exports.getStatsData = function(sql, callback) {
+	console.log(sql);
+	var connection = getConnection();
+	connection.query(sql,function(err, results) {
+		if (err) {
+			console.log(err);
+			callback(true, err);
+			return;
+		}
+		callback(false, results);
+	});
+};
 exports.selectAll = function(tableName,callback) {
 	console.log("Getting Details from " + tableName);
 	var sql = "SELECT * FROM  " + tableName;

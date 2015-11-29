@@ -7,6 +7,7 @@ driver = require('./services/driver'),
 driversignup = require('./services/driversignup'),
 driverOperations = require('./services/driverOperations'),
 bill = require('./services/bill'),
+stats = require('./services/stats'),
 http = require('http')
 
 var cnn = amqp.createConnection({
@@ -237,4 +238,96 @@ cnn.on('ready', function() {
 		});
 	});	
 	
+	//admin_get_rides_queue
+	
+	cnn.queue('admin_get_rides_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+			admin.handle_admin_get_rides_queue(message, function(err, res) {
+				console.log("After admin_get_rides_queue" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});	
+	
+	
+	cnn.queue('ridesperdriver', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+			stats.handle_ridesperdriver(message, function(err, res) {
+				console.log("After handle_ridesperperson" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});	
+	
+	cnn.queue('ridesperrider', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+			stats.handle_ridesperrider(message, function(err, res) {
+				console.log("After handle_ridesperrider" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});	
+	
+	cnn.queue('timebasedstats', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+			stats.handle_timebasedstats(message, function(err, res) {
+				console.log("After handle_ridesperrider" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});	
+	
+	//locationbasedstats
+	cnn.queue('locationbasedstats', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+			stats.handle_locationbasedstats(message, function(err, res) {
+				console.log("After handle_ridesperrider" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});	
 });
