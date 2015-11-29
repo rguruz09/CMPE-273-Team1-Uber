@@ -261,6 +261,45 @@ exports.updateDriverLoc = function(req, res){
 	
 };
 
+//getCurDriverLatlng
+exports.getCurDriverLatlng = function(req,res){
+	
+	console.log("In addcarDetails client ");
+
+	var driverID = req.param("driverID");
+	var json_responses  = {};
+	
+	var msg_payload = {
+		"driverID" : driverID
+	};	
+	
+	console.log("Message : " + msg_payload.driverID );
+	
+	mq_client.make_request('getDrvLoc_queue', msg_payload,
+			function(err, results) {
+		console.log("RESULTS::" + results.code);
+		if (err) {
+			throw err;
+		} else {
+			if (results.code == 200) {
+				json_responses = {
+						"code" : 200,
+						"loc" : results.data
+				};
+				console.log("Valid CarDetails");
+				res.json(json_responses);
+
+			} else if (results.code != 200) {
+				json_responses = {
+						"code" : 404
+				};
+				res.json(json_responses);
+			}
+		}
+	});
+};
+
+
 
 exports.addcarDetails = function(req,res){
 	console.log("In addcarDetails client ");

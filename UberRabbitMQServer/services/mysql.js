@@ -118,7 +118,26 @@ exports.deleteData = function(tableName, whereParam1, whereParam2, callback) {
 };
 
 
-
+exports.executeQuerywithParam = function(query, param, callback){
+	console.log("In execute query1 "+ query);
+	var connection = getConnection();
+	if(connection){
+		connection.query(query, param, function(err, results) {
+			if (err) {
+				console.log("Error "+err);
+			//	connection.end();
+				callback(err, null );
+				return;
+			}
+			//connection.d
+			callback(false, results);
+		})
+	}
+	else{
+		console.log("Unable to get SQL connection");
+		callback(true, null);
+	}
+}
 
 
 

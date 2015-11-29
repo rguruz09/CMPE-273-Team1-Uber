@@ -6,7 +6,6 @@ var mongo = require("./mongo");
 var mongoURL = "mongodb://localhost:27017/uberdb";
 var mysql = require("./mysql");
 
-
 function handle_get_drivers_queue (msg,callback) {
 
 	console.log("In handle_get_drivers_queue request:"+ msg.lat +" "+msg.lang );	
@@ -33,6 +32,57 @@ function handle_get_drivers_queue (msg,callback) {
 		}		
 	});	
 }
+
+
+//function handle_get_drivers_queue (msg,callback) {
+//
+//	console.log("In handle_get_drivers_queue request:"+ msg.lat +" "+msg.lang );	
+//	
+//	var lat = msg.lat
+//	var lang = msg.lang;	
+//	
+//	var res = {};
+//	
+//	getavaildrvrs(function(err, arr){
+//		if(err){
+//			console.log("Error");
+//			es.code = 404;	
+//			res.value = "Fail";
+//			console.log(err);			
+//			callback(null,res);		
+//		}else{
+//			
+//			
+//			var params = [];
+//			for(var i = 1; i <= arr.length; i++) {
+//			  params.push('$' + i);
+//			}
+//			
+//			
+//			var query = "SELECT DRIVER_ID, LATITUDE, LANGITUDE, ACOS( SIN( RADIANS( LATITUDE ) ) * SIN( RADIANS("+ lat +") ) + "+
+//			" COS( RADIANS( LATITUDE ) ) * COS( RADIANS("+ lat +")) * COS( RADIANS( LANGITUDE ) - RADIANS("+ lang +")) ) * 6380 AS "  +
+//			" distance FROM DRIVER_LOCATION WHERE ACOS( SIN( RADIANS( LATITUDE ) ) * SIN( RADIANS( " + lat +") ) + "  +
+//			" COS( RADIANS( LATITUDE ) ) * COS( RADIANS( "+  lat +" )) * COS( RADIANS( LANGITUDE ) - RADIANS( "+ lang+" )) ) * 6380 < 10 " +
+//			"and DRIVER_ID IN( "+params.join(',')+" ) ORDER BY distance";
+//			
+//			mysql.executeQuerywithParam(query, arr, function(err, rows) {		
+//				if (err) {			
+//					console.log("Unexpected Error in Getting drivers");
+//					res.code = 404;	
+//					res.value = "Fail";
+//					console.log(err);			
+//					callback(null,res);			
+//				} else {						
+//					console.log("From Get Rider result of querydb: "	+ JSON.stringify(rows));			
+//					res.code = "200";
+//					res.value = "Success";
+//					res.data = rows;
+//					callback(null,res);
+//				}		
+//			});	
+//		}
+//	})	
+//}
 
 
 function handle_request_updateLoca(msg,callback) {
@@ -100,6 +150,40 @@ exports.handle_request_getDriverDetails = function(msg, callback){
 	});		
 };
 
+
+//handle_request_getDrvLoc
+function handle_request_getDrvLoc(msg,callback) {
+
+	console.log("In handle_request_getDrvLoc request:"+ msg.driverID);	
+	
+	var driverID = msg.driverID;	
+	var res = {};
+	
+	var query = "select * from DRIVER_LOCATION where DRIVER_ID = '" + driverID + "'";
+	
+	console.log("Query "+query);
+	
+	mysql.executeQuery(query, function(err, rows) {		
+		if (err) {			
+			console.log("Unexpected Error in Getting drivers");
+			res.code = 404;	
+			res.value = "Fail";
+			console.log(err);			
+			callback(null,res);			
+		} else {						
+			console.log("From Get Rider result of querydb: "	+ JSON.stringify(rows));			
+			res.code = "200";
+			res.value = "Success";
+			res.data = rows;
+			callback(null,res);
+		}		
+	});	
+	
+};
+
+
+
+
 function handle_get_driverInfo_queue(msg,callback) {
 
 	console.log("In handle_get_driver_queue request:"+ msg.email);	
@@ -129,6 +213,30 @@ function handle_get_driverInfo_queue(msg,callback) {
 };
 
 
+function getavaildrvrs(callback){
+	
+	mongo.connect(mongoURL, function(){
+		
+		console.log('Connected to mongo at: ' + mongoURL);	
+		var coll = mongo.collection('drivers');
+		
+		coll.find( { "status" : "0" },{_id:0, email:1 } ).toArray(function(err, docs) {
+			if(docs){												
+				var myArray = [];
+				for(var i=0; i<docs.length; i++){
+					myArray.push("'"+docs[i].email+"'");
+					console.log(docs[i].email);
+				}
+				callback(false, myArray);
+			}else{						
+				callback(true, null);
+			}			
+		});
+	});
+}
+
+
 exports.handle_get_driverInfo_queue = handle_get_driverInfo_queue;
 exports.handle_request_updateLoca = handle_request_updateLoca;
 exports.handle_get_drivers_queue = handle_get_drivers_queue;
+exports.handle_request_getDrvLoc = handle_request_getDrvLoc;

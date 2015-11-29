@@ -66,7 +66,7 @@ app.post('/addcarDetails',driver.addcarDetails);
 app.post('/getDriverInfo',driver.getDriverInfo);
 app.post('/updateDriverLoc',driver.updateDriverLoc);
 app.post('/getDriverDetails',driver.getDriverDetails);
-
+app.post('/getCurDriverLatlng',driver.getCurDriverLatlng);
 
 
 
@@ -95,7 +95,7 @@ app.post('/getfareEstimate',billing.getfareEstimate);
 //Rides
 app.post('/bookaride',rides.bookaride);
 app.post('/getRideRequest',rides.getRideRequest);
-
+app.post('/confirmRide',rides.confirmRide);
 
 //testing:
 app.get('/driverRides', driver.driverRides);

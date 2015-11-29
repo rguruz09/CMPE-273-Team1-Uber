@@ -29,15 +29,25 @@
   					    mapTypeId: google.maps.MapTypeId.ROADMAP
   					});
 
-
-					//get the rides request
-					if (navigator.geolocation) {
-				    		navigator.geolocation.getCurrentPosition(function(position) {
+  					
+  					//	get drivers location
+  					$http({
+				  		method : 'post',
+				  		url : '/getCurDriverLatlng',
+				  		data : {
+				  			"driverID" : "facilisi@viverraDonec.net"
+				  		}
+				  	}).success(function(data) {
+				  		if(data.code == 404){
+				  			console.log("couldnt get the loc");
+				  		}				
+				  		else{
+				  			console.log("loc found");
+				  			$scope.drvLoc = data.loc[0];
 				      		pos = {
-				        		lat: position.coords.latitude,
-				        		lng: position.coords.longitude
+				        		lat: $scope.drvLoc.LATITUDE,
+				        		lng: $scope.drvLoc.LANGITUDE
 				      		};
-
 				    		//console.log("Latitude: " + pos.lat + " Langitude: " + pos.lng);
 				      		marker = new google.maps.Marker({
 				        		position: {lat: pos.lat, lng: pos.lng},
@@ -45,44 +55,76 @@
 				        		icon:'../images/car.png'
 				      		});
 				      		map.setCenter(pos);   
-				      		$scope.getreq();
-				    	}, function() {
-				    		console.log("Error");
-				      		//handleLocationError(true, infoWindow, map.getCenter());
-				    	});
-				  	} else {
-				    	// Browser doesn't support Geolocation
-				    	//handleLocationError(false, infoWindow, map.getCenter());
-				  	}
+
+							console.log("in getreq");
+							
+							$http({
+				      			method : 'post',
+				      			url : '/getRideRequest',
+				      			data : {
+				      				"email" : "manoj@gmail.com"
+				      			}
+				      		}).success(function(data) {
+				      				if(data.code == 404){
+				      					console.log("couldnt book the ride");
+				      					$scope.bReqAvail = false;
+				      				}
+				      				else if(data.code == 201){		
+				      					console.log("No request yer!!");
+				      					$scope.bReqAvail = false;
+				      				}
+				      				else if(data.code == 200){
+					      				alert("getting your rides");
+					      				//$scope.bReqAvail = true;
+					      				console.log("request found "+data.request[0].CUSTOMER_ID);
+					      				$scope.custDetails = data.request[0];
+					      				
+					      				
+					      				$scope.getAddressFromLatLang($scope.custDetails.SOURCE_LAT,$scope.custDetails.SOURCE_LANG, function(src){
+				      						
+					      					document.getElementById('txtSource').value = src;
+					      					$scope.startLocation = src;
+
+					      					$scope.getAddressFromLatLang($scope.custDetails.DESTINATION_LAT,$scope.custDetails.DESTINATION_LANG, function(des){
+					      						
+					      						document.getElementById('txtDestination').value = des;
+					      						$scope.endLocation = des;
+
+					      						directionsDisplay = new google.maps.DirectionsRenderer({ 'map': map });
+
+					      						//polyline
+					      						var srclatlang = new google.maps.LatLng($scope.custDetails.SOURCE_LAT,$scope.custDetails.SOURCE_LANG);
+					      						var deslatlang = new google.maps.LatLng($scope.custDetails.DESTINATION_LAT,$scope.custDetails.DESTINATION_LANG);
+
+					      						directionsService = new google.maps.DirectionsService();
+					      						var travelMode = google.maps.DirectionsTravelMode.DRIVING;  
+					      						var request = {
+					      						      origin: srclatlang,
+					      						      destination: deslatlang,
+					      						      travelMode: travelMode
+					      						};  
+
+					      						directionsService.route(request,function(result,status){
+					      							if(status == google.maps.DirectionsStatus.OK){
+					      								directionsDisplay.setDirections(result);
+					      							}else{
+					      								console.log("cannt add");
+					      							}
+					      						});
+					      					});
+					      				});
+					      				
+				      				}
+				      		});
+						
+				    	
+
+				  		}		
+				  	});
 					
 				};
 
-				$scope.getreq = function(){
-					console.log("in getreq");
-					
-					$http({
-		      			method : 'post',
-		      			url : '/getRideRequest',
-		      			data : {
-		      				"email" : "manoj@gmail.com"
-		      			}
-		      		}).success(function(data) {
-		      				if(data.code == 404){
-		      					console.log("couldnt book the ride");
-		      					$scope.bReqAvail = false;
-		      				}
-		      				else if(data.code == 201){		
-		      					console.log("No request yer!!");
-		      					$scope.bReqAvail = false;
-		      				}
-		      				else if(data.code == 200){
-			      				alert("getting your rides");
-			      				//$scope.bReqAvail = true;
-			      				console.log("request found "+data.request[0].CUSTOMER_ID);
-			      				$scope.custDetails = data.request[0];
-		      				}
-		      		});
-				};
+
 
 				$scope.confirmRide = function(){
 
@@ -108,6 +150,24 @@
 				  		}				
 				  		else{
 				  			console.log("Ride started");
+				  			
+				  			$http({
+								method : 'post',
+								url : '/updateDriverLoc',
+								data : {
+									"email" : "facilisi@viverraDonec.net",
+									"lat" : $scope.custDetails.DESTINATION_LAT,
+									"lang" : $scope.custDetails.DESTINATION_LANG
+								}
+							}).success(function(data) {								
+								if(data.code == 404){
+									console.log("SQL failed");
+								}else{		
+									$scope.initLoad();
+										console.log("success");																				
+								}					
+												
+							});
 				  		}
 				  			
 				  	});				  	
