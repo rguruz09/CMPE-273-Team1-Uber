@@ -261,50 +261,93 @@ exports.updateDriverLoc = function(req, res){
 	
 };
 
+//getCurDriverLatlng
+exports.getCurDriverLatlng = function(req,res){
+	
+	console.log("In addcarDetails client ");
 
-	exports.addcarDetails = function(req,res){
-		console.log("In addcarDetails client ");
+	var driverID = req.param("driverID");
+	var json_responses  = {};
+	
+	var msg_payload = {
+		"driverID" : driverID
+	};	
+	
+	console.log("Message : " + msg_payload.driverID );
+	
+	mq_client.make_request('getDrvLoc_queue', msg_payload,
+			function(err, results) {
+		console.log("RESULTS::" + results.code);
+		if (err) {
+			throw err;
+		} else {
+			if (results.code == 200) {
+				json_responses = {
+						"code" : 200,
+						"loc" : results.data
+				};
+				console.log("Valid CarDetails");
+				res.json(json_responses);
 
-		var email = req.param("email");
-		var Make = req.param("Make");
-		var Year = req.param("Year");
-		var color = req.param("color");
-		var license = req.param("license");
-
-
-		var json_responses;
-
-		var msg_payload = {
-				"email" : email,
-				"Make" : Make,
-				"Year" : Year,
-				"color" : color,
-				"license" : license	
-		};	
-		
-		console.log("Message : " + msg_payload.email + "  " + msg_payload.Make +" "+msg_payload.Year+" "+msg_payload.color+" "+" "+msg_payload.license );
-		
-		mq_client.make_request('add_carDetails_queue', msg_payload,
-				function(err, results) {
-			console.log("RESULTS::" + results.code);
-			if (err) {
-				throw err;
-			} else {
-				if (results.code == 200) {
-					json_responses = {
-							"statusCode" : results.code
-					};
-					console.log("Valid CarDetails");
-					res.json(json_responses);
-
-				} else if (results.code != 200) {
-					json_responses = {
-							"statusCode" : results.code
-					};
-					console.log("Could not save Car Details");
-					res.json(json_responses);
-				}
+			} else if (results.code != 200) {
+				json_responses = {
+						"code" : 404
+				};
+				res.json(json_responses);
 			}
-		});
-	};
+		}
+	});
+};
 
+
+
+exports.addcarDetails = function(req,res){
+	console.log("In addcarDetails client ");
+
+	var email = req.param("email");
+	var Make = req.param("Make");
+	var Year = req.param("Year");
+	var color = req.param("color");
+	var license = req.param("license");
+
+
+	var json_responses;
+
+	var msg_payload = {
+			"email" : email,
+			"Make" : Make,
+			"Year" : Year,
+			"color" : color,
+			"license" : license	
+	};	
+	
+	console.log("Message : " + msg_payload.email + "  " + msg_payload.Make +" "+msg_payload.Year+" "+msg_payload.color+" "+" "+msg_payload.license );
+	
+	mq_client.make_request('add_carDetails_queue', msg_payload,
+			function(err, results) {
+		console.log("RESULTS::" + results.code);
+		if (err) {
+			throw err;
+		} else {
+			if (results.code == 200) {
+				json_responses = {
+						"statusCode" : results.code
+				};
+				console.log("Valid CarDetails");
+				res.json(json_responses);
+
+			} else if (results.code != 200) {
+				json_responses = {
+						"statusCode" : results.code
+				};
+				console.log("Could not save Car Details");
+				res.json(json_responses);
+			}
+		}
+	});
+};
+
+
+exports.driverRides = function(req,res){
+	res.render('driverRides');
+};
