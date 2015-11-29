@@ -110,7 +110,7 @@ exports.updatearide = function(req, res){
 exports.getRideRequest = function(req, res){
 	
 	//var driverID = req.session.email;
-	var driverID = "facilisi@viverraDonec.net"; //remove after the sessions implemented.
+	var driverID = req.session.driverID; //remove after the sessions implemented.
 
 	console.log("In getting ride request "+driverID);
 	  
@@ -180,7 +180,7 @@ exports.getRideRequest = function(req, res){
 exports.confirmRide = function(req, res){
 	
 	//var driverID = req.session.email;
-	var driverID = "facilisi@viverraDonec.net"; //remove after the sessions implemented.
+	var driverID = req.session.driverID; //remove after the sessions implemented.
 	
 	var custID = req.param("custID");
 	var startTime = req.param("startTime");  			

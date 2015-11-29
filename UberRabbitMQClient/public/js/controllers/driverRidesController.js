@@ -17,7 +17,9 @@
 				//initLoad
 				$scope.initLoad = function(){
 					$scope.bReqAvail = true;
-    
+					//$scope.driverID = req.session.driverID ;
+					$scope.driverID = "eget.odio@nunc.co.uk";
+					console.log($scope.driverID);
 					console.log("i came here first");
 					
 					geocoder = new google.maps.Geocoder();
@@ -36,7 +38,7 @@
 				  		method : 'post',
 				  		url : '/getCurDriverLatlng',
 				  		data : {
-				  			"driverID" : "facilisi@viverraDonec.net"
+				  			//"driverID" : $scope.driverID 
 				  		}
 				  	}).success(function(data) {
 				  		if(data.code == 404){
@@ -63,7 +65,7 @@
 				      			method : 'post',
 				      			url : '/getRideRequest',
 				      			data : {
-				      				"email" : "manoj@gmail.com"
+				      				//"email" : "david@gmail.com"
 				      			}
 				      		}).success(function(data) {
 				      				if(data.code == 404){
@@ -192,7 +194,7 @@
 								method : 'post',
 								url : '/updateDriverLoc',
 								data : {
-									"email" : "facilisi@viverraDonec.net",
+									"email" : $scope.driverID,
 									"lat" : $scope.custDetails.DESTINATION_LAT,
 									"lang" : $scope.custDetails.DESTINATION_LANG
 								}

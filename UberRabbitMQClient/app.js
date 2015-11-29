@@ -57,6 +57,7 @@ app.get('/driverSignin', home.driverSignin);
 app.get('/riderSignin', home.riderSignin);
 //app.get('/carDetails',home.carDetails);
 app.get('/driverProfile',home.driverProfile);
+app.get('/driverlogout',driver.driverlogout);
 
 //Drivers APIs
 app.post('/getDrivers', driver.getDrivers);

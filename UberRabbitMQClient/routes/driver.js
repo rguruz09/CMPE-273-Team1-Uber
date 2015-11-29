@@ -155,7 +155,8 @@ exports.checkDrivers = function(req,res){
 				console.log("pwd"+password+"hash"+results.user.password);
 				if(bcrypt.compareSync(password, results.user.password) == true) {
 					console.log("Done using BCRYPT..");			
-					req.session.email = email;
+					req.session.driverID = email;
+					console.log(req.session.driverID);
 					console.log("Valid Login");						
 					res.send({"login":"Success"});	
 					console.log("queue Login");
@@ -266,7 +267,8 @@ exports.getCurDriverLatlng = function(req,res){
 	
 	console.log("In addcarDetails client ");
 
-	var driverID = req.param("driverID");
+	//var driverID = req.param("driverID");
+	var driverID = req.session.driverID;
 	var json_responses  = {};
 	
 	var msg_payload = {
@@ -350,4 +352,9 @@ exports.addcarDetails = function(req,res){
 
 exports.driverRides = function(req,res){
 	res.render('driverRides');
+};
+
+exports.driverlogout = function(req, res){
+	req.session.destroy();
+	res.redirect('/');
 };

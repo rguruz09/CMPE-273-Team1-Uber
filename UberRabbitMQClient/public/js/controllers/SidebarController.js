@@ -26,6 +26,10 @@ home.config(function($routeProvider) {
     		templateUrl: "views/welcomeDriver.html",
     		controller: ""
     	})
+    	.when("/driverRides", {
+            templateUrl: "views/driverRides.html",
+            controller: "driverRidesController"
+        })
         .when("/myProfile", {
             templateUrl: "views/driverProfile.html",
             controller: "driverProfileCtrl"

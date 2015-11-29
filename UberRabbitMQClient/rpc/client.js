@@ -9,7 +9,8 @@ function make_request(queue_name, msg_payload, callback){
 	console.log("In client.js");
 	rpc.makeRequest(queue_name, msg_payload, function(err, response){
 		if(err)
-			console.error(err);
+			console.log("Problem with RPC Make request: Please restart the server");
+			//console.error(err);
 		else{
 			console.log("In client.js: Response of makeRequest :: " + JSON.stringify(response));
 			callback(null, response);

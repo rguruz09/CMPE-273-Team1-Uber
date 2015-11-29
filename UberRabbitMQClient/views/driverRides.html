@@ -1,0 +1,66 @@
+<div ng-controller ="driverRidesController"  ng-init ="initLoad();">
+<div class="col-md-1" >
+</div>
+<div class="col-md-7" ng-show = bReqAvail>
+      <div class="row">
+        <h3 align = "center"> <strong>RIDE REQESTS</strong> </h3>
+        <hr/> 
+      </div>
+      <div class="row">     
+        <form>
+          <div class = "row">
+            <div class="form-group col-xs-6">
+              <input class="form-control input-lg" type="text" id="txtSource" ng-model="startLocation"  placeholder="Start Location"  required />                       
+            </div>
+            <div class="form-group col-xs-6">       
+              <input class="form-control input-lg" type="text" id="txtDestination"  name="endLocation" placeholder="End Location" ng-model="endLocation" required />                
+            </div>               
+          </div>      
+          <hr/>       
+        </form>     
+      </div>
+
+      <!-- EMBEDDED MAP WITH ROUTE -->
+
+      <div class="row">
+        <div align="center" id="dvMap" style="width: 100%; height: 60%"></div>
+      </div>
+      
+      <div>
+              <button ng-hide="true" type="button" id="loaddrivers" ng-click="loaddriver()"></button> 
+          </div>
+
+          <div>
+              <button ng-hide="true" type="button" id="btnGetDriver" ng-model="btDriver" ng-click="getDriverDetails()"></button> 
+          </div>
+      <!-- EMBEDDED MAP WITH ROUTE END-->
+       
+              
+      <hr/>
+      <div class= "row" ng-hide= bDriverDiv >
+        <div id="Foo"  align="center" >
+            <h3 align="left">Customer Name: {{custDetails.firstname}} {{custDetails.lastname}}</h3>          
+            <h3 align="left">Customer Mobile: {{custDetails.phone}}</h3>         
+            <h3 align="left">Customer Ratings: {{custDetails.ratings}}</h3>         
+            <!-- <h3 align="left">Customer Mobile: {{custDetails.Detais}}</h3> -->
+            <hr/>
+        </div>
+      </div> 
+
+      <div class="row text-center" ng-show=bbtnStart>
+        <b><input  type="button" class="btn btn-info btn-lg col-md-4" data-toggle="collapse" ng-model="btnConfirmRide" ng-click="confirmRide()" value="START RIDE"></b>
+      </div>  
+      <div class="row text-center" ng-show=!bbtnStart>
+        <b><input  type="button" class="btn btn-info btn-lg col-md-4" data-toggle="collapse" ng-model="btnEndRide" ng-click="endRide()" value="END RIDE"></b>
+      </div> 
+    </div>
+
+    <div class="col-md-7" ng-show = !bReqAvail>
+      <div class="row">
+        <h3 align = "center"> <strong>RIDE REQESTS</strong> </h3>
+        <hr/> 
+        <h3 align = "center"> <strong>Sorry! you dont have any ride requests..</strong> </h3>
+        <hr/> 
+      </div>
+    </div>
+    </div>
