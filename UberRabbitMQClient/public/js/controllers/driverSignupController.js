@@ -151,7 +151,9 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 			var res = {};
 			console.log("Im in updating driver loc ctrl");
 
+			
 			if (navigator.geolocation) {
+				console.log("hi");
 				navigator.geolocation.getCurrentPosition(function(position) {
 	
 					$scope.curlat = position.coords.latitude;
@@ -168,19 +170,12 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 							"lat" : $scope.curlat,
 							"lang" : $scope.curlang
 						}
-					}).success(function(data) {
-						window.location.assign("/carDetails");
+					}).success(function(data) {						
 						if(data.code == 404){
 							console.log("SQL failed");
 						}else{								
-							res = data.data;
-							if(res.length > 0){
-								console.log("success");
-								$scope.loadDrivers(res);				
-							}else{
-								console.log("No drivers available");								
-							}					
-						}				
+							console.log("Updated");								
+						}								
 					});
 				}, function() {
 					console.log("map load error");
