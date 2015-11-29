@@ -1,0 +1,109 @@
+<section ng-controller="StatsController as panel">
+	<ul class="nav nav-pills navbar-custom ">
+		<li ng-class="{ active:panel.isSelected(1)}"><a href
+			ng-click="panel.selectedTab(1);getAllRides();">Map Based</a></li>
+		<li ng-class="{ active:panel.isSelected(2)};"><a href
+			ng-click="panel.selectedTab(2);getDriverBasedStats();">Driver Based</a></li>
+		<li ng-class="{ active:panel.isSelected(3)}"><a href
+			ng-click="panel.selectedTab(3);getRiderBasedStats();">Rider Based</a></li>
+		<li ng-class="{ active:panel.isSelected(4)}"><a href
+			ng-click="panel.selectedTab(4);gettimebasedstats();">Time Based</a></li>
+		<li ng-class="{active:panel.isSelected(5)}"><a href
+			ng-click="panel.selectedTab(5)">Location Based</a></li>
+	</ul>
+	<br />
+	<div ng-show="panel.isSelected(1)">
+		<div id="map" style="width: 900px; height: 600px;"></div>		
+	</div>
+
+	<div ng-show="panel.isSelected(2)">			
+		<h3>Number of Rides/Driver - PIE Chart</h3>
+		<div id="driverTable"></div>
+		<hr/>
+		<h3>Revenue/Driver - PIE Chart</h3>
+	
+		<div id="driverTable2"></div>
+		<hr/>		
+				
+		<h3>Tabular Format</h3>
+		<table class="table table-striped hover">
+		<tr>
+			<th colspan="1">#</th>
+			<th colspan="1">Name</th>
+			<th colspan="1">Email</th>
+			<th colspan="1">No Of Rides</th>
+			<th colspan="1">Revenue Generated</th>
+								
+		</tr>
+		<tbody>
+			<tr ng-repeat="stat in ridesPerDriver">
+				<td>{{$index+1}}</td>
+				<td>{{stat.firstname}} {{stat.lastname}}</td>
+				<td>{{stat.label}}</td>
+				<td>{{stat.value}}</td>		
+				<td>{{stat.revenue}}</td>				
+			</tr>
+		</tbody>
+	</table>
+	</div>
+
+	<div ng-show="panel.isSelected(3)">
+		<h3>Number of Rides/Rider - PIE Chart</h3>
+		<div id="riderTable"></div>
+		<hr/>
+		<h3>Revenue/Rider - PIE Chart</h3>
+	
+		<div id="riderTable2"></div>
+		<hr/>		
+				
+		<h3>Tabular Format</h3>
+		<table class="table table-striped hover">
+		<tr>
+			<th colspan="1">#</th>
+			<th colspan="1">Name</th>
+			<th colspan="1">Email</th>
+			<th colspan="1">No Of Rides</th>
+			<th colspan="1">Revenue Generated</th>
+								
+		</tr>
+		<tbody>
+			<tr ng-repeat="stat in ridesPerRider">
+				<td>{{$index+1}}</td>
+				<td>{{stat.firstname}} {{stat.lastname}}</td>
+				<td>{{stat.label}}</td>
+				<td>{{stat.value}}</td>		
+				<td>{{stat.revenue}}</td>				
+			</tr>
+		</tbody>
+	</table>
+	</div>
+
+	<div class="panel" ng-show="panel.isSelected(4)">
+		<h3>Time Based Bar Chart</h3>
+		<div id="timebased1"></div>
+		<hr/>
+		<div id="timebased1"></div>
+		<hr/>		
+				
+		<h3>Tabular Format</h3>
+		<table class="table table-striped hover">
+		<tr>
+			<th colspan="1">#</th>
+			<th colspan="1">Time of Day</th>
+			<th colspan="1">Rides Requested</th>								
+		</tr>
+		<tbody>
+			<tr ng-repeat="stat in timebasedstats">
+				<td>{{$index+1}}</td>
+				<td>{{stat.label}}</td>
+				<td>{{stat.value}}</td>								
+			</tr>
+		</tbody>
+	</table>
+	</div>
+
+	<div class="panel" ng-show="panel.isSelected(5)">
+		<h4>More</h4>
+	</div>
+
+</section>

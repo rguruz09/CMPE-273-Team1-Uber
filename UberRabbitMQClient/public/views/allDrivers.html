@@ -1,0 +1,50 @@
+<div ng-controller="DriverControllerAdmin" ng-init="getAllDrivers();">
+<h2 align>
+	<strong>DRIVER DETAILS</strong>
+</h2>
+<hr />
+<div class="row" align="center">
+	<h4 align>
+		<strong>SEARCH OPTIONS</strong>
+	</h4>
+	<label>All <input class="form-control input-sm"
+		ng-model="search.$"></label> <br /> <label>First Name <input
+		class="form-control input-sm" ng-model="search.firstname"></label> <label>Last
+		Name <input class="form-control input-sm" ng-model="search.lastname">
+	</label> <label>Phone<input class="form-control input-sm"
+		ng-model="search.phone"></label> <br> <label>City<input
+		class="form-control input-sm" ng-model="search.city"></label> <label>ZipCode<input
+		class="form-control input-sm" ng-model="search.zip"></label> <label>State
+		<input class="form-control input-sm" ng-model="search.state">
+	</label><br>
+</div>
+<div class="row">
+	<h3 align>
+		<strong>DRIVER DETAILS</strong>
+	</h3>
+	<br />
+	<table class="table table-striped hover">
+		<tr>
+			<th colspan="1">#</th>
+			<th colspan="1">Name</th>
+			<th colspan="1">Email Address</th>
+			<th colspan="1">City</th>
+			<th colspan="1">Zip</th>
+			<th colspan="1">State</th>
+			<th colspan="1">Phone number</th>
+		</tr>
+		<tbody>
+			<tr ng-repeat="driver in allDriversList | filter:search"
+				ng-click='setEmail(driver.email);goNext("/getDriverDetailsPage/");'>
+				<td>{{$index+1}}</td>
+				<td>{{driver.firstname}} {{driver.lastname}}</td>
+				<td>{{driver.email}}</td>
+				<td>{{driver.city}}</td>
+				<td>{{driver.zip}}</td>
+				<td>{{driver.state}}</td>
+				<td>{{driver.mobile}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</div>

@@ -1,0 +1,92 @@
+<div ng-controller="RiderControllerAdmin" ng-init="getRiderDetails();">
+	<h3 align="center">
+		<strong>PROFILE</strong>
+	</h3>
+	<hr />
+	<h4>
+		<strong> General Information </strong>
+	</h4>
+	<hr />
+	<form>
+
+		<div class="row">
+			<div class="form-group col-xs-3"></div>
+			<div class="form-group col-xs-2">Name:</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-xs-3"></div>
+			<div class="form-group col-xs-3">
+				<input class="form-control input-sm" type="text" id="firstName"
+					name="firstname" placeholder="First Name"
+					ng-model="formDetails.firstname" required />
+			</div>
+			<div class="form-group col-xs-3">
+				<input class="form-control input-sm" type="text" id="lastName"
+					name="lastname" placeholder="Last Name"
+					ng-model="formDetails.lastname" required />
+			</div>
+		</div>
+		<hr />
+		<div class="row">
+			<div class="form-group col-xs-3"></div>
+			<div class="form-group col-xs-2">Address:</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-xs-3"></div>
+			<div class="form-group col-xs-6">
+				<input class="form-control input-sm" type="text" id="address"
+					name="address" placeholder="Address" ng-model="formDetails.address"
+					required />
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-xs-3"></div>
+			<div class="form-group col-xs-2">
+				<input class="form-control input-sm" type="text" id="city"
+					name="city" placeholder="City" ng-model="formDetails.city" required />
+			</div>
+			<div class="form-group col-xs-2">
+				<input class="form-control input-sm" type="text" id="zipcode"
+					name="zipcode" placeholder="Zip Code"
+					ng-model="formDetails.zipcode" required />
+			</div>
+			<div class="form-group col-xs-2">
+				<input class="form-control input-sm" type="text" id="state"
+					name="state" placeholder="State" ng-model="formDetails.state"
+					required />
+			</div>
+		</div>
+		<hr />
+
+		<div class="row">
+			<div class="form-group col-xs-2"></div>
+			<div class="form-group col-xs-4">Phone Number:</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-xs-3"></div>
+			<div class="form-group col-xs-4">
+				<input class="form-control input-sm" type="tel" id="phone"
+					name="phone" placeholder="Phone" ng-model="formDetails.phone"
+					required />
+			</div>
+		</div>
+		<hr />
+		<div class="row">
+			
+			<div class="form-group col-xs-4">Profile Photo:</div>
+			<div class="form-group col-xs-2"></div>
+			<div class="form-group col-xs-2">Password:</div>
+			<div class="form-group col-xs-3">
+				<input class="form-control input-sm" type="password" id="password"
+					name="password" placeholder="*********"
+					ng-model="formDetails.password" required />
+			</div>
+		</div>
+		<hr />
+		<div class="row" align="center">
+			<input type="submit" class="btn btn-info" value="Update Profile"
+				ng-click="updateProfile()"></input>
+		</div>
+		<hr />
+	</form>
+</div>
