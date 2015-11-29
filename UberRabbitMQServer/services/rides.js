@@ -73,3 +73,78 @@ exports.handle_request_bookaRide = function(msg,callback){
 			});
 		});
 };
+
+
+// getting the ride requests for driver
+exports.handle_getRideRequest_queue = function(msg,callback) {
+
+	console.log("In handle_getRideRequest_queue request: "+ msg.driverID );	
+	
+	var driverID = msg.driverID;
+
+	var res = {};
+	  
+	var query = "select A.DRIVER_ID, A.CUSTOMER_ID, SOURCE_LAT, SOURCE_LANG, DESTINATION_LAT, DESTINATION_LANG,  B.firstname, "+
+	"B.lastname, B.phone, B.status, B.ratings from RIDES A, customer B where DRIVER_ID = '"+driverID+"' and RIDE_STATUS IN (-1,0)  and A.CUSTOMER_ID = B.email";
+	
+	console.log("Query "+query);
+	
+
+	mysql.executeQuery(query, function(err, rows) {		
+		if (err) {			
+			console.log("Unexpected Error in Getting ride requests");
+			res.code = 404;	
+			console.log(err);	
+			callback(null,res);	
+		} else if(rows.length > 0){						
+			console.log("From Get Ride requests: ");			
+			res.code = "200";
+			res.value = "Success";
+			res.request = rows;
+			callback(null,res);	
+		}else{
+			console.log("From Get Ride requests with no requests: ");			
+			res.code = "201";
+			res.value = "Success with no rows";		
+			callback(null,res);	
+		}	
+	});	
+}
+
+exports.handle_confirmRideRequest_queue = function(msg,callback){
+	
+	var driverID = msg.driverID;
+	var custID = msg.custID;
+	var startTime = msg.startTime;
+	var res = {};
+	
+	var query = "update RIDES set RIDE_STATUS = 0, START_TIME = '"+startTime+"' where DRIVER_ID = '"+driverID+"' and CUSTOMER_ID = '"+custID+"'";
+	console.log("Query - " + query);
+	
+	mysql.executeQuery(query, function(err, rows) {		
+		if (err) {			
+			console.log("Unexpected Error in confirming the ride requests");
+			res.code = 404;	
+			console.log(err);	
+			callback(null,res);	
+		} else {						
+			console.log("started teh ride ");			
+			res.code = "200";
+			callback(null,res);	
+			
+		}
+	});	
+	
+};
+
+
+
+
+
+
+
+
+
+
+
+
