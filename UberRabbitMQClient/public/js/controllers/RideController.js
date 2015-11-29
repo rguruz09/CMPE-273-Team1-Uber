@@ -72,12 +72,190 @@
 				  	map.addListener('bounds_changed', function() {
 				  	  searchBox.setBounds(map.getBounds());
 				  	});
-
-				  	//fetch the driver details
-				  	$scope.loaddriver();
-
+				  	
+				  	// to check if the user is in a ride or requested for a ride
+				  	
+				  //get drivers from that circle.
+						$http({
+						method : 'post',
+						url : '/checkForRide'
+					}).success(function(data) {
+						if(data.code == 404){
+							console.log("SQL failed");
+						}else
+						if(data.code == 201){								
+							console.log("Not in RIDE");
+							//fetch the driver details
+							$scope.bfirstTime = true;
+						  	$scope.loaddriver();
+						}else{
+							$scope.bfirstTime = false;
+							console.log("currently in a ride");
+							$scope.myRide = data.request[0];
+							$scope.loadMyRide()
+							//call method to show current ride 
+						}									
+					});
 				}
+		
+				$scope.loadMyRide = function(){							
+					console.log("Loading current ride details "+ $scope.myRide.DRIVER_ID);		
+					document.getElementById("txtSource").disabled = true;
+						$http({
+							method : 'post',
+							url : '/getDriverLoc',
+							data : {
+								"driverID" : $scope.myRide.DRIVER_ID						
+							}
+						}).success(function(data) {
+							if(data.code == 404){
+								console.log("SQL failed");
+							}else{				
+								$scope.drvloc = data.result[0];
+								var marker = new google.maps.Marker({
+									position: new google.maps.LatLng($scope.drvloc.LATITUDE,$scope.drvloc.LANGITUDE),
+									map: map,						
+									icon:'../images/car.png'
+								});		
+								
+								directionsDisplay = new google.maps.DirectionsRenderer({ 'map': map });
+								$scope.myRide
+	      						//polyline
+	      						var srclatlang = new google.maps.LatLng($scope.myRide.SOURCE_LAT,$scope.myRide.SOURCE_LANG);
+	      						var deslatlang = new google.maps.LatLng($scope.myRide.DESTINATION_LAT,$scope.myRide.DESTINATION_LANG);
 
+	      						directionsService = new google.maps.DirectionsService();
+	      						var travelMode = google.maps.DirectionsTravelMode.DRIVING;  
+	      						var request = {
+	      						      origin: srclatlang,
+	      						      destination: deslatlang,
+	      						      travelMode: travelMode
+	      						};  
+
+	      						directionsService.route(request,function(result,status){
+	      							if(status == google.maps.DirectionsStatus.OK){
+	      								directionsDisplay.setDirections(result);
+	      							}else{
+	      								console.log("cannt add");
+	      							}
+	      						});
+	      						
+	      						$scope.getAddressFromLatLang($scope.myRide.SOURCE_LAT,$scope.myRide.SOURCE_LANG, function(src){
+	      							
+	      		  					document.getElementById('txtSource').value = src;  
+	      		  					$scope.startLocation = src;
+
+	      		  					$scope.getAddressFromLatLang($scope.myRide.DESTINATION_LAT,$scope.myRide.DESTINATION_LANG, function(des){
+	      		  						
+	      		  						document.getElementById('txtDestination').value = des;
+	      		  						$scope.endLocation = des;
+	      		  						
+	      		  					});
+	      		  				});
+	      						
+	      						$scope.getDriverInfo("ONE",function(){
+	      							console.log($scope.Drivers[0].mobile);
+		      						$scope.driverDetails = {
+		      								"driver" : $scope.Drivers[0].firstname+" "+$scope.Drivers[0].lastname,
+		    								"rating" : $scope.Drivers[0].ratings,
+		    								"video" : $scope.Drivers[0].video,
+		    								"Detais" : $scope.Drivers[0].Make+" "+ $scope.Drivers[0].Color+" "+ $scope.Drivers[0].licence
+		    						} ;
+		      						
+		      						$scope.bDriverDiv = false;
+	      						});
+	      						
+							}				
+						});			
+				};
+				
+				$scope.editRide = function(){
+					
+					console.log("in edit ride");
+					
+					var dest = document.getElementById('txtDestination').value;
+					if(($scope.endLocation === dest)){
+						alert("please change the destination");
+					}else{
+						
+						$scope.time = new Date();
+					  	$scope.month = $scope.time.getMonth() + 1;
+					  	$scope.reqTime = $scope.time.getFullYear()+"-"+$scope.month+"-"+$scope.time.getDate()+" "+$scope.time.getHours()+":"+$scope.time.getMinutes()+":"+$scope.time.getSeconds(); 
+					  	console.log("datetime"+$scope.reqTime);
+						
+					  	$scope.day = $scope.time.getDay();
+					  	var weekend = 0;
+					  	
+					  	if($scope.day == 5 || $scope.day == 6 || $scope.day == 7){
+					  		weekend = 1;
+					  	}
+					  	
+						// ********
+						
+						$scope.getDistance($scope.startLocation, dest, function(){	
+					  		
+					  		$scope.geocodeAddress($scope.startLocation, function(latlang) {
+					  		
+					  			$scope.srclatlang =  latlang;
+					  			
+					  			$scope.geocodeAddress(dest, function(latlang) {
+					  				$scope.deslatlang = latlang;
+					  			
+					  				$scope.distance = parseInt($scope.distance);
+						  			
+							  		console.log("Distance is - "+ $scope.distance);
+							  		console.log("Duration is - "+$scope.duration );
+							  
+							  		var dur = $scope.duration.split(" ");
+							  		var hr = 0;
+							  		var min = 0;
+							  		
+							  		if(dur.length == 2){
+							  			var min = dur[0];
+							  			$scope.duration = min;
+							  		}else if(dur.length == 4){
+							  			var hr = dur[0];
+							  			var min = dur[2];
+							  			$scope.duration = (hr * 60) + min;
+							  		}else{
+							  			return;
+							  		}
+						
+							  		$http({
+										method : 'post',
+										url : '/updatearide',
+										data : {
+											"distance" : $scope.distance,
+											"duration" : $scope.duration,
+											"reqtime" : $scope.reqTime,
+											"weekend" : weekend,											
+											"srcLat" : $scope.srclatlang.lat,
+											"srcLng" : $scope.srclatlang.lang,
+											"descLng" : $scope.deslatlang.lang,
+											"descLat" : $scope.deslatlang.lat,
+											"rideID" : $scope.myRide.RIDE_ID
+										}
+									}).success(function(data) {
+										if(data.code == 404){
+											console.log("couldnt edir the ride");
+										}else{		
+											console.log("edited done");
+										}				
+									});
+					  			})		  			
+					  		})
+					  		  		
+					  	});
+						
+						// ********
+						
+				
+						
+						
+					}
+				}
+				
+				
 
 				//Load drivers
 				$scope.loaddriver = function(){
@@ -109,7 +287,9 @@
 									if($scope.res.length > 0){
 										console.log("success");
 										$scope.loadDrivers();		
-										$scope.getDriverInfo();
+										$scope.getDriverInfo("ALL",function(){
+											console.log("after success");
+										});
 									}else{
 										console.log("No drivers available");								
 									}					
@@ -128,13 +308,16 @@
 
 
 				//get mode details about the driver.
-				$scope.getDriverInfo= function(){
+				$scope.getDriverInfo= function(who, callback){
 					
 					var driverID = [];
-					
-					for(i=0;i<$scope.res.length;i++){
-						driverID[i]=$scope.res[i].DRIVER_ID;
-						//console.log("driverID : "+driverID[i]);
+					if(who === "ALL"){
+						for(i=0;i<$scope.res.length;i++){
+							driverID[i]=$scope.res[i].DRIVER_ID;
+							//console.log("driverID : "+driverID[i]);
+						}
+					}else if(who === "ONE"){
+						driverID[0]=$scope.myRide.DRIVER_ID	;
 					}
 					
 					$http({
@@ -149,7 +332,8 @@
 						}else{		
 							$scope.Drivers = data.details;
 							console.log("Here in success");
-						}				
+						}	
+						callback();
 					});
 					
 				};
@@ -552,6 +736,24 @@
 						callback();
 					});
 				}
+				
+				$scope.getAddressFromLatLang = function(lat,lng,callback){
+					 
+					  var latLng = new google.maps.LatLng(lat, lng);
+					  geocoder.geocode( { 'latLng': latLng}, function(results, status) {
+					    if (status == google.maps.GeocoderStatus.OK) {
+					      if (results[1]) {
+					        //alert(results[1].formatted_address);
+					        //document.getElementById('txtSource').value = results[1].formatted_address;
+					      	callback(results[1].formatted_address);
+					      }
+					    }
+					    else  {
+					      alert("Geocode was not successful " + status);
+					      callback(null);
+					    }
+					  });
+					}
 				
 			}
 		]);

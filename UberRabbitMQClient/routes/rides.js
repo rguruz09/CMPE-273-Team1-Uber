@@ -44,6 +44,58 @@ exports.bookaride = function(req, res){
 			else {  
 				console.log(" fetching success");	
 				res.json({
+					code : 200
+				});		
+				res.send(res_json);				
+			}
+		}  
+	});
+};
+
+
+//Edit ride - updatearide
+
+exports.updatearide = function(req, res){
+	
+	var custID = req.session.email;
+	//var driverID = req.param("driverID");
+	var duration = req.param("duration");
+	var reqtime = req.param("reqtime");
+	var weekend = req.param("weekend");
+	var distance = req.param("distance");
+	var srcLat = req.param("srcLat");
+	var srcLng = req.param("srcLng");
+	var descLat = req.param("descLat");
+	var descLng = req.param("descLng");
+	var rideID = req.param("rideID");
+	
+//	console.log("In book a ride "+driverID+" "+custID);
+	
+	var msg_payload = {"custID" : custID, "duration" : duration, 
+						"reqtime" : reqtime, "distance" : distance, "weekend" : weekend, 
+						"srcLat" : srcLat, "srcLng" : srcLng, "descLat" : descLat, 
+						"descLng" : descLng, "rideID" : rideID};
+
+	console.log(msg_payload);
+	
+	mq_client.make_request('editaRide_queue',msg_payload, function(err,results){
+		
+		console.log(results);
+		if(err){
+			throw err;
+		}
+		else 
+		{
+			console.log("Result is: " + results.code);
+			if(results.code == 404){
+				console.log("unable to post");
+				res.json({
+					code : 404 
+				});		
+			}
+			else {  
+				console.log(" fetching success");	
+				res.json({
 					code : 200,
 					minfare : results.minprice,
 					maxfare : results.maxprice
@@ -62,8 +114,8 @@ exports.getRideRequest = function(req, res){
 
 	console.log("In getting ride request "+driverID);
 	  
-	var query = "select A.DRIVER_ID, A.CUSTOMER_ID, SOURCE_LAT, SOURCE_LANG, DESTINATION_LAT, DESTINATION_LANG,  B.firstname, "+
-	"B.lastname, B.phone, B.status, B.ratings from RIDES A, customer B where DRIVER_ID = '"+driverID+"' and RIDE_STATUS IN (-1,0) and A.CUSTOMER_ID = B.email";
+	var query = "select A.RIDE_ID, A.DRIVER_ID, A.CUSTOMER_ID, SOURCE_LAT, SOURCE_LANG, DESTINATION_LAT, DESTINATION_LANG,  B.firstname, "+
+	"B.lastname, B.phone, B.status,A.RIDE_STATUS, B.ratings from RIDES A, customer B where DRIVER_ID = '"+driverID+"' and RIDE_STATUS IN (-1,0) and A.CUSTOMER_ID = B.email";
 	
 	console.log("Query "+query);
 	
@@ -164,3 +216,149 @@ exports.confirmRide = function(req, res){
 		}  
 	});
 };
+
+
+///getDriverLoc
+exports.getDriverLoc = function(req, res){
+	
+	var driverID = req.param("driverID");
+	var msg_payload = { "driverID" : driverID };
+	
+	var res_json = {};
+	console.log(msg_payload);
+	
+	mq_client.make_request('getLoc_queue',msg_payload, function(err,results){
+		
+		console.log(results);
+		if(err){
+			throw err;
+		}
+		else 
+		{
+			console.log("Result is: " + results.code);
+			if(results.code == 404){
+				console.log("unable to confirm");
+				res.json({
+					code : 404 
+				});		
+			}
+			else {  
+				console.log("Starting the ride");	
+				res.json({
+					code : 200,
+					result : results.result
+				});						
+			}
+		}  
+	});
+};
+
+
+//EndRide
+exports.endRide = function(req, res){
+		
+	var rideID = req.param("rideID");		
+	var endTime = req.param("endTime");
+	
+	var msg_payload = { "rideID" : rideID, "endTime" : endTime };
+	var res_json = {};
+	console.log(msg_payload);
+	
+	mq_client.make_request('endRide_queue',msg_payload, function(err,results){
+		if(err){
+			throw err;
+		}
+		else 
+		{
+			console.log("Result is: " + results.code);
+			if(results.code == 404){
+				console.log("unable to End the ride");
+				res.json({
+					code : 404 
+				});		
+			}
+			else {  
+				console.log("Starting the ride");	
+				res.json({
+					code : 200,
+					data : results.data
+				});						
+			}
+		}  
+	});
+};
+
+////checkForRide
+//exports.checkForRide = function(req, res){
+//	
+//	var custID = req.session.email;		
+//	
+//	var msg_payload = { "custID" : custID };
+//	
+//	console.log(msg_payload);
+//	
+//	mq_client.make_request('checkRide_queue',msg_payload, function(err,results){
+//		if(err){
+//			throw err;
+//		}
+//		else 
+//		{
+//			console.log("Result is: " + results.code);
+//			if(results.code == 404){
+//				console.log("unable to End the ride");
+//				res.json({
+//					code : 404 
+//				});		
+//			}
+//			else 
+//			if(results.code == 201) {  
+//				console.log("No active ride");	
+//				res.json({
+//					code : 201
+//				});						
+//			}
+//			else if(esults.code == 200){
+//				console.log("got the active ride");	
+//				res.json({
+//					code : 200,
+//					data : results
+//				});						
+//			}
+//		}  
+//	});
+//};
+
+
+
+
+exports.checkForRide = function(req, res){
+	
+	var custID = req.session.email;
+	
+	console.log("In getting ride request "+custID);
+	  
+	var query = "select A.RIDE_ID, A.DRIVER_ID, A.CUSTOMER_ID, SOURCE_LAT, SOURCE_LANG, DESTINATION_LAT, DESTINATION_LANG,  B.firstname, "+
+	"B.lastname, B.phone, B.status,A.RIDE_STATUS, B.ratings from RIDES A, customer B where CUSTOMER_ID = '"+custID+"' and RIDE_STATUS IN (-1,0) and A.CUSTOMER_ID = B.email";
+	
+	console.log("Query "+query);
+	
+	mysql.executeQuery(query, function(err, rows) {		
+		if (err) {			
+			console.log("Unexpected Error in Getting ride requests");
+			res.json({
+				code : 404 
+			});
+		} else if(rows.length > 0){						
+			console.log("From Get Ride requests: ");			
+			res.json({
+				code : 200,
+				request : rows
+			});	
+		}else{
+			res.json({
+				code : 201 
+			});
+		}	
+	});	
+}
+	

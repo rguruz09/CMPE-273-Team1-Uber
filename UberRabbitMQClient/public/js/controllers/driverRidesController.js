@@ -17,6 +17,7 @@
 				//initLoad
 				$scope.initLoad = function(){
 					$scope.bReqAvail = true;
+    
 					console.log("i came here first");
 					
 					geocoder = new google.maps.Geocoder();
@@ -69,15 +70,26 @@
 				      					console.log("couldnt book the ride");
 				      					$scope.bReqAvail = false;
 				      				}
-				      				else if(data.code == 201){		
+				      				else if(data.code == 201){	
+				      					
 				      					console.log("No request yer!!");
 				      					$scope.bReqAvail = false;
 				      				}
 				      				else if(data.code == 200){
 					      				alert("getting your rides");
 					      				//$scope.bReqAvail = true;
+					      				//$scope.bbtnStart = true;
 					      				console.log("request found "+data.request[0].CUSTOMER_ID);
 					      				$scope.custDetails = data.request[0];
+					      				
+					      				$scope.sts = $scope.custDetails.RIDE_STATUS;
+					      				$scope.rideID = $scope.custDetails.RIDE_ID;
+					      				
+					      				if($scope.sts == -1){
+					      					$scope.bbtnStart = true;
+					      				}else{
+					      					$scope.bbtnStart = false;
+					      				}
 					      				
 					      				
 					      				$scope.getAddressFromLatLang($scope.custDetails.SOURCE_LAT,$scope.custDetails.SOURCE_LANG, function(src){
@@ -124,7 +136,31 @@
 					
 				};
 
+				$scope.endRide = function(){
 
+					$scope.time = new Date();
+				  	$scope.month = $scope.time.getMonth() + 1;
+				  	$scope.endTime = $scope.time.getFullYear()+"-"+$scope.month+"-"+$scope.time.getDate()+" "+$scope.time.getHours()+":"+$scope.time.getMinutes()+":"+$scope.time.getSeconds(); 
+				  
+					console.log("in end ride "+$scope.rideID );
+					
+					$http({
+						method : 'post',
+						url : '/endRide',
+						data : {							
+							"rideID" : $scope.rideID,
+							"endTime" : $scope.endTime
+						}
+					}).success(function(data) {								
+						if(data.code == 404){
+							console.log("SQL failed");
+						}else{		
+							$scope.initLoad();
+								console.log("Ride Ended successfully");
+						}					
+										
+					});
+				};
 
 				$scope.confirmRide = function(){
 
@@ -133,6 +169,7 @@
 				  	$scope.month = $scope.time.getMonth() + 1;
 				  	$scope.StartTime = $scope.time.getFullYear()+"-"+$scope.month+"-"+$scope.time.getDate()+" "+$scope.time.getHours()+":"+$scope.time.getMinutes()+":"+$scope.time.getSeconds(); 
 				  	$scope.CustID = $scope.custDetails.CUSTOMER_ID;
+				  	
 
 				  	console.log($scope.StartTime + " " + $scope.CustID);
 
@@ -164,7 +201,7 @@
 									console.log("SQL failed");
 								}else{		
 									$scope.initLoad();
-										console.log("success");																				
+										console.log("success");
 								}					
 												
 							});

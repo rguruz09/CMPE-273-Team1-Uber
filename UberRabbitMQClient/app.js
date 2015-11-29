@@ -96,6 +96,11 @@ app.post('/getfareEstimate',billing.getfareEstimate);
 app.post('/bookaride',rides.bookaride);
 app.post('/getRideRequest',rides.getRideRequest);
 app.post('/confirmRide',rides.confirmRide);
+app.post('/endRide',rides.endRide);
+app.post('/checkForRide',rides.checkForRide);
+app.post('/getDriverLoc',rides.getDriverLoc);
+app.post('/updatearide',rides.updatearide);
+
 
 //testing:
 app.get('/driverRides', driver.driverRides);

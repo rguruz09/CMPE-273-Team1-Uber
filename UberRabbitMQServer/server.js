@@ -54,6 +54,63 @@ cnn.on('ready', function() {
 		});
 	});	
 	
+	//	endRide_queue
+	cnn.queue('endRide_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+			rides.handle_request_endRide(message, function(err, res) {
+				console.log("After Rider Signup Handle" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});
+	
+	
+	//getLoc_queue
+	cnn.queue('getLoc_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+			rides.handle_request_getLoc(message, function(err, res) {
+				console.log("After Rider Signup Handle" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});
+	
+	//checkRide_queue
+	cnn.queue('checkRide_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+			rides.handle_request_checkRide(message, function(err, res) {
+				console.log("After Rider Signup Handle" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});
 	
 	// Signin Rider Queue
 	cnn.queue('login_rider_queue', function(q) {
@@ -265,6 +322,24 @@ cnn.on('ready', function() {
 			util.log("Message: "+JSON.stringify(message));
 			util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
 			rides.handle_request_bookaRide(message, function(err,res){
+				console.log("After Fetching Car Details" + res);
+				//return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType:'application/json',
+					contentEncoding:'utf-8',
+					correlationId:m.correlationId
+				});
+			});
+		});
+	});
+	
+	//editaRide_queue
+	cnn.queue('editaRide_queue', function(q){
+		q.subscribe(function(message, headers, deliveryInfo, m){
+			util.log(util.format( deliveryInfo.routingKey, message));
+			util.log("Message: "+JSON.stringify(message));
+			util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
+			rides.handle_request_editaRide(message, function(err,res){
 				console.log("After Fetching Car Details" + res);
 				//return index sent
 				cnn.publish(m.replyTo, res, {
