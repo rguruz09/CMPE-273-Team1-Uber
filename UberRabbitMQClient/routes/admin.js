@@ -139,11 +139,28 @@ function approveDriver(req,res) {
 	});	
 }
 
-function getBillDetails(req,res) {
-	
+
+function getRides(req,res) {
+	var msg_payload = {};
+	mq_client.make_request('admin_get_rides_queue',msg_payload, function(err,results) {		
+		if(err) {
+			throw err;
+		}
+		else {
+			console.log("After admin_get_rides_queue::" + results.code);
+			if(results.code == 200)	{				
+				res.send({"rides":results.rides});		
+				
+			}
+			else {    				
+				console.log("Error in Fetching all riders");			
+			}
+		}  
+	});	
 }
 
-exports.getBillDetails = getBillDetails;
+
+exports.getRides = getRides;
 exports.approveDriver = approveDriver;
 exports.getUnappDrivers = getUnappDrivers;
 exports.getAllDrivers = getAllDrivers;

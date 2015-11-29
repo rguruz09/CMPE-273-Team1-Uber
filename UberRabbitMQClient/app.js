@@ -9,6 +9,7 @@ var express = require('express')
   , admin = require('./routes/admin')
   , rider = require('./routes/rider')
   , bills = require('./routes/bills')
+  , stats = require('./routes/stats')
   , path = require('path');
 
 var mongoSessionConnectURL = "mongodb://localhost:27017/sessions";
@@ -77,11 +78,16 @@ app.get('/getAllUDrivers',admin.getUnappDrivers);
 app.get('/getAllDriversPage',admin.getAllDriversPage)
 app.post('/getAllDrivers',admin.getAllDrivers);
 app.post('/approveDriver',admin.approveDriver);
-
+app.get('/getRides',admin.getRides);
 
 //Bill Module
 app.get('/getAllBills',bills.getAllBills);
 app.post('/getBillDetails',bills.getBillDetails);
+
+//Statistics
+app.get('/getDriverBasedStats',stats.getDriverBasedStats);
+app.get('/getRiderBasedStats',stats.getRiderBasedStats);
+app.get('/timebasedstats',stats.timebasedstats);
 
 //connect to the mongo collection session and then createServer
 mongo.connect(mongoSessionConnectURL, function(){
