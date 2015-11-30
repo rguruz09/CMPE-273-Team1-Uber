@@ -32,61 +32,78 @@
     
 </head>
 
-<body ng-app = "uberApp" ng-controller="TripsController" ng-init="getTripDetails();">
-<div>
-		<!-- HEADING -->
-		<header class="bgimage_1">
-		<div class="container-fluid" >
-			<div class="row">
-				<h2 class="heading" >U B E R</h2>		
-			</div>
-		</div>
-		</header>		
-	</div>
+<body ng-app = "uberApp" ng-controller="TripsController" ng-init="getdriverTripDetails();">
+<div  >
+  <!-- HEADING -->
+  <header class="bgimage_1">
+  <div class="container-fluid" >
+  	<div class="row">
+  	<div class="logoimage_1" style ="height: 70px; width : 70px" > <h4 style="padding-left:80px; color : #FFFFFF">Welcome to UBER </h4> </div>
+  	</div>
+  </div>
+  </header>		
+  </div>
 	
 	<div class="container-fluid">	
 	<!-- BLANK -->
-	<div class="col-md-3">
-	</div>
 	<!-- SIDE MENU -->
-	<div class="col-md-1" >
-		<div>			
-			<div class="profile-sidebar_2">			
-			<!-- SIDEBAR MENU -->			
-			<div class="profile-userpic">
-				<img src="../images/default.jpeg" alt="">
-				<h4 align="center"><strong><%=firstname%>&nbsp<%=lastname%></strong></h4>
-			</div>			
-			<hr/>			
-			
-			<div class="profile-usermenu">			
-			<ul class="nav">
-			
-			<!-- BOOK A RIDE -->
-			<li><a href="/bookRide"> Book Ride
-			</a></li>
-						
-			<!-- MY TRIPS -->
-			<li><a href="/tripsPage"> My Trips
-			</a></li>
-			
-			<!-- VIEW MY PROFILE -->
-			<li><a href="/homePageRider"> Profile
-			</a></li>
-					
-			<!-- PAYMENT -->
-			<li><a href="/paymentPage"> Payment
-			</a></li>		
-			
-			
-			<!-- LOGOUT -->
-			<li><a href="/logout"> Logout
-			</a></li>		
-			
-		</ul>
-		</div>
-		</div>
-	</div>
+	<div class="col-md-2" >
+	<div >
+  		
+  		<div class="profile-sidebar_2">
+  		
+  		<!-- SIDEBAR MENU -->
+  		
+  		<div class="profile-userpic">
+  			<img src="../images/default.jpeg" alt="">
+  			<h5 align="center"><strong> {{email}} </strong></h5>
+  		</div>
+  		
+  		<hr/>
+  		
+  		<div class="profile-usermenu">
+  		<ul class="nav">
+  		
+  		<!-- MY RideRequests -->
+  		<li><a href="/driverRides"> Ride Requests
+  		</a></li>
+  		
+  		
+  		<!-- MY Profile -->
+  		<li><a href="/driverProfile#/myProfile"> My Profile
+  		</a></li>
+  		
+  		<!-- Car Details -->
+  		<li><a href="/driverProfile#/carDetails"> Car Details
+  		</a></li>
+  				
+  		
+  		<!-- Document Upload -->
+  		<li><a href="/driverProfile#/uploadDocument"> Upload Document
+  		</a></li>		
+  		
+  		
+  		<!-- INTRO VIDEO -->
+  		<li><a href="/driverProfile#/introVideo"> Introduction Video
+  		</a></li>
+  		
+  		
+  		<!-- RIDE HISTORY -->
+  		<li><a href="/rideHistory"> Ride History
+  		</a></li>
+  		
+  		
+  		<!-- BILLING HISTORY -->
+  		<li><a href="/driverProfile#/billHistory"> Billing History
+  		</a></li>
+  		
+  		<!-- LOGOUT -->
+  		<li><a href="/driverlogout"> Logout
+  		</a></li>		
+  	</ul>
+  	</div>
+  	</div>
+  	</div>
 	<!-- END MENU -->
 	</div>
 	
@@ -112,7 +129,7 @@
 			    </thead>
 			    		    
 			    <tbody>
-		  		   <tr ng-repeat-start="ride in allTripslist">
+		  		   <tr ng-repeat-start="ride in alldriverTripslist">
 		  		    	<td>
 		  		        	<div ng-if="ride.expanded" ng-click="ride.expanded = false"><span class="glyphicon glyphicon-chevron-right"></span>&nbsp;</div>
 		  		    		<div ng-if="!ride.expanded" ng-click="ride.expanded = true"><span class="glyphicon glyphicon-chevron-down"></span>&nbsp;</div>

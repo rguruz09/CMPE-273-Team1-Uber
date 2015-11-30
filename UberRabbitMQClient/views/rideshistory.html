@@ -1,0 +1,54 @@
+<div ng-controller ="rideHistoryCtrl"  ng-init ="getDriverDetails();">
+<!-- PROFILE -->
+	<div class="col-md-5">
+		<div class="row">
+			<h3 align = "center"> <strong>MY TRIPS </strong> </h3>
+			<hr/>	
+		</div>
+		<div class="row">			
+		   <table class="table table-hover">
+			    <thead>
+			      <tr>
+			      	<th> </th>
+			        <th>Pickup</th>
+			        <th>Driver</th>
+			        <th>Fare</th>
+			        <th>Car</th>
+			        <th>City</th>
+			        <th>Payment Method</th>
+			      </tr>
+			    </thead>
+			    		    
+			    <tbody>
+		  		   <tr ng-repeat-start="ride in alldriverTripslist">
+		  		    	<td>
+		  		        	<div ng-if="ride.expanded" ng-click="ride.expanded = false"><span class="glyphicon glyphicon-chevron-right"></span>&nbsp;</div>
+		  		    		<div ng-if="!ride.expanded" ng-click="ride.expanded = true"><span class="glyphicon glyphicon-chevron-down"></span>&nbsp;</div>
+		  		    	</td>
+		  		    	<td>{{ride.START_TIME}}</td>
+		  		    	<td>{{ride.DRIVER_ID}}</td>
+		  		    	<td>{{ride.PRICE}}</td>
+		  		      	<td> UBER X</td>
+		  		      	<td>{{ride.city}}</td>
+		  		      	<td>CREDIT CARD</td>
+		  		    </tr>			          
+		  		    			    
+		 			<tr ng-if="ride.expanded" ng-repeat-end="" bgcolor="#F8F8F8 " style="margin:10px">
+		  		    	<td colspan="2" style="padding: 20px"><div id="map" style="width: 350px; height: 350px; float: left;""></div> <!--<img src="../images/staticmap.png" style="border:1px solid;margin-top:5px;width:250px;height:250px;">--></td>
+		  		    	<td  colspan="3" align="center"> 
+		  		    		<h3><strong>{{ride.PRICE}}</strong> </h3>
+		  		    		<small>CREDIT CARD<hr class ="marginClass"/>
+		  		    		{{ride.START_TIME}} <hr class ="marginClass"/>
+		  		    		{{ride.START_TIME}} <hr class ="marginClass"/>
+		  		    		{{ride.END_TIME}}</small>
+		  		    	</td>
+		  		    	<td colspan="3"><p>My rating: <input type="number" name="your_awesome_parameter" id="some_id" value = {{ride.DRIVER_RATING}} class="rating" data-clearable="remove"/></p> </td>
+					</tr>		  		    
+			    </tbody>
+			    
+		 	</table>
+		 	
+		</div>	
+	</div>
+			</div>
+			

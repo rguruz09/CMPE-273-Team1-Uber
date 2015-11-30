@@ -84,7 +84,7 @@ function handle_request_cardetails(msg, callback){
 		var coll = mongo.collection('drivers');
 		//db.users.update({email: msg.email},{$set : {"car": {"Make":msg.Make,"Color":msg.Color,"Year":msg.Year,"license":msg.license}}});
 		
-		coll.update({email:msg.email},{$set : {"car": {"Make":msg.Make,"Color":msg.color,"Year":msg.Year,"license":msg.license}}}, 
+		coll.update({email:msg.email},{$set :{"Make":msg.Make,"Color":msg.color,"Year":msg.Year,"license":msg.license}}, 
 			//	coll.insert({email:msg.email},	
 				function(err, user){
 			if (user) {

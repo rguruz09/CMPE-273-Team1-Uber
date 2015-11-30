@@ -306,7 +306,7 @@ exports.getCurDriverLatlng = function(req,res){
 exports.addcarDetails = function(req,res){
 	console.log("In addcarDetails client ");
 
-	var email = req.param("email");
+	var email = req.session.driverID;
 	var Make = req.param("Make");
 	var Year = req.param("Year");
 	var color = req.param("color");
