@@ -7,6 +7,8 @@
 <!-- JS -->
 <script src="libs/angular/angular.min.js"></script>
 <script src="libs/angular-route/angular-route.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
 
 
 <!-- ANGULAR CUSTOM -->
@@ -72,7 +74,7 @@
 	</div>
 		
 	<div class="panel-body">
-		<form>
+		<form name="driverSignup">
 		<div class = "row">
 		<div class="form-group col-xs-6">
 				<input class="form-control input-sm"  type="text" id="firstname" name="firstname" placeholder="First Name" ng-model="firstname" required />												
@@ -87,19 +89,28 @@
 		
 			<div class = "row">
 				<div class="form-group col-xs-12">
-					<input class="form-control input-sm" class="pull-center" type="text" id="email" name="email" placeholder="name@example.com" ng-model="email" required />												
-				</div>					
+					<input class="form-control input-sm" type="email" id="email" name="email" placeholder="name@example.com" ng-model="email" required />		
+				<div role="alert">
+					<span style="color:red;" class="error" ng-show="driverSignup.email.$error.email">Not valid email!</span>										
+				</div></div>					
 				</div>
 				
 				<div class = "row">
 				<div class="form-group col-xs-12">				
-					<input class="form-control input-sm" type="text" id="mobile" name="mobile" placeholder="Phone" ng-model="mobile" required/>								
+					<input class="form-control input-sm" type="text" id="mobile" name="mobile" placeholder="Phone" ng-model="mobile" required ng-minlength="10" ng-maxlength="10" ng-pattern="^[0-9]$"/>
+					<div role="alert">
+							<span style="color:red;" class="error" ng-show="driverSignup.mobile.$error.minlength">Invalid mobile number</span>
+							<span style="color:red;" class="error" ng-show="driverSignup.mobile.$error.maxlength">Invalid mobile number</span>
+						</div>								
 				</div>		
 				</div>
 
 				<div class = "row">
 				<div class="form-group col-xs-12">				
-					<input class="form-control input-sm" type="password" id="password" name="password" placeholder="Password (Atleast 5 Characters)" ng-model="password" required/>
+					<input class="form-control input-sm" type="password" id="password" name="password" placeholder="Password (Atleast 5 Characters)" ng-model="password" required ng-minlength="5"/>
+					<div role="alert">
+							<span style="color:red;" class="error" ng-show="driverSignup.password.$error.minlength">Too short!</span>
+				    </div>
 				</div>	
 				</div>
 				
@@ -116,20 +127,81 @@
 				
 				<div class = "row">
 				<div class="form-group col-xs-12">				
-					<input class="form-control input-sm" type="text" id="zip" name="zip" placeholder="Zip Code" ng-model="zip" required />
-				</div>						
+					<input class="form-control input" type="text" id="zip" name="zip" placeholder="94103 or 12345-5678" ng-model="zip" required ng-pattern="/^[0-9]{5}(-[0-9]{4})?$/"/>
+						<div role="alert">
+						<span style="color:red;" class="error" ng-show="driverSignup.zip.$error.minlength">Invalid postal code.</span>
+						</div>
 				</div>
+			</div>	
 				
 				<div class = "row">
-				<div class="form-group col-xs-12">				
-					<input class="form-control input-sm" type="text" id="state" name="state" placeholder="State" ng-model="state" required />
-				</div>						
-				</div>
+				<div class="form-group col-xs-10">	
+				<select aria-label="State" name="state" ng-model="state">
+				<option value="" selected="">Select</option>
+				<option value="1">Alabama </option>
+				<option value="2">Alaska </option>
+				<option value="3">Arizona </option>
+				<option value="4">Arkansas </option>
+				<option value="5">California </option>
+				<option value="6">Colorado </option>
+				<option value="7">Connecticut </option>
+				<option value="8">Delaware </option>
+				<option value="9">Florida </option>
+				<option value="10">Georgia </option>
+				<option value="11">Hawaii </option>
+				<option value="12">Idaho </option>
+				<option value="13">Illinois Indiana </option>
+				<option value="14">Iowa </option>
+				<option value="15">Kansas </option>
+				<option value="16">Kentucky </option>
+				<option value="17">Louisiana </option>
+				<option value="18">Maine </option>
+				<option value="19">Maryland </option>
+				<option value="20">Massachusetts </option>
+				<option value="21">Michigan </option>
+				<option value="22">Minnesota </option>
+				<option value="23">Mississippi </option>
+				<option value="24">Missouri </option>
+				<option value="25">Montana Nebraska </option>
+				<option value="26">Nevada </option>
+				<option value="27">New Hampshire </option>
+				<option value="28">New Jersey </option>
+				<option value="29">New Mexico </option>
+				<option value="30">New York </option>
+				<option value="31">North Carolina </option>
+				<option value="32">North Dakota </option>
+				<option value="33">Ohio </option>
+				<option value="34">Oklahoma </option>
+				<option value="35">Oregon </option>
+				<option value="36">Pennsylvania Rhode Island </option>
+				<option value="37">South Carolina </option>
+				<option value="38">South Dakota </option>
+				<option value="39">Tennessee </option>
+				<option value="40">Texas </option>
+				<option value="41">Utah </option>
+				<option value="42">Vermont </option>
+				<option value="43">Virginia </option>
+				<option value="44">Washington </option>
+				</select>
+				</div>		
+			</div>	
 				
 			<div class="row" align="center">
-				<input type="submit" class="btn btn-info" value="NEXT" ng-click="driverSignUp()"></input>
-			</div>
+				<div class="form-group col-xs-12">				
+			
+				<input type="submit" class="btn btn-info"  style="height:30px; width:100%" value="CREATE ACCOUNT" ng-click="driverSignUp()" ng-disabled="driverSignup.$invalid"></input>
+				</div></div>
 			<br />
+			
+			<div class="alert alert-success col-md-12" id="success-alert1" style="display: none ">
+			<center> <strong> Successful SIgn up.Please login to proceed</strong></center>
+			</div>
+			
+			<div class="alert alert-success col-md-12" id="failure-alert" style="display: none ">
+			<center> <strong> Email ID already exists. Please enter a correct Email. </strong></center>
+			</div>
+			
+			
 		<p align="center">By proceeding, I agree that Uber or its representatives may contact me by email, phone, or SMS (including by automatic telephone dialing system) at the email address or number I provide, including for marketing purposes. I have read and understand the relevant <font color="#7CD1FF">Driver Privacy Statement.</font> 
 		<br><br>Stated earnings where location is not specified are based on median national earnings of partners in the past month. Actual earnings may vary depending on time of day, location and other factors</p>
 
@@ -148,7 +220,7 @@
 <!-- BLANK -->
 
 </div>
-
+</div>
+</div>
 </body>
 </html>
-	

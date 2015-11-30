@@ -3,7 +3,6 @@ var mysql = require("./mysql");
 function handle_request_addRider(msg, callback){		
 	
 	var customer_details = {
-		"ssn" : msg.ssn,
 		"firstname" : msg.firstname,
 		"lastname" : msg.lastname,
 		"address" : msg.address,
@@ -30,11 +29,12 @@ function handle_request_addRider(msg, callback){
 	console.log("In handle request for rider:"+ msg.firstname);	
 	mysql.insert("customer", customer_details, function(err, rows) {		
 		if (err) {			
-			res.code = err.code;
-			res.value = "Failed Rider Signup";
-			console.log(err);
+			//res.code = err.code;
+			//console.log("Error code: "+ JSON.stringify(err));
+			res.statusCode = 401;
+			//console.log("Response: "+ JSON.stringify(res));
 			console.log("Customer Details Error!");
-			callback(null,res);			
+			callback(true,res);			
 		} else {			
 			console.log("From Rider Add Customer result of querydb: "	+ JSON.stringify(rows));
 			mysql.insert("payment_details", payment_details, function(err, rows) {
@@ -47,7 +47,7 @@ function handle_request_addRider(msg, callback){
 				} else {
 					console.log("Payment Details Added!");
 					console.log("From Add Payment method result of querydb: "	+ JSON.stringify(rows));					
-					res.code = "200";
+					res.code = 200;
 					res.value = "Valid Rider Signup";
 				}	
 				callback(null,res);
@@ -97,7 +97,7 @@ function handle_updateRider_queue(msg,callback) {
 	var json_responses;
 	var email = msg.email;	
 	var res = {};
-console.log(msg);
+	console.log(msg);
 
 	mysql.update("customer",msg,email, function(err, rows) {		
 		if (err) {			
@@ -226,61 +226,7 @@ function handle_delete_paymentInfo_queue(msg,callback) {
 }
 
 
-function handle_get_all_trips_queue(msg, callback) {
-	try {
-		console.log("In handle_get_all_trips_queue request:");
-		var json_responses;
-		var res = {};
-		var custID = msg.email;
-		var query ="SELECT * FROM RIDES WHERE CUSTOMER_ID = '"+custID+"'";
-		mysql.executeQuery(query,function(err, rows) {
-			if (err) {
-				console.log("Unexpected Error in Getting all Trips");
-				res.code = err.code;
-				res.value = "Unexpected Error!";
-				console.log(err);
-				callback(null, res);
-			} else {
-				console.log("From Rides result of querydb: " + JSON.stringify(rows));
-				res.code = "200";
-				//if(rows.length > 0)
-				res.allTripslist = rows;				
-				callback(null, res);
-			}
-		});
-	} catch (e) {
-		console.log(e.stack);
-	}
-}
 
-function handle_get_all_drivertrips_queue(msg, callback) {
-	try {
-		console.log("In handle_get_all_trips_queue request:");
-		var json_responses;
-		var res = {};
-		var DriverID = msg.email;
-		var query ="SELECT * FROM RIDES WHERE DRIVER_ID = '"+DriverID+"'";
-		console.log(query);
-		mysql.executeQuery(query,function(err, rows) {
-			if (err) {
-				console.log("Unexpected Error in Getting all driver Trips");
-				res.code = err.code;
-				res.value = "Unexpected Error!";
-				console.log(err);
-				callback(null, res);
-			} else {
-				console.log("From Rides result of querydb: " + JSON.stringify(rows));
-				res.code = "200";
-				//if(rows.length > 0)
-				res.alldriverTripslist = rows;	
-				console.log(res.alldriverTripslist);
-				callback(null, res);
-			}
-		});
-	} catch (e) {
-		console.log(e.stack);
-	}
-}
 
 
 
@@ -292,5 +238,3 @@ exports.handle_updateRider_queue = handle_updateRider_queue;
 exports.handle_get_rider_queue = handle_get_rider_queue;
 exports.handle_request_addRider = handle_request_addRider;
 exports.handle_login_rider_queue = handle_login_rider_queue;
-exports.handle_get_all_trips_queue =handle_get_all_trips_queue;
-exports.handle_get_all_drivertrips_queue =handle_get_all_drivertrips_queue;

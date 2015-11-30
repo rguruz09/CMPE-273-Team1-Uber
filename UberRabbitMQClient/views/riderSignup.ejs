@@ -7,6 +7,8 @@
 <!-- JS -->
 <script src="libs/angular/angular.min.js"></script>
 <script src="libs/angular-route/angular-route.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
 <script src="js/controllers/riderSignupController.js"></script>
 <!-- ANGULAR CUSTOM -->
 
@@ -30,6 +32,8 @@
 </header>		
 </div>
 
+
+
 <div class="container">
 <!-- BLANK -->
 <div class="col-md-3">
@@ -44,23 +48,26 @@
         <p><h4>Create your account and get moving in minutes.</h4></p>		
 		<h3 > Account </h3>	
 		
-		<form>			
+		<form name ="riderSignup">			
 			<div class = "row">
 				<div class="form-group col-xs-3">
 					<font color="#7CD1FF">*</font> EMAIL									
 				</div>
 				<div class="form-group col-xs-10">
-					<input class="form-control input" type="text" id="email" name="email" placeholder="name@example.com" ng-model="email" required />												
-				</div>					
+					<input class="form-control input" type="email" id="email" name="email" placeholder="name@example.com" ng-model="email" required ng-pattern="^[A-Za-z0-9._]+@[A-Za-z0-9]+\.com$"/>	
+						<span style="color:red;" class="error" ng-show="riderSignup.email.$error.email">Not valid email!</span>
 				</div>
-
+				</div>
 				<div class = "row">
 				<div class="form-group col-xs-3">
 					<font color="#7CD1FF">*</font> PASSWORD									
 				</div>
 				
 				<div class="form-group col-xs-10">				
-					<input class="form-control input" type="password" id="password" name="password" placeholder="atleast 5 Characters" ng-model="password" required />
+					<input class="form-control input" type="password" id="password" name="password" placeholder="atleast 5 Characters" ng-model="password" required ng-minlength="5"/>
+						<div role="alert">
+							<span style="color:red;" class="error" ng-show="riderSignup.password.$error.minlength">Too short!</span>
+				    </div>
 				</div>						
 			</div>			
 		
@@ -91,25 +98,14 @@
 																	
 			<div class = "row">
 				<div class="form-group col-xs-10">				
-					<input class="form-control input" type="text" id="mobile" name="mobile" placeholder="(201) 555 -5555" ng-model="mobile" required />								
+					<input class="form-control input" type="text" id="mobile" name="mobile" placeholder="(201) 555 -5555" ng-model="mobile" required ng-minlength="10" ng-maxlength="10"/>
+						<div role="alert">
+							<span style="color:red;" class="error" ng-show="riderSignup.mobile.$error.minlength">Too short!</span>
+							<span style="color:red;" class="error" ng-show="riderSignup.mobile.$error.maxlength">Too Long!</span>
+						</div>
 				</div>		
 			</div>	
-			
-			
-			
-			<div class = "row">				
-				<div class="form-group col-xs-1">	
-				<p><font color="#7CD1FF">*</font>SSN</p>			
-				</div>
-			</div>
-
-																	
-			<div class = "row">
-				<div class="form-group col-xs-10">				
-					<input class="form-control input" type="text" id="ssn" name="ssn" placeholder="555-55-5555" ng-model="ssn" required pattern="\d{3}-?\d{2}-?\d{4}" />								
-				</div>		
-			</div>	
-			
+		
 			
 			<div class = "row">				
 				<div class="form-group col-xs-1">	
@@ -130,8 +126,7 @@
 				<p><font color="#7CD1FF">*</font>CITY</p>			
 				</div>
 				</div>
-
-																	
+														
 			<div class = "row">
 				<div class="form-group col-xs-10">				
 					<input class="form-control input" type="text" id="city" name="city" placeholder="Enter the city" ng-model="city" required />								
@@ -144,11 +139,56 @@
 					<p><font color="#7CD1FF">*</font>STATE</p>			
 				</div>
 			</div>
-
-																	
+												
 			<div class = "row">
-				<div class="form-group col-xs-10">				
-					<input class="form-control input" type="text" id="state" name="state" ng-model="state" required />								
+				<div class="form-group col-xs-10">	
+				<select aria-label="State" name="state" ng-model="state">
+				<option value="" selected="">Select</option>
+				<option value="1">Alabama </option>
+				<option value="2">Alaska </option>
+				<option value="3">Arizona </option>
+				<option value="4">Arkansas </option>
+				<option value="5">California </option>
+				<option value="6">Colorado </option>
+				<option value="7">Connecticut </option>
+				<option value="8">Delaware </option>
+				<option value="9">Florida </option>
+				<option value="10">Georgia </option>
+				<option value="11">Hawaii </option>
+				<option value="12">Idaho </option>
+				<option value="13">Illinois Indiana </option>
+				<option value="14">Iowa </option>
+				<option value="15">Kansas </option>
+				<option value="16">Kentucky </option>
+				<option value="17">Louisiana </option>
+				<option value="18">Maine </option>
+				<option value="19">Maryland </option>
+				<option value="20">Massachusetts </option>
+				<option value="21">Michigan </option>
+				<option value="22">Minnesota </option>
+				<option value="23">Mississippi </option>
+				<option value="24">Missouri </option>
+				<option value="25">Montana Nebraska </option>
+				<option value="26">Nevada </option>
+				<option value="27">New Hampshire </option>
+				<option value="28">New Jersey </option>
+				<option value="29">New Mexico </option>
+				<option value="30">New York </option>
+				<option value="31">North Carolina </option>
+				<option value="32">North Dakota </option>
+				<option value="33">Ohio </option>
+				<option value="34">Oklahoma </option>
+				<option value="35">Oregon </option>
+				<option value="36">Pennsylvania Rhode Island </option>
+				<option value="37">South Carolina </option>
+				<option value="38">South Dakota </option>
+				<option value="39">Tennessee </option>
+				<option value="40">Texas </option>
+				<option value="41">Utah </option>
+				<option value="42">Vermont </option>
+				<option value="43">Virginia </option>
+				<option value="44">Washington </option>
+				</select>
 				</div>		
 			</div>	
 			
@@ -161,8 +201,11 @@
 																	
 			<div class = "row">
 				<div class="form-group col-xs-10">				
-					<input class="form-control input" type="text" id="postalcode" name="postalcode" placeholder="94103" ng-model="postalcode" required />									
-				</div>		
+					<input class="form-control input" type="text" id="postalcode" name="postalcode" placeholder="94103" ng-model="postalcode" required ng-pattern="/^[0-9]{5}(-[0-9]{4})?$/"/>
+						<div role="alert">
+						<span style="color:red;" class="error" ng-show="riderSignup.postalcode.$error.pattern">Invalid postal code: You entered less than 5 digits!</span>
+						</div>
+				</div>
 			</div>	
 						
 			<hr/>
@@ -191,13 +234,22 @@
 	
 			<div class = "row">
 				<div class="form-group col-xs-5">
-					<input class="form-control input" type="tel" id="card" name="card" placeholder="1234 5678 9012 3456" ng-model="creditcard" required  /><div class="credit-card-icon"></div>	
-					<div class="error-notice"></div>																
+					<input class="form-control input" type="tel" id="card" name="card" placeholder="1234 5678 9012 3456" ng-model="creditcard" required ng-minlength="16" ng-maxlength="16" />
+						<div class="credit-card-icon"></div>	
+						<div class="error-notice"></div>	
+						<div role="alert">
+						<span style="color:red;" class="error" ng-show="riderSignup.card.$error.minlength">Incorrect card number: you entered less than 16 digits!</span>
+						<span style="color:red;" class="error" ng-show="riderSignup.card.$error.maxlength">Incorrect card number: you entered more than 16 digits!</span>
+						</div>
 				</div>			
 				
 								
 				<div class="form-group col-xs-2">				
-					<input class="form-control input" type="text" id="cvv" name="cvv" placeholder="123" ng-model="cvv" required />								
+					<input class="form-control input" type="text" id="cvv" name="cvv" placeholder="123" ng-model="cvv" required ng-minlength="3" ng-maxlength="3" />
+						<div role="alert">
+							<span style="color:red;" class="error" ng-show="riderSignup.cvv.$error.minlength">Incorrect CVV: You entered less than 3 digits!</span>
+							<span style="color:red;" class="error" ng-show="riderSignup.cvv.$error.maxlength">Incorrect CVV: You entered more than 3 digits!</span>
+						</div>							
 				</div>
 				
 				<div class="form-group col-xs-5">
@@ -210,8 +262,7 @@
 					<font color="#7CD1FF">*</font> EXPIRATION DATE									
 				</div>			
 							
-			</div>			
-				
+			</div>
 			<div class = "row">
 			<div class="form-group col-xs-6">
 			<select aria-label="Month" name="month" ng-model="month">
@@ -239,9 +290,17 @@
 			</div>
 			
 			<div class="row" align = "left">
-				<input type="submit" class="btn btn-info"  style="height:30px; width:500px" value="CREATE ACCOUNT" ng-click="createAccount()"></input>
+				<input type="submit" class="btn btn-info"  style="height:30px; width:500px" value="CREATE ACCOUNT" ng-click="createAccount()" ng-disabled="riderSignup.$invalid"></input>
 			</div>
-			<br/>			
+			<br/>	
+			
+			<div class="alert alert-success col-md-12" id="success-alert1" style="display: none ">
+			<center> <strong> Successful SIgn up.Please login to proceed</strong></center>
+			</div>
+			
+			<div class="alert alert-success col-md-12" id="failure-alert" style="display: none ">
+			<center> <strong> Email ID already exists. Please enter a correct Email. </strong></center>
+			</div>
 			
 			<p align="center" class="text-muted">Please fill out all required ( <font color="#7CD1FF">*</font>) fields.</p>
 			<p class="text-muted">By clicking <strong>Create Account</strong> , you agree to Uber's Terms and Conditions and Privacy Policy.</p>

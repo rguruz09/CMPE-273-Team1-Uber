@@ -168,7 +168,11 @@ exports.checkDrivers = function(req,res){
 					res.json(json_responses);
 				}else
 					{
+					json_responses = {
+							"statusCode" : 301
+					};
 					console.log("Passwords do not match");
+					res.json(json_responses);
 					}
 			} else if (results.code != 200) {
 				json_responses = {
@@ -306,7 +310,7 @@ exports.getCurDriverLatlng = function(req,res){
 exports.addcarDetails = function(req,res){
 	console.log("In addcarDetails client ");
 
-	var email = req.session.driverID;
+	var email = req.param("email");
 	var Make = req.param("Make");
 	var Year = req.param("Year");
 	var color = req.param("color");

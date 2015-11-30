@@ -8,7 +8,6 @@ function addRider(req, res) {
 	var firstname = req.param("firstname");
 	var lastname = req.param("lastname");
 	var mobile = req.param("mobile");
-	var ssn = req.param("ssn");
 	var address = req.param("address");
 	var city = req.param("city");
 	var state = req.param("state");
@@ -24,10 +23,7 @@ function addRider(req, res) {
 	var salt1 = bcrypt.genSaltSync(10);
 	var passwordHash = bcrypt.hashSync(password, salt1);
 	
-	var salt2 = bcrypt.genSaltSync(10);
-	console.log("SSN - "+ ssn);
-	var ssnHash = bcrypt.hashSync(ssn, salt2);
-	
+		
 	var salt3 = bcrypt.genSaltSync(10);
 	//var creditcardHash = bcrypt.hashSync(creditcard, salt3);
 	var creditcardHash = bcrypt.hashSync(creditcard_12, salt3);
@@ -43,7 +39,6 @@ function addRider(req, res) {
 		"firstname" : firstname,
 		"lastname" : lastname,
 		"mobile" : mobile,
-		"ssn" : ssnHash,
 		"address" : address,
 		"city" : city,
 		"state" : state,
@@ -65,18 +60,20 @@ function addRider(req, res) {
 				} else {
 					if (results.code == 200) {
 						json_responses = {
-							"statusCode" : results.code
+							"statusCode" : 200
 						};
 						console.log("Valid Signup");
 						res.json(json_responses);
 
-					} else if (results.code != 200) {
+					}
+					else {
 						json_responses = {
-							"statusCode" : results.code
+							"statusCode" : 401
 						};
-						console.log("Could not Sigin Up");
+						console.log("Could not Sign Up");
 						res.json(json_responses);
 					}
+				
 				}
 			});
 };
@@ -130,7 +127,7 @@ function saveNewCard(req, res) {
 						json_responses = {
 							"statusCode" : results.code
 						};
-						console.log("Could not Add cardp");
+						console.log("Could not Add card");
 						res.send(json_responses);
 					}
 				}
@@ -150,7 +147,6 @@ function actionUpdate(req, res) {
 	var city = req.param("city");
 	var state = req.param("state");
 	var zipcode = req.param("zipcode");
-	var ssn = req.param("ssn");
 	//var salt1 = bcrypt.genSaltSync(10);
 	//var passwordHash = bcrypt.hashSync(password, salt1);
 	
@@ -159,7 +155,6 @@ function actionUpdate(req, res) {
 	var json_responses;
 
 	var msg_payload = {
-			"ssn": ssn,
 		"firstname" : firstname,
 		"lastname" : lastname,
 		"email" : email,

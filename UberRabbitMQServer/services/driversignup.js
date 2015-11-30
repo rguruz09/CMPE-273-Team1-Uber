@@ -5,6 +5,7 @@ var autoIncrement = require("mongodb-autoincrement");
 
 function handle_request(msg, callback){
 	var res = {};
+	var email = msg.email;
 	var driver_details = {
 			
 			"firstname" : msg.firstname,
@@ -17,28 +18,40 @@ function handle_request(msg, callback){
 			"address" : msg.address,
 			"state" : msg.state
 		}
-	console.log("In signup handle request:"+ msg.username);
+	
+	console.log("In signup handle request:"+ email);
+	
+	console.log("Driver details: "+ JSON.stringify(driver_details));
 	mongo.connect(mongoURL, function(db){
 		var coll = mongo.collection('drivers');
 		console.log('Connected to mongo at driversignup: ' + mongoURL);
+		
+		coll.findOne({email: msg.email}, function(err, user){
+		if (user) {
+			console.log("From Get Driver result of querydb: "	+ JSON.stringify(user));			
+			res.code = 401;
+			res.value = "duplicate";
+			//res.user = user;						
+			callback(null,res);
 
-
-		coll.insert({firstname:msg.firstname,lastname:msg.lastname,password:msg.password,address:msg.address,city:msg.city,zip:msg.zip,state:msg.state,mobile:msg.mobile,email:msg.email}, function(err, user){
-			
+		} else {
+				coll.insert({firstname:msg.firstname,lastname:msg.lastname,password:msg.password,address:msg.address,city:msg.city,zip:msg.zip,state:msg.state,mobile:msg.mobile,email:msg.email}, function(err, user){
+			if(user)
+			{
 				console.log("results");
-				console.log(res.code);
-				res.firstname=msg.username;
-				res.lastname=msg.lname;
-				res.city=msg.city;
-				res.zip=msg.zip;
-				res.email=msg.email;
-				res.mobile=msg.mobile;
-				res.address=msg.address;
-				res.state=msg.state;
-				res.code = "200";
-				res.value = "Success Signup";
+				console.log("Payment Details Added!");
+					console.log("From Add Payment method result of querydb: "	+ JSON.stringify(user));					
+					res.code = 200;
+					res.value = "Valid Driver Signup";
 				callback(null, res);
-		});
+				}
+				else
+				{
+				}
+		});	
+		}
+	});
+		
 	
 	});
 }
@@ -84,7 +97,7 @@ function handle_request_cardetails(msg, callback){
 		var coll = mongo.collection('drivers');
 		//db.users.update({email: msg.email},{$set : {"car": {"Make":msg.Make,"Color":msg.Color,"Year":msg.Year,"license":msg.license}}});
 		
-		coll.update({email:msg.email},{$set :{"Make":msg.Make,"Color":msg.color,"Year":msg.Year,"license":msg.license}}, 
+		coll.update({email:msg.email},{$set : {"car": {"Make":msg.Make,"Color":msg.color,"Year":msg.Year,"license":msg.license}}}, 
 			//	coll.insert({email:msg.email},	
 				function(err, user){
 			if (user) {

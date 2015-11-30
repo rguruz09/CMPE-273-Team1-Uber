@@ -16,7 +16,7 @@
 
 <!-- ANGULAR CUSTOM -->
 <script src="js/app.js"></script>
-<script src="js/controllers/ProfileController1.js"></script>
+<script src="js/controllers/TripsController.js"></script>
 
 <!-- STYLE SHEETS CUSTOM -->
 <link rel="stylesheet" type="text/css" href="css/style.css" />
@@ -32,37 +32,34 @@
     
 </head>
 
-<body ng-app = "uberApp" ng-controller="ProfileController" >
-
-	<div>
-	<!-- HEADING -->
-	<header class="bgimage_1">
-	<div class="container-fluid" >
-		<div class="row">
-			<h2 class="heading" >U B E R</h2>		
+<body ng-app = "uberApp" ng-controller="TripsController" >
+<div>
+		<!-- HEADING -->
+		<header class="bgimage_1">
+		<div class="container-fluid" >
+			<div class="row">
+				<h2 class="heading" >U B E R</h2>		
+			</div>
 		</div>
-	</div>
-	</header>		
+		</header>		
 	</div>
 	
-	<div class="container-fluid">
-	<p>My rating: <input type="number" name="your_awesome_parameter" id="some_id" class="rating" data-clearable="remove"/></p>
+	<div class="container-fluid">	
 	<!-- BLANK -->
-	<div class="col-md-3">
+	<div class="col-md-1">
 	</div>
 	<!-- SIDE MENU -->
-	<div class="col-md-1" >
+	<div class="col-md-2" >
 		<div>			
 			<div class="profile-sidebar_2">			
 			<!-- SIDEBAR MENU -->			
 			<div class="profile-userpic">
 				<img src="../images/default.jpeg" alt="">
-				<h5 align="center"> UserName </h5>
+				<h4 align="center"><strong><%=firstname%>&nbsp<%=lastname%></strong></h4>
 			</div>			
 			<hr/>			
 			
-			<div class="profile-usermenu">
-			
+			<div class="profile-usermenu">			
 			<ul class="nav">
 			
 			<!-- BOOK A RIDE -->
@@ -70,15 +67,15 @@
 			</a></li>
 						
 			<!-- MY TRIPS -->
-			<li><a href="/myTrips"> My Trips
+			<li><a href="/tripsPage"> My Trips
 			</a></li>
 			
 			<!-- VIEW MY PROFILE -->
-			<li><a href="#"> Profile
+			<li><a href="/homePageRider"> Profile
 			</a></li>
 					
 			<!-- PAYMENT -->
-			<li><a href="#"> Payment
+			<li><a href="/paymentPage"> Payment
 			</a></li>		
 			
 			
@@ -88,8 +85,9 @@
 			
 			
 			<!-- LOGOUT -->
-			<li><a href="#"> Logout
+			<li><a href="/logout"> Logout
 			</a></li>		
+			
 		</ul>
 		</div>
 		</div>
@@ -99,7 +97,7 @@
 	
 	
 	<!-- PROFILE -->
-	<div class="col-md-5">
+	<div class="col-md-7">
 		<div class="row">
 			<h3 align = "center"> <strong>MY TRIPS </strong> </h3>
 			<hr/>	

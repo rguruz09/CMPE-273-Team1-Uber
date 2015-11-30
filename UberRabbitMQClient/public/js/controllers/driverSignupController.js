@@ -38,19 +38,31 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 				"zip" : $scope.zip,
 				"state" : $scope.state
 			}
-		}).success(function(data) {
-			if (data.status == "User Inserted!") {
-				$scope.invalid_signup = true;
-				$scope.valid_signup = false;
+		}).success(function(results) {
+			if (results.statusCode == 401) {
+				console.log("stscode "+ results.statusCode);
+				//$scope.invalid_signup = true;
+				//$scope.valid_signup = false;
+				$("#failure-alert").show();
+	            $("#failure-alert").fadeTo(2000, 500).slideUp(500, function(){
+	            //window.location.assign("/riderSignup");
+	              
+	            });
 				$scope.unexpected_error_signup = true;
 			} else {
-				console.log("Successful Driver Signup");
+				console.log("Data: "+JSON.stringify(results));
 				$scope.invalid_signup = false;
 				$scope.valid_signup = true;
 				$scope.unexpected_error_signup = true;
-				window.location.assign("/driverSignin");
+				console.log("Now going to signin page for driver");
+				$("#success-alert1").show();
+	            $("#success-alert1").fadeTo(2000, 500).slideUp(500, function(){
+	            window.location.assign("/driverSignin");
+	              
+	            });
 			}
 		}).error(function(error) {
+			console.log("Data: "+JSON.stringify(error));
 			$scope.invalid_signup = true;
 			$scope.valid_signup = true;
 			$scope.unexpected_error_signup = false;
@@ -79,7 +91,24 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 			}
 		}).success(function(data) {
 			$scope.curUser = $scope.email;
-			if (data.status == "User Validated!") {
+			if(data.code == 401){
+			console.log("Failure  Login. Passwords doesn't match");
+				$scope.invalid_signup = true;
+				$scope.valid_signup = false;
+				$scope.unexpected_error_signup = true;
+				window.location.assign("/driverSignin");
+			}
+			else if(data.code == 200)
+			{
+			console.log("Successful Driver Login");
+				$scope.invalid_signup = false;
+				$scope.valid_signup = true;
+				$scope.unexpected_error_signup = true;
+				$scope.updatedriverlocation($scope.email);
+				$scope.email = data.email;
+				window.location.assign("/driverProfile");
+			}
+			/*if (data.status == "User Validated!") {
 				console.log("Failure Driver Login");
 				$scope.invalid_signup = true;
 				$scope.valid_signup = false;
@@ -93,7 +122,7 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 				$scope.email = data.email;
 				window.location.assign("/driverProfile");
 				
-			}
+			}*/
 		}).error(function(error) {
 			console.log("Error Driver Login");
 			$scope.invalid_signup = true;

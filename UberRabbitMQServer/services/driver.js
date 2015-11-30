@@ -204,7 +204,7 @@ function handle_get_driverInfo_queue(msg,callback) {
 
 		} else {
 				console.log("Unexpected Error in Getting Driver");
-				res.code = err.code;
+				//res.code = err.code;
 				res.value = "Unexpected Error!";
 				console.log(err);			
 				callback(null,res);			
