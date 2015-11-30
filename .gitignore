@@ -1,5 +1,4 @@
 !/.gitignore
 .*
-.metadata/**/**
-UberRabbitMQClient/node_modules/**/**
-UberRabbitMQServer/node_modules/**/**
+.metadata
+**/node_modules
