@@ -234,6 +234,11 @@
 											console.log("couldnt edir the ride");
 										}else{		
 											console.log("edited done");
+											$("#success-alert-editconfirm").show();
+								            $("#success-alert-editconfirm").fadeTo(2000, 500).slideUp(500, function(){
+								                //
+								            });
+								        	$scope.initLoad();
 										}				
 									});
 					  			})		  			
@@ -556,6 +561,7 @@
 										console.log("couldnt book the ride");
 									}else{		
 										console.log("booking done");
+										$scope.initLoad();
 									}				
 								});
 				  			})		  			

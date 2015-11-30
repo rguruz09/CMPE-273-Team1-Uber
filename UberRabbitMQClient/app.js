@@ -136,10 +136,40 @@ app.get('/rideHistory',home.rideHistory);
 
 
 
+//Check the number of CPUs
+var numCPUs = require('os').cpus().length;
+console.log("num of CPUs "+numCPUs);
+
+
+//for without cluster
 //connect to the mongo collection session and then createServer
-mongo.connect(mongoSessionConnectURL, function(){
-	console.log('Connected to mongo at: ' + mongoSessionConnectURL);
-	http.createServer(app).listen(app.get('port'), function(){
-		console.log('Express server listening on port ' + app.get('port'));
-	});  
-});
+//mongo.connect(mongoSessionConnectURL, function(){
+//	console.log('Connected to mongo at: ' + mongoSessionConnectURL);
+//	http.createServer(app).listen(app.get('port'), function(){
+//		console.log('Express server listening on port ' + app.get('port'));
+//	});  
+//});
+
+
+
+//with cluster
+
+if (cluster.isMaster) {
+	// Fork workers.
+	console.log("I am master");
+	for (var i = 0; i < numCPUs; i++) {
+		cluster.fork();
+	}
+	cluster.on('exit', function(worker, code, signal) {
+		console.log('worker ' + worker.process.pid + ' died');
+	});
+} else {
+	// Workers can share any TCP connection
+	// In this case it is an HTTP server
+	mongo.connect(mongoSessionConnectURL, function(){
+		http.createServer(app).listen(app.get('port'), function(){
+			console.log('Express server listening on port ' + app.get('port'));
+		});
+	});
+
+}
