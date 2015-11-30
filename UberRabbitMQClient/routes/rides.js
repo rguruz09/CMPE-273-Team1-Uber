@@ -137,7 +137,7 @@ exports.getRideRequest = function(req, res){
 			});
 		}	
 	});	
-	
+};
 	
 	
 //  var msg_payload = { "driverID" : driverID };
@@ -174,7 +174,7 @@ exports.getRideRequest = function(req, res){
 //			}
 //		}  
 //	});
-};
+
 
 //confirmRide
 exports.confirmRide = function(req, res){

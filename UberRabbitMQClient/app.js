@@ -10,7 +10,9 @@ var express = require('express')
   , driver = require('./routes/driver')
   , billing = require('./routes/billing')
   , rides = require('./routes/rides')
-  , path = require('path');
+  , trips = require('./routes/trips')
+  , path = require('path')
+  , cluster = require('cluster');
 
 
 var mongoSessionConnectURL = "mongodb://localhost:27017/sessions";
@@ -105,6 +107,10 @@ app.post('/updatearide',rides.updatearide);
 
 //testing:
 app.get('/driverRides', driver.driverRides);
+app.post('/getTripDetails',trips.getTripDetails);
+app.post('/getdriverTripDetails',trips.getdriverTripDetails);
+app.get('/rideHistory',home.rideHistory);
+
 
 
 //connect to the mongo collection session and then createServer

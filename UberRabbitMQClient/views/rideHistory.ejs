@@ -32,7 +32,7 @@
     
 </head>
 
-<body ng-app = "uberApp" ng-controller="TripsController" ng-init="getdriverTripDetails();">
+<body ng-app = "uberApp" ng-controller="TripsController" ng-init="getTripDetails();">
 <div>
 		<!-- HEADING -->
 		<header class="bgimage_1">
@@ -55,7 +55,7 @@
 			<!-- SIDEBAR MENU -->			
 			<div class="profile-userpic">
 				<img src="../images/default.jpeg" alt="">
-				<h4 align="center"><strong><%=firstname%>&nbsp<%=lastname%></strong></h4>
+				<h4 align="center"></h4>
 			</div>			
 			<hr/>			
 			
@@ -112,7 +112,7 @@
 			    </thead>
 			    		    
 			    <tbody>
-		  		   <tr ng-repeat-start="ride in allTripslist">
+		  		   <tr ng-repeat-start="ride in alldriverTripslist">
 		  		    	<td>
 		  		        	<div ng-if="ride.expanded" ng-click="ride.expanded = false"><span class="glyphicon glyphicon-chevron-right"></span>&nbsp;</div>
 		  		    		<div ng-if="!ride.expanded" ng-click="ride.expanded = true"><span class="glyphicon glyphicon-chevron-down"></span>&nbsp;</div>

@@ -22,6 +22,10 @@ function riderSignin(req,res){
 res.render("riderSignin");
 }
 
+function rideHistory(req,res){
+	res.render("rideHistory");
+	}
+
 function driverProfile(req,res){
 	 if (!req.session.driverID) 
 		 res.redirect('/');
@@ -35,3 +39,4 @@ exports.driverSignin= driverSignin;
 exports.riderSignin= riderSignin;
 exports.riderSignup = riderSignup;
 exports.driverProfile = driverProfile;
+exports.rideHistory = rideHistory;

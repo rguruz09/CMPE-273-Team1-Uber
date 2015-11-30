@@ -192,6 +192,68 @@ home.controller("introVideoCtrl", function($scope, $http, $routeParams) {
 
 home.controller("rideHistoryCtrl", function($scope, $http, $routeParams) {
 	console.log("inside Ride History controller");
+	$scope.getdriverTripDetails = function() {
+		console.log("$scope.getDriverTripDetails");
+		$http({
+			method : "POST",
+			url : '/getdriverTripDetails',
+			data : {				
+				//"RIDE_ID":sharedProperties.get()
+			}
+		}).success(function(data) {			
+			if (data) {
+				console.log("hi"+data.alldriversTripslist);
+				$scope.alldriverTripslist = data.alldriversTripslist;	
+				console.log($scope.alldriverTripslist.REQ_TIME);
+				//$scope.loadMap();
+			} else {
+				console.log("Error in Data Fetching");
+				$scope.unexpected_error = true;
+			}
+		}).error(function(error) {
+			console.log("In driver trips failed");
+			$scope.unexpected_error = true;
+		});		
+	}
+	
+	
+	$scope.loadMap = function(){
+		console.log("I came " +$scope.allTripslist.SOURCE_LAT + " " + $scope.allTripslist.SOURCE_LANG);
+
+		 map = new google.maps.Map(document.getElementById('map'), {
+	           zoom : 7,
+	           mapTypeId : google.maps.MapTypeId.ROADMAP
+	        });
+	    var directionsService = new google.maps.DirectionsService();
+        var directionsDisplay = new google.maps.DirectionsRenderer();
+     
+       
+     
+        directionsDisplay.setMap(map);
+        //directionsDisplay.setPanel(document.getElementById('panel'));
+        /*
+        var start = "'"+$scope.billDetails.pickuplat + ","+ $scope.billDetails.pickuplong + "'";
+        var end = "'"+$scope.billDetails.dropofflat + ","+ $scope.billDetails.dropofflong + "'";*/        
+		  
+        var start = new google.maps.LatLng($scope.allTripslist.SOURCE_LAT,$scope.allTripslist.SOURCE_LANG);
+        var end = new google.maps.LatLng($scope.allTripslist.DESTINATION_LAT,$scope.allTripslist.DESTINATION_LANG);
+     
+        console.log(start);
+        console.log(end);
+        var request = {
+           origin : start,
+           destination : end,
+           travelMode : google.maps.DirectionsTravelMode.DRIVING
+        };
+     
+        directionsService.route(request, function(response,
+              status) {
+           if (status == google.maps.DirectionsStatus.OK) {
+              directionsDisplay.setDirections(response);
+           }
+        });
+
+	}
 });
 
 home.controller("billHistoryCtrl", function($scope, $http, $routeParams) {

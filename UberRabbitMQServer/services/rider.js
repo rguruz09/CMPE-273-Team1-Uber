@@ -226,7 +226,61 @@ function handle_delete_paymentInfo_queue(msg,callback) {
 }
 
 
+function handle_get_all_trips_queue(msg, callback) {
+	try {
+		console.log("In handle_get_all_trips_queue request:");
+		var json_responses;
+		var res = {};
+		var custID = msg.email;
+		var query ="SELECT * FROM RIDES WHERE CUSTOMER_ID = '"+custID+"'";
+		mysql.executeQuery(query,function(err, rows) {
+			if (err) {
+				console.log("Unexpected Error in Getting all Trips");
+				res.code = err.code;
+				res.value = "Unexpected Error!";
+				console.log(err);
+				callback(null, res);
+			} else {
+				console.log("From Rides result of querydb: " + JSON.stringify(rows));
+				res.code = "200";
+				//if(rows.length > 0)
+				res.allTripslist = rows;				
+				callback(null, res);
+			}
+		});
+	} catch (e) {
+		console.log(e.stack);
+	}
+}
 
+function handle_get_all_drivertrips_queue(msg, callback) {
+	try {
+		console.log("In handle_get_all_trips_queue request:");
+		var json_responses;
+		var res = {};
+		var DriverID = msg.email;
+		var query ="SELECT * FROM RIDES WHERE DRIVER_ID = '"+DriverID+"'";
+		console.log(query);
+		mysql.executeQuery(query,function(err, rows) {
+			if (err) {
+				console.log("Unexpected Error in Getting all driver Trips");
+				res.code = err.code;
+				res.value = "Unexpected Error!";
+				console.log(err);
+				callback(null, res);
+			} else {
+				console.log("From Rides result of querydb: " + JSON.stringify(rows));
+				res.code = "200";
+				if(rows.length > 0)
+				res.alldriverTripslist = rows[0];	
+				console.log(res.alldriverTripslist);
+				callback(null, res);
+			}
+		});
+	} catch (e) {
+		console.log(e.stack);
+	}
+}
 
 
 
@@ -238,3 +292,5 @@ exports.handle_updateRider_queue = handle_updateRider_queue;
 exports.handle_get_rider_queue = handle_get_rider_queue;
 exports.handle_request_addRider = handle_request_addRider;
 exports.handle_login_rider_queue = handle_login_rider_queue;
+exports.handle_get_all_trips_queue =handle_get_all_trips_queue;
+exports.handle_get_all_drivertrips_queue =handle_get_all_drivertrips_queue;
