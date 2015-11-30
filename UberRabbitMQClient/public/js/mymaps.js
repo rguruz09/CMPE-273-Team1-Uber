@@ -144,12 +144,12 @@ function getAddressFromLatLang(lat,lng){
   geocoder.geocode( { 'latLng': latLng}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       if (results[1]) {
-        alert(results[1].formatted_address);
+        //alert(results[1].formatted_address);
         document.getElementById('txtSource').value = results[1].formatted_address;
       }
     }
     else  {
-      alert("Geocode was not successful " + status);
+      //alert("Geocode was not successful " + status);
     }
   });
 }
@@ -230,7 +230,7 @@ function geocodeAddress(addr) {
   geocoder.geocode({'address': addr}, function(results, status) {
     if (status === google.maps.GeocoderStatus.OK) {
       geoloc = results[0].geometry.location;      
-      alert('Location is: ' + results[0].geometry.location);     
+      //alert('Location is: ' + results[0].geometry.location);     
       return results[0].geometry.location;
       
     } else {
