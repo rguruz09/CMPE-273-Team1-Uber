@@ -37,7 +37,7 @@ function handle_login_admin_queue(msg, callback) {
 
 function handle_admin_get_all_riders_queue(msg, callback) {
 	try {
-		console.log("In handle_admin_get_all_drivers_queue request:" + msg.email);
+		
 		var json_responses;
 		var res = {};
 

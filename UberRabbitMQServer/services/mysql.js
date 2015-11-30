@@ -3,9 +3,9 @@ var mysql = require('mysql');
 function getConnection(){
 	var connection = mysql.createConnection({
 	    host     : 'localhost',
-	    user     : 'root',
-	    password : 'raghu',
-	    database : 'uber'
+	    user     : 'pooja',
+	    password : 'mypass',
+	    database : 'UBER'
 	});
 	return connection;
 }
@@ -139,8 +139,6 @@ exports.executeQuerywithParam = function(query, param, callback){
 	}
 }
 
-
-
 //getting driver details
 exports.executeQuery = function(query, callback){
 	console.log("In execute query - "+ query);
@@ -162,3 +160,31 @@ exports.executeQuery = function(query, callback){
 		callback(true, null);
 	}
 };
+
+exports.getStatsData = function(sql, callback) {
+	console.log(sql);
+	var connection = getConnection();
+	connection.query(sql,function(err, results) {
+		if (err) {
+			console.log(err);
+			callback(true, err);
+			return;
+		}
+		callback(false, results);
+	});
+};
+
+exports.selectAll = function(tableName,callback) {
+	console.log("Getting Details from " + tableName);
+	var sql = "SELECT * FROM  " + tableName;
+		
+	var connection = getConnection();
+	connection.query(sql,function(err, results) {
+		if (err) {
+			console.log(err);
+			callback(true, err);
+			return;
+		}
+		callback(false, results);
+	});
+}
