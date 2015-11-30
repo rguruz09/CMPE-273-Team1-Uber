@@ -47,7 +47,7 @@ home.config(function($routeProvider) {
             controller: "introVideoCtrl"
         })
          .when("/rideHistory", {
-            templateUrl: "views/rideHistory.html",
+            templateUrl: "views/rideshistory.html",
             controller: "rideHistoryCtrl"
         })
          .when("/billHistory", {

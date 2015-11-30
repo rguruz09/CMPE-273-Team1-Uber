@@ -271,8 +271,8 @@ function handle_get_all_drivertrips_queue(msg, callback) {
 			} else {
 				console.log("From Rides result of querydb: " + JSON.stringify(rows));
 				res.code = "200";
-				if(rows.length > 0)
-				res.alldriverTripslist = rows[0];	
+				//if(rows.length > 0)
+				res.alldriverTripslist = rows;	
 				console.log(res.alldriverTripslist);
 				callback(null, res);
 			}
