@@ -8,7 +8,7 @@ var mysql = require("./mysql");
 var billing = require("./billing");
  
 exports.handle_request_bookaRide = function(msg,callback){
-		
+	handle_confirmRideRequest_queue
 		var res = {};
 		var hhmm;
 		var query;

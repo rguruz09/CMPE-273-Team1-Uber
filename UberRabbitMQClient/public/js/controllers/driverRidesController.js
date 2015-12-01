@@ -17,9 +17,8 @@
 				//initLoad
 				$scope.initLoad = function(){
 					$scope.bReqAvail = true;
-					//$scope.driverID = req.session.driverID ;
-					$scope.driverID = "eget.odio@nunc.co.uk";
-					console.log($scope.driverID);
+					
+					//console.log($scope.driverID);
 					console.log("i came here first");
 					
 					geocoder = new google.maps.Geocoder();
@@ -51,6 +50,7 @@
 				        		lat: $scope.drvLoc.LATITUDE,
 				        		lng: $scope.drvLoc.LANGITUDE
 				      		};
+				      		
 				    		//console.log("Latitude: " + pos.lat + " Langitude: " + pos.lng);
 				      		marker = new google.maps.Marker({
 				        		position: {lat: pos.lat, lng: pos.lng},
@@ -138,6 +138,32 @@
 					
 				};
 
+				 $scope.updatedriverlocation = function(){
+
+						var res = {};
+						console.log("Im in updating driver loc ctrl");
+						
+						console.log($scope.custDetails.DESTINATION_LAT);
+						
+						
+						$http({
+							method : 'post',
+							url : '/updateDriverLoc',
+							data : {
+								"lat" : $scope.custDetails.DESTINATION_LAT,
+								"lang" : $scope.custDetails.DESTINATION_LANG
+							}
+						}).success(function(data) {						
+							if(data.code == 404){
+								console.log("SQL failed");
+							}else{								
+								console.log("Updated");								
+							}	
+							callback(true);
+						});
+							
+					}
+				
 				$scope.endRide = function(){
 
 					$scope.time = new Date();
@@ -203,7 +229,9 @@
 									console.log("SQL failed");
 								}else{		
 									$scope.initLoad();
-										console.log("success");
+									 $scope.updatedriverlocation()
+									 console.log("success");
+									 $scope.initLoad();
 								}					
 												
 							});

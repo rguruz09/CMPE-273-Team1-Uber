@@ -25,7 +25,7 @@
   					var pos = { };
 
 				    map = new google.maps.Map(document.getElementById('dvMap'), {
-				    center: {lat: -33.8688, lng: 151.2195},
+				    center: {lat: 37.3325859, lng: -121.89610470000002},
 				    zoom: 14,
 				    mapTypeId: google.maps.MapTypeId.ROADMAP
 				   });
@@ -469,6 +469,7 @@
 				      		lat: results[0].geometry.location.lat(),
 				      		lang: results[0].geometry.location.lng()
 				      };
+				      //$scope.addcmp = results[0].address_components
 				    } else {
 				      alert('Geocode was not successful for the following reason: ' + status);
 				    }

@@ -158,10 +158,10 @@ exports.checkDrivers = function(req,res){
 					req.session.driverID = email;
 					console.log(req.session.driverID);
 					console.log("Valid Login");						
-					res.send({"login":"Success"});	
+					//res.send({"login":"Success"});	
 					console.log("queue Login");
 					json_responses = {
-							"statusCode" : results.code,
+							"code" : 200,
 							"email" : email
 					};
 					console.log("Valid Login");
@@ -169,14 +169,14 @@ exports.checkDrivers = function(req,res){
 				}else
 					{
 					json_responses = {
-							"statusCode" : 301
+							"code" : 301
 					};
 					console.log("Passwords do not match");
 					res.json(json_responses);
 					}
 			} else if (results.code != 200) {
 				json_responses = {
-						"statusCode" : results.code
+						"code" : results.code
 				};
 				console.log("Could not Login: Check your credentials and Login again");
 				res.json(json_responses);
@@ -225,7 +225,9 @@ exports.getDriverDetails = function getDriverDetails(req,res) {
 exports.updateDriverLoc = function(req, res){
 	
 	console.log("Updating driver locaion details on login");
-	var driverID = req.param("email");
+	var driverID = req.session.driverID;
+	
+	//var driverID = req.param("email");
 	var lat = req.param("lat");
 	var lang = req.param("lang");
 	

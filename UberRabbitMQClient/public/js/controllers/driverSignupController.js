@@ -104,9 +104,14 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 				$scope.invalid_signup = false;
 				$scope.valid_signup = true;
 				$scope.unexpected_error_signup = true;
-				$scope.updatedriverlocation($scope.email);
-				$scope.email = data.email;
-				window.location.assign("/driverProfile");
+				$scope.updatedriverlocation($scope.email,function(sts){
+					if(sts){
+						$scope.email = data.email;
+						window.location.assign("/driverProfile");
+					}
+					
+				});
+				
 			}
 			/*if (data.status == "User Validated!") {
 				console.log("Failure Driver Login");
@@ -175,7 +180,7 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 	    };
 	  
 	  
-	  $scope.updatedriverlocation = function(email){
+	  $scope.updatedriverlocation = function(email, callback){
 
 			var res = {};
 			console.log("Im in updating driver loc ctrl");
@@ -204,16 +209,19 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 							console.log("SQL failed");
 						}else{								
 							console.log("Updated");								
-						}								
+						}	
+						callback(true);
 					});
 				}, function() {
 					console.log("map load error");
 					//handleLocationError(true, infoWindow, map.getCenter());
+					callback(false);
 				});
 			} else {
 				console.log("error - Browser not support maps");
 				// Browser doesn't support Geolocation
 				//handleLocationError(false, infoWindow, map.getCenter());
+				callback(false);
 			}	
 		}
 	  

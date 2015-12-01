@@ -132,7 +132,7 @@ app.get('/locationbasedstats',stats.locationbasedstats);
 app.get('/driverRides', driver.driverRides);
 app.post('/getTripDetails',trips.getTripDetails);
 app.post('/getdriverTripDetails',trips.getdriverTripDetails);
-//app.get('/rideHistory',home.rideHistory);
+app.get('/rideHistory',home.rideHistory);
 
 
 
