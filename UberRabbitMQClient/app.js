@@ -73,7 +73,7 @@ app.post('/getDriverInfo',driver.getDriverInfo);
 app.post('/updateDriverLoc',driver.updateDriverLoc);
 app.post('/getDriverDetails',driver.getDriverDetails);
 app.post('/getCurDriverLatlng',driver.getCurDriverLatlng);
-app.get('/adminSignin',home.adminSignin);
+//app.get('/adminSignin',home.adminSignin);
 
 //Rider Signin
 app.get('/bookRide',rider.bookRide);
@@ -132,7 +132,7 @@ app.get('/locationbasedstats',stats.locationbasedstats);
 app.get('/driverRides', driver.driverRides);
 app.post('/getTripDetails',trips.getTripDetails);
 app.post('/getdriverTripDetails',trips.getdriverTripDetails);
-app.get('/rideHistory',home.rideHistory);
+//app.get('/rideHistory',home.rideHistory);
 
 
 
