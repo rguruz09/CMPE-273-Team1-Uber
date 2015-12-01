@@ -8,7 +8,7 @@ var mysql = require("./mysql");
 var billing = require("./billing");
  
 exports.handle_request_bookaRide = function(msg,callback){
-	handle_confirmRideRequest_queue
+//	handle_confirmRideRequest_queue
 		var res = {};
 		var hhmm;
 		var query;
@@ -36,9 +36,12 @@ exports.handle_request_bookaRide = function(msg,callback){
 								
 								price = Number((price).toFixed(2));
 								var sts = -1;
-								query = "insert into RIDES(DRIVER_ID, CUSTOMER_ID, SOURCE_LAT, SOURCE_LANG, DESTINATION_LAT, DESTINATION_LANG, DURATION, DISTANCE, REQ_TIME, PRICE, RIDE_STATUS)" + 
-								"  values('"+msg.driverID+"','"+msg.custID+"',"+msg.srcLat+","+msg.srcLng+","+msg.descLat+","+msg.descLng+","+msg.duration+","+msg.distance+",'"+msg.reqtime+"',"+price+","+sts+")";
+								query = "insert into RIDES(DRIVER_ID, CUSTOMER_ID, SOURCE_LAT, SOURCE_LANG, DESTINATION_LAT, DESTINATION_LANG, DURATION, DISTANCE, REQ_TIME, PRICE, RIDE_STATUS, ZIPCODE)" + 
+								"  values('"+msg.driverID+"','"+msg.custID+"',"+msg.srcLat+","+msg.srcLng+","+msg.descLat+","+msg.descLng+","+msg.duration+","+msg.distance+",'"+msg.reqtime+"',"+price+","+sts+","+msg.zipcode+")";
+								
 								console.log("Query - "+ query);
+								
+								
 								
 								mysql.executeQuery(query, function(err, rows) {		
 									if (err) {			

@@ -469,7 +469,7 @@
 				      		lat: results[0].geometry.location.lat(),
 				      		lang: results[0].geometry.location.lng()
 				      };
-				      //$scope.addcmp = results[0].address_components
+				      $scope.addcmp = results[0].address_components;
 				    } else {
 				      alert('Geocode was not successful for the following reason: ' + status);
 				    }
@@ -514,6 +514,10 @@
 				  		
 				  		$scope.geocodeAddress(source, function(latlang) {
 				  		
+				  			
+				  			$scope.zipcoe = $scope.addcmp[6].short_name; 
+				  			console.log("zip"+$scope.addcmp );
+				  			
 				  			$scope.srclatlang =  latlang;
 				  			
 				  			$scope.geocodeAddress(destination, function(latlang) {
@@ -555,6 +559,7 @@
 										"srcLng" : $scope.srclatlang.lang,
 										"descLng" : $scope.deslatlang.lang,
 										"descLat" : $scope.deslatlang.lat,
+										"zipcode" : $scope.zipcoe
 										
 									}
 								}).success(function(data) {

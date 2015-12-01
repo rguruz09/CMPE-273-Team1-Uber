@@ -7,6 +7,7 @@ var mysql = require('./mysql');
 exports.bookaride = function(req, res){
 	
 	var custID = req.session.email;
+	
 	var driverID = req.param("driverID");
 	var duration = req.param("duration");
 	var reqtime = req.param("reqtime");
@@ -16,14 +17,20 @@ exports.bookaride = function(req, res){
 	var srcLng = req.param("srcLng");
 	var descLat = req.param("descLat");
 	var descLng = req.param("descLng");
+	var zipcode = req.param("zipcode");
 	
 	console.log("In book a ride "+driverID+" "+custID);
 	
 	var msg_payload = {"custID" : custID, "driverID" : driverID, "duration" : duration, 
 						"reqtime" : reqtime, "distance" : distance, "weekend" : weekend, 
 						"srcLat" : srcLat, "srcLng" : srcLng, "descLat" : descLat, 
-						"descLng" : descLng};
+						"descLng" : descLng, "zipcode" : zipcode};
 
+//	var msg_payload = {"custID" : custID, "driverID" : driverID, "duration" : duration, 
+//	"reqtime" : reqtime, "distance" : distance, "weekend" : weekend, 
+//	"srcLat" : srcLat, "srcLng" : srcLng, "descLat" : descLat, 
+//	"descLng" : descLng};
+	
 	console.log(msg_payload);
 	
 	mq_client.make_request('bookaRide_queue',msg_payload, function(err,results){
