@@ -214,15 +214,15 @@ function checkRiderLogin (req,res) {
 					req.session.firstname = results.firstname;
 					req.session.lastname = results.lastname;
 					console.log("Valid Login");						
-					res.send({"login":"Success"});	
+					res.send({"login":"Success","statusCode":results.code});	
 				} else {
 					console.log("Invalid Login - Password Mismatch");
-					res.send({"login":"Fail"});
+					res.send({"login":"Fail","statusCode":401});
 				}		
 			}
 			else {    				
 				console.log("Invalid Login");
-				res.send({"login":"Fail"});
+				res.send({"login":"Fail","statusCode":401});
 			}
 		}  
 	});	

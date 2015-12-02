@@ -752,6 +752,25 @@ cnn.on('ready', function() {
 			});
 		});
 	});	
+
+		//updateRider_queue
+	cnn.queue('updateDriver_queue', function(q) {
+	q.subscribe(function(message, headers, deliveryInfo, m) {
+		util.log(util.format(deliveryInfo.routingKey, message));
+		util.log("Message: " + JSON.stringify(message));
+		util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+		driver.handle_updateDriver_queue(message, function(err, res) {
+			console.log("After  updateDriver_queue Handle" + res);
+			// return index sent
+			cnn.publish(m.replyTo, res, {
+				contentType : 'application/json',
+				contentEncoding : 'utf-8',
+				correlationId : m.correlationId
+			});
+		});
+	});
+});
 	
 	
 });

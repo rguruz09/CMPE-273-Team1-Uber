@@ -1,4 +1,19 @@
 <div ng-controller ="driverProfileCtrl"  ng-init ="getDriverDetails();">
+<div class="col-md-10">
+
+<div class="alert alert-success" ng-hide="update_success">
+	<strong>Profile Updated successfully</strong>
+</div>
+</div>
+
+<div class="col-md-10">
+
+<div class="alert alert-success" ng-hide="update_failure">
+	<strong>Error updating profile</strong>
+</div>
+</div>
+
+
 <div class="col-md-1" >
 </div>
 <div class="col-md-7">
@@ -41,9 +56,63 @@
 					<input class="form-control input-sm" type="text" id="zip" name="zip" placeholder="Zip Code" ng-model="formDetails.zip" required />
 				</div>	
 				
-				<div class="form-group col-xs-2">
-					<input class="form-control input-sm" type="text" id="state" name="state" placeholder="State" ng-model="formDetails.state" required />
-				</div>					
+				<div class="form-group col-xs-2">	
+				<select aria-label="State" name="state" ng-model="formDetails.state" required>
+					<option value="" selected="">Select</option>
+					<option value="AL">AL</option>
+					<option value="AK">AK</option>
+					<option value="AZ">AZ</option>
+					<option value="AR">AR</option>
+					<option value="CA">CA</option>
+					<option value="CO">CO</option>
+					<option value="CT">CT</option>
+					<option value="DE">DE</option>
+					<option value="DC">DC</option>
+					<option value="FL">FL</option>
+					<option value="GA">GA</option>
+					<option value="HI">HI</option>
+					<option value="ID">ID</option>
+					<option value="IL">IL</option>
+					<option value="IN">IN</option>
+					<option value="IA">IA</option>
+					<option value="KS">KS</option>
+					<option value="KY">KY</option>
+					<option value="LA">LA</option>
+					<option value="ME">ME</option>
+					<option value="MD">MD</option>
+					<option value="MA">MA</option>
+					<option value="MI">MI</option>
+					<option value="MN">MN</option>
+					<option value="MS">MS</option>
+					<option value="MO">MO</option>
+					<option value="MT">MT</option>
+					<option value="NE">NE</option>
+					<option value="NV">NV</option>
+					<option value="NH">NH</option>
+					<option value="NJ">NJ</option>
+					<option value="NM">NM</option>
+					<option value="NY">NY</option>
+					<option value="NC">NC</option>
+					<option value="ND">ND</option>
+					<option value="OH">OH</option>
+					<option value="OK">OK</option>
+					<option value="OR">OR</option>
+					<option value="PA">PA</option>
+					<option value="RI">RI</option>
+					<option value="SC">SC</option>
+					<option value="SD">SD</option>
+					<option value="TN">TN</option>
+					<option value="TX">TX</option>
+					<option value="UT">UT</option>
+					<option value="VT">VT</option>
+					<option value="VA">VA</option>
+					<option value="WA">WA</option>
+					<option value="WV">WV</option>
+					<option value="WI">WI</option>
+					<option value="WY">WY</option>
+				</select>
+				</div>		
+					
 			</div>		
 				
 			<hr/>
@@ -76,13 +145,13 @@
 				</div>
 				
 				<div class="form-group col-xs-3">				
-					<input class="form-control input-sm" type="password" id="password" name="password" placeholder="*********" ng-model="formDetails.password" required />
+					<input class="form-control input-sm" type="password" id="password" name="password" placeholder="*********" ng-model="formDetails.password" required disabled  />
 				</div>			
 			
 			</div>
 			<hr/>
 			<div class="row" align = "center">
-				<input type="submit" class="btn btn-info" value="Update Profile" ng-click="updateProfile()"></input>
+				<input type="submit" class="btn btn-info" value="Update Profile" ng-click="updateProfile(formDetails);"></input>
 			</div>
 			<hr/>
 

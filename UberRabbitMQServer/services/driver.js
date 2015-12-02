@@ -235,7 +235,57 @@ function getavaildrvrs(callback){
 	});
 }
 
+function handle_updateDriver_queue(msg,callback){
+	console.log("In handle_updateDriver_queue request:"+ msg.email);	
+	var json_responses;
+	var email = msg.email;	
+	var res = {};
+console.log("data from updateDriver queue: "+JSON.stringify(msg));
+	
+var firstname = msg.firstname;
+var lastname = msg.lastname;
+var email = msg.email;
+var phone = msg.phone;
+var address = msg.address;
+var city = msg.city;
+var state = msg.state;
+var zipcode = msg.zipcode;
+var password = msg.password;
 
+console.log("*****************************************************************");
+console.log("Data from angularJS: "+" email: "+email+" password: "+password+" firstname: "+firstname+" lastname:  "+lastname+" phone: "+phone+ " address: "+address+" city: "+city+" state: "+state+" zip: "+zipcode);
+console.log("*****************************************************************");
+
+	mongo.connect(mongoURL, function() {
+		// console.log('Connected to mongo at: ' + mongoURL);
+		var coll = mongo.collection('drivers');
+		
+		
+		coll.update({email:msg.email},{$set : {"firstname": firstname, "lastname": lastname, "password":password, "address":address, "city": city, "zip": zipcode, "state": state, "mobile": phone, "email": email}}
+		, function(err, result) {
+			console.log("After updating details of the driver :: " + result);
+			if (err) {
+				console.log("Unexpected Error in Getting Rider");
+				res.code = err.code;
+				res.value = "Unexpected Error!";
+				console.log(err);			
+				callback(null,res);			
+			} else {
+				console.log("From update Driver result of query mongodb: "	+ JSON.stringify(result));			
+				res.code = "200";
+				res.value = "Success";
+				res.user = result;						
+				callback(null,res);
+			}
+			console.log("Response:: " + res);
+			callback(null, res)
+		});
+	});
+}
+
+
+
+exports.handle_updateDriver_queue = handle_updateDriver_queue;
 exports.handle_get_driverInfo_queue = handle_get_driverInfo_queue;
 exports.handle_request_updateLoca = handle_request_updateLoca;
 exports.handle_get_drivers_queue = handle_get_drivers_queue;

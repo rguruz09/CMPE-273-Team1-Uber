@@ -25,16 +25,27 @@ uberApp.controller('frontpageCtrl', function($scope,$http,$window) {
 			}
 		}).success(function(data) {
 			console.log("In Front Page Controller");
-			if (data.login == "Success")
-				window.location = '/bookRide';
+			if (data.statusCode == 200)
+			{
+			    console.log("Successful signin\n");
+	            window.location = '/bookRide';
+	        
+	        }
 			else {
-				$scope.invalid_login = false;
-				$scope.unexpected_error = true;
+				$("#failure-alert").show();
+	        	$("#failure-alert").fadeTo(2000, 500).slideUp(500, function(){
+	            //window.location.assign("/riderSignin");
+	         });
 			}
 		}).error(function(error) {
 			console.log("In Front Page Controller Fail Login");
-			$scope.unexpected_error = true;
-			$scope.invalid_login = false;
+			//$scope.unexpected_error = true;
+			//$scope.invalid_login = false;
+			$("#failure-alert").show();
+	        $("#failure-alert").fadeTo(2000, 500).slideUp(500, function(){
+	            //window.location.assign("/riderSignin");
+	              
+	         });
 		});
     }
     

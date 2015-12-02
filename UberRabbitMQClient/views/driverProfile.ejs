@@ -27,31 +27,40 @@
   <div  >
   <!-- HEADING -->
   <header class="bgimage_1">
-  <div class="container-fluid" >
-  	<div class="row">
-  	<div class="logoimage_1" style ="height: 70px; width : 70px" > <h4 style="padding-left:80px; color : #FFFFFF">Welcome to UBER </h4> </div>
-  	</div>
-  </div>
-  </header>		
+		<div class="container-fluid">
+			<div class="row">
+				<h2 class="heading">U B E R</h2>
+				
+			</div>
+		</div>
+	</header>
+	
+  	
   </div>
 
   <div class="container-fluid">
   <!-- BLANK -->
+<div class="col-md-1"></div>
 
-  <!-- SIDE MENU -->
-  <div class="col-md-2" >
-  	<div >
-  		
-  		<div class="profile-sidebar_2">
-  		
-  		<!-- SIDEBAR MENU -->
-  		
-  		<div class="profile-userpic">
-  			<img src="../images/default.jpeg" alt="">
-  			<h5 align="center"><strong> <%=email%> </strong></h5>
-  		</div>
-  		
-  		<hr/>
+<!-- SIDE MENU -->
+
+<div class="col-md-2">
+	<div>
+
+		<div class="profile-sidebar_2">
+
+			<!-- SIDEBAR MENU -->
+
+			<div class="profile-userpic">
+				<img src="../images/default.jpeg" alt="">
+				<h4 align="center"><strong><%=email%></strong></h4>
+			</div>
+
+			<hr />
+
+
+
+
   		
   		<div class="profile-usermenu">
   		<ul class="nav">
@@ -98,14 +107,16 @@
   </div>
   <!-- END MENU -->
   </div>
+  
+  <div class="col-md-1">
+</div>
 
-<div class="container-fluid">
+<div class="col-md-8">
 <div ng-view> </div>
 </div>
 
 <!-- BLANK -->
-<div class="col-md-3">
-</div>
+
 </div>
 </body>
 </html>

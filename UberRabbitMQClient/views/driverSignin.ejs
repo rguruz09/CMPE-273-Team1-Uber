@@ -7,6 +7,7 @@
 <!-- JS -->
 <script src="libs/angular/angular.min.js"></script>
 <script src="libs/angular-route/angular-route.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 
 
@@ -77,6 +78,14 @@
 			 <input type="submit" name= "Forgot Password" class="btn btn-link" value = "Forgot Password">
 			 </p>
 		</form>
+		
+		 <div class="alert alert-success col-md-12" id="success-alert1" style="display: none ">
+			<center> <strong> Successful Sign In.Going to Driver profile page</strong></center>
+			</div>
+			
+			<div class="alert alert-danger col-md-12" id="failure-alert" style="display: none ">
+			<center> <strong> Username and password did not match. </strong></center>
+			</div>
 	</div>
 </div>
 

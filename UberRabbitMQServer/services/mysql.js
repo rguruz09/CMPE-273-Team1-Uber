@@ -4,9 +4,8 @@ var mysql = require('mysql');
 var pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: '',
-    database: 'UBERFINAL',
-    port:3307,
+    password: 'raghu',
+    database: 'uber',
     connectionLimit: 100,
     supportBigNumbers: true
 });

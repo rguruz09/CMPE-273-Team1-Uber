@@ -91,14 +91,18 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 			}
 		}).success(function(data) {
 			$scope.curUser = $scope.email;
-			if(data.code == 401){
+			if(data.statusCode == 301){
 			console.log("Failure  Login. Passwords doesn't match");
 				$scope.invalid_signup = true;
 				$scope.valid_signup = false;
 				$scope.unexpected_error_signup = true;
-				window.location.assign("/driverSignin");
+				$("#failure-alert").show();
+	        	$("#failure-alert").fadeTo(2000, 500).slideUp(500, function(){
+	        	//window.location.assign("/");
+	         });
+				
 			}
-			else if(data.code == 200)
+			else if(data.statusCode == 200)
 			{
 			console.log("Successful Driver Login");
 				$scope.invalid_signup = false;
@@ -133,6 +137,10 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 			$scope.invalid_signup = true;
 			$scope.valid_signup = true;
 			$scope.unexpected_error_signup = false;
+			$("#failure-alert").show();
+	        $("#failure-alert").fadeTo(2000, 500).slideUp(500, function(){
+	            //window.location.assign("/riderSignin");
+	         });
 		});
 
 	};

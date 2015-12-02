@@ -67,7 +67,9 @@ home.controller("SidebarController", function($scope, $http, $routeParams) {
 home.controller("driverProfileCtrl", function($scope, $http, $routeParams) {
 	console.log("inside driver profile controller");
 	
-
+	  $scope.update_success = true;
+	  $scope.update_failure = true;
+	// var formDetailsOld = {};
 	  $scope.formDetails = {};    
 		$scope.getDriverDetails = function() {
 			$http({
@@ -81,6 +83,30 @@ home.controller("driverProfileCtrl", function($scope, $http, $routeParams) {
 				$scope.formDetails = response.driver;
 			});
 		}
+$scope.updateProfile = function(details){
+			
+			console.log("inside updateProfile driver angularJS update function");
+		    console.log(JSON.stringify(details));
+		        $http({
+		            method: "POST",
+		            url: "/actionDriverUpdate",
+		            data: details
+
+		        }).success(function (customer, status, headers, config) {
+		            console.log(customer);
+		            $scope.update_success = false;
+		            
+		            //$("#success-alert").show();
+		            //$("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+		            	 //window.location.assign('/myProfile');
+		            //});
+		        })
+		            .error(function (data, status, headers, config) {
+		                
+		            	$scope.update_failure = false;
+		         });
+
+		    };
 	/*
 	$scope.updateProfile = function() {
 		console.log("formdetails data are: ");

@@ -72,15 +72,16 @@ function handle_request_login(msg, callback){
 		coll.findOne({email: msg.email}, function(err, user){
 			if (user) {
 				console.log("Inside success");
-				res.code = "200";
+				res.code = 200;
 				res.user=user;
 				res.value = "Success Login";
 				callback(null, res);
 
 			} else {
 				console.log("Inside failure");
-				res.code = "401";
+				res.code = 401;
 				res.value = "Failed Login";
+				callback(null, res);
 			}
 		});
 	});

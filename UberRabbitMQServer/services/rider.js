@@ -130,7 +130,9 @@ function handle_login_rider_queue(msg,callback) {
 			res.value = "Unexpected Error!";
 			console.log(err);			
 			callback(null,res);			
-		} else {						
+		} else {		
+			if(rows.length > 0)		
+			{		
 			console.log("From Login Rider result of querydb: "	+ JSON.stringify(rows));			
 			res.code = "200";
 			res.value = "Success";
@@ -138,6 +140,12 @@ function handle_login_rider_queue(msg,callback) {
 			res.firstname = rows[0].firstname;	
 			res.lastname = rows[0].lastname;						
 			callback(null,res);
+			}
+			else
+			{
+			res.code = "401";
+			callback(null,res);
+			}
 		}		
 	});	
 }

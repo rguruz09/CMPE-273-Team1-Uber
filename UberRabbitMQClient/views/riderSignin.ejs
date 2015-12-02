@@ -7,7 +7,7 @@
 <!-- JS -->
 <script src="libs/angular/angular.min.js"></script>
 <script src="libs/angular-route/angular-route.min.js"></script>
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 <!-- ANGULAR CUSTOM -->
 <script src="js/controllers/frontpageController.js"></script>
@@ -68,8 +68,19 @@
 			 <br>
 			 <div>
 			 <input type="submit" class="btn btn-default"  style="background-color: #1FBAD6; color:#FFFFFF ;height:50px; width:320px" value="SIGN IN" ng-click="riderSignIn();"></input>
-			 </div>			
+			 </div>	
+			 
 		</form>
+		
+		 
+		 <div class="alert alert-success col-md-12" id="success-alert1" style="display: none ">
+			<center> <strong> Successful Sign In.Going to Driver profile page</strong></center>
+			</div>
+			
+			<div class="alert alert-danger col-md-12" id="failure-alert" style="display: none ">
+			<center> <strong> Username and password did not match. </strong></center>
+			</div>	 
+		 
 	</div>
 </div>
 
