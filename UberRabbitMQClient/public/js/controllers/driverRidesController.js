@@ -165,29 +165,36 @@
 					}
 				
 				$scope.endRide = function(){
-
-					$scope.time = new Date();
-				  	$scope.month = $scope.time.getMonth() + 1;
-				  	$scope.endTime = $scope.time.getFullYear()+"-"+$scope.month+"-"+$scope.time.getDate()+" "+$scope.time.getHours()+":"+$scope.time.getMinutes()+":"+$scope.time.getSeconds(); 
-				  
-					console.log("in end ride "+$scope.rideID );
 					
-					$http({
-						method : 'post',
-						url : '/endRide',
-						data : {							
-							"rideID" : $scope.rideID,
-							"endTime" : $scope.endTime
-						}
-					}).success(function(data) {								
-						if(data.code == 404){
-							console.log("SQL failed");
-						}else{		
-							$scope.initLoad();
-								console.log("Ride Ended successfully");
-						}					
-										
-					});
+					
+					if (angular.isUndefined($scope.cusrating)) {
+						alert("Please rate the customer");
+					} else {
+						$scope.time = new Date();
+					  	$scope.month = $scope.time.getMonth() + 1;
+					  	$scope.endTime = $scope.time.getFullYear()+"-"+$scope.month+"-"+$scope.time.getDate()+" "+$scope.time.getHours()+":"+$scope.time.getMinutes()+":"+$scope.time.getSeconds(); 
+					  
+						console.log("in end ride "+$scope.cusrating );
+						
+						$http({
+							method : 'post',
+							url : '/endRide',
+							data : {							
+								"rideID" : $scope.rideID,
+								"endTime" : $scope.endTime,
+								"ratings" : $scope.cusrating
+							}
+						}).success(function(data) {								
+							if(data.code == 404){
+								console.log("SQL failed");
+							}else{		
+								$scope.initLoad();
+									console.log("Ride Ended successfully");
+							}					
+											
+						});
+					}
+					
 				};
 
 				$scope.confirmRide = function(){

@@ -31,6 +31,9 @@ uberApp.controller('frontpageCtrl', function($scope,$http,$window) {
 	            window.location = '/bookRide';
 	        
 	        }
+			else if (data.statusCode === 207){				
+				$("#failure-alert_1").show();	        	
+			}
 			else {
 				$("#failure-alert").show();
 	        	$("#failure-alert").fadeTo(2000, 500).slideUp(500, function(){

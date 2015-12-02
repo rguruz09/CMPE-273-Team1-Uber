@@ -51,7 +51,11 @@ home.config(function($routeProvider) {
         .when("/getAllRidersPage", {
             templateUrl: "views/allRiders.html",
             controller: "RiderControllerAdmin"
-        })   
+        })
+        .when("/getAllURidersPage", {
+            templateUrl: "views/allURiders.html",
+            controller: "RiderControllerAdmin"
+        })
         .when("/getRiderDetailsPage/", {
             templateUrl: "views/viewRider.html",
             controller: "DriverControllerAdmin"
@@ -163,6 +167,25 @@ home.controller("RiderControllerAdmin", function($scope, $http, $location,shared
 		});
 	}
 	
+	$scope.getAllURiders = function() {		
+		$http({
+			method : "POST",
+			url : '/getAllURiders',
+			data : {				
+			}
+		}).success(function(data) {			
+			if (data) {				
+				$scope.allURidersList = data.allURidersList;				
+			} else {
+				console.log("Error in Data Fetching");
+				$scope.unexpected_error = true;
+			}
+		}).error(function(error) {
+			console.log("In allURidersList Fail ");
+			$scope.unexpected_error = true;
+		});
+	}
+	
 	$scope.getRiderDetails = function() {
 		console.log("$scope.getRiderDetails" + sharedProperties.get());
 		$http({
@@ -183,6 +206,28 @@ home.controller("RiderControllerAdmin", function($scope, $http, $location,shared
 			$scope.unexpected_error = true;
 		});
 	}
+	
+	$scope.approveRider = function(email){		
+		$http({
+			method : "POST",
+			url : '/approveRider',
+			data : {	
+				"email":email
+			}
+		}).success(function(data) {	
+			if (data.status=="200") {				
+				console.log("Approved");	
+				$scope.getAllURiders();
+			} else {
+				console.log("Not Approved");
+				$scope.unexpected_error = true;
+			}
+		}).error(function(error) {
+			console.log("In approveDriver fail");
+			$scope.unexpected_error = true;
+		});
+	}
+	
 });
 
 
@@ -260,7 +305,7 @@ home.controller("DriverControllerAdmin", function($scope, $http, $location,share
 		});
 	}
 	
-	$scope.approveDriver = function(email){		
+	$scope.approveDriver = function(email){
 		$http({
 			method : "POST",
 			url : '/approveDriver',

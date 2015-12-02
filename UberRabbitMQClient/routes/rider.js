@@ -210,11 +210,15 @@ function checkRiderLogin (req,res) {
 				console.log("Authenticating using BCRYPT..");
 				if(bcrypt.compareSync(password, results.password) == true) {
 					console.log("Done using BCRYPT..");			
-					req.session.email = email;
-					req.session.firstname = results.firstname;
-					req.session.lastname = results.lastname;
-					console.log("Valid Login");						
-					res.send({"login":"Success","statusCode":results.code});	
+					if(results.isapproved == 0)
+						res.send({"login":"Unappoved","statusCode":207});
+					else {
+						req.session.email = email;
+						req.session.firstname = results.firstname;
+						req.session.lastname = results.lastname;
+						console.log("Valid Login");								
+						res.send({"login":"Success","statusCode":results.code});	
+					}
 				} else {
 					console.log("Invalid Login - Password Mismatch");
 					res.send({"login":"Fail","statusCode":401});

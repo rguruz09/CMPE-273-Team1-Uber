@@ -4,9 +4,8 @@ function getConnection(){
 	var connection = mysql.createConnection({
 	    host     : 'localhost',
 	    user     : 'root',
-	    password : '',
-	    database : 'UBERFINAL',
-	    port:'3307'
+	    password : 'raghu',
+	    database : 'uber'
 	});
 	return connection;
 }

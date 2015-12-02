@@ -165,7 +165,7 @@ $scope.updateProfile = function(details){
 home.controller("carDetailsCtrl", function($scope, $http, $routeParams) {
 	
 	console.log("inside car details controller");
-	
+	$scope.update_success = true;
 	$scope.saveAndContinue = function() {
 		//console.log("Email is::" + globalservice.getEmail());
 		console.log("Make is::" + $scope.formDetails.make);
@@ -177,7 +177,7 @@ home.controller("carDetailsCtrl", function($scope, $http, $routeParams) {
 			method : "POST",
 			url : '/addcarDetails',
 			data : {
-				"email" : "manoj@gmail.com",
+				//"email" : "manoj@gmail.com",
 				"Make" : $scope.formDetails.make,
 				"Year" : $scope.formDetails.year,
 				"color" : $scope.formDetails.Color,
@@ -194,6 +194,7 @@ home.controller("carDetailsCtrl", function($scope, $http, $routeParams) {
 				$scope.invalid_signup = false;
 				$scope.valid_signup = true;
 				$scope.unexpected_error_signup = true;
+				$scope.update_success = false;
 				//window.location.assign("/carDetails");
 			}
 		}).error(function(error) {

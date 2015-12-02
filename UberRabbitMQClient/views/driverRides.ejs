@@ -152,7 +152,15 @@
         <b><input  type="button" class="btn btn-info btn-lg col-md-4" data-toggle="collapse" ng-model="btnConfirmRide" ng-click="confirmRide()" value="START RIDE"></b>
       </div>  
       <div class="row text-center" ng-show=!bbtnStart>
-        <b><input  type="button" class="btn btn-info btn-lg col-md-4" data-toggle="collapse" ng-model="btnEndRide" ng-click="endRide()" value="END RIDE"></b>
+        <select aria-label="Year" name="Year" ng-model="cusrating">
+          <option value="" selected="">Rate Customer</option>
+          <option value="5">5</option>
+          <option value="4">4</option>
+          <option value="3">3</option>
+          <option value="2">2</option>
+          <option value="1">1</option>
+        </select><br><br>
+        <b><input  type="button" class="btn btn-info btn-lg " data-toggle="collapse" ng-model="btnEndRide" ng-click="endRide()" value="END RIDE"></b>
       </div> 
     </div>
 

@@ -18,13 +18,21 @@ exports.bookaride = function(req, res){
 	var descLat = req.param("descLat");
 	var descLng = req.param("descLng");
 	var zipcode = req.param("zipcode");
+	var drivername = req.param("drivername");
 	
-	console.log("In book a ride "+driverID+" "+custID);
+	var name = drivername.split(" ");
+	var cfname = req.session.firstname;
+	var clname = req.session.lastname;
+	
+	console.log(name[0]+" "+name[1]+" "+cfname+" "+clname);
+	
+	
+	//console.log("In book a ride "+driverID+" "+custID);
 	
 	var msg_payload = {"custID" : custID, "driverID" : driverID, "duration" : duration, 
 						"reqtime" : reqtime, "distance" : distance, "weekend" : weekend, 
 						"srcLat" : srcLat, "srcLng" : srcLng, "descLat" : descLat, 
-						"descLng" : descLng, "zipcode" : zipcode};
+						"descLng" : descLng, "zipcode" : zipcode, "dfname" : name[0], "dlname": name[1], "cfname": cfname, "clname" : clname };
 
 //	var msg_payload = {"custID" : custID, "driverID" : driverID, "duration" : duration, 
 //	"reqtime" : reqtime, "distance" : distance, "weekend" : weekend, 
@@ -266,8 +274,9 @@ exports.endRide = function(req, res){
 		
 	var rideID = req.param("rideID");		
 	var endTime = req.param("endTime");
+	var ratings = req.param("ratings");
 	
-	var msg_payload = { "rideID" : rideID, "endTime" : endTime };
+	var msg_payload = { "rideID" : rideID, "endTime" : endTime, "ratings" : ratings };
 	var res_json = {};
 	console.log(msg_payload);
 	
@@ -293,6 +302,36 @@ exports.endRide = function(req, res){
 			}
 		}  
 	});
+};
+
+//endCusRide
+exports.endCusRide = function(req, res){
+	
+	var rideID = req.param("rideID");		
+	var ratings = req.param("ratings");
+	var msg_payload = { "rideID" : rideID, "ratings" : ratings  };
+	var res_json = {};
+	console.log(msg_payload);
+	
+	var query = "update RIDES set RIDE_STATUS = 2 , DRIVER_RATING = "+ ratings +" where RIDE_ID = "+rideID;
+	
+	console.log("Query "+query);
+	
+	mysql.executeQuery(query, function(err, rows) {		
+		if (err) {			
+			console.log("Unexpected Error in Getting ride requests");
+			res.json({
+				code : 404 
+			});
+		} else {
+			
+			console.log("From Get Ride requests: ");			
+			res.json({
+				code : 200
+			});	
+		}	
+	});	
+	
 };
 
 ////checkForRide
@@ -345,7 +384,7 @@ exports.checkForRide = function(req, res){
 	console.log("In getting ride request "+custID);
 	  
 	var query = "select A.RIDE_ID, A.DRIVER_ID, A.CUSTOMER_ID, SOURCE_LAT, SOURCE_LANG, DESTINATION_LAT, DESTINATION_LANG,  B.firstname, "+
-	"B.lastname, B.phone, B.status,A.RIDE_STATUS, B.ratings from RIDES A, customer B where CUSTOMER_ID = '"+custID+"' and RIDE_STATUS IN (-1,0) and A.CUSTOMER_ID = B.email";
+	"B.lastname, B.phone, B.status,A.RIDE_STATUS, B.ratings from RIDES A, customer B where A.CUSTOMER_ID = '"+custID+"' and RIDE_STATUS IN (-1,0,1) and A.CUSTOMER_ID = B.email";
 	
 	console.log("Query "+query);
 	

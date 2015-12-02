@@ -80,16 +80,50 @@
 						if(data.code == 201){								
 							console.log("Not in RIDE");
 							//fetch the driver details
-							$scope.bfirstTime = true;
+							$scope.endbydriv = false;
+							$scope.bfirstTime = true;							
 						  	$scope.loaddriver();
-						}else{
-							$scope.bfirstTime = false;
-							console.log("currently in a ride");
+						}else{							
 							$scope.myRide = data.request[0];
-							$scope.loadMyRide()
-							//call method to show current ride 
+							$scope.RIDEID = $scope.myRide.RIDE_ID; 
+							var reqsts = $scope.myRide.RIDE_STATUS;
+							if(reqsts == 1){
+								$scope.endbydriv = true;
+								console.log("My ride is ended");
+							}else{
+								$scope.mybool = true;
+								$scope.bfirstTime = false;
+								$scope.endbydriv = false;
+								console.log("currently in a ride");							
+								$scope.loadMyRide()
+								//call method to show current ride 
+							}
 						}									
 					});
+				}
+				
+				$scope.EndMyRide = function(){
+					
+					if (angular.isUndefined($scope.cusrating)) {
+						alert("Please rate the customer");
+					} else {
+						$http({
+							method : 'post',
+							url : '/endCusRide',
+							data : {							
+								"rideID" : $scope.RIDEID,
+								"ratings" : $scope.cusrating
+							}
+						}).success(function(data) {								
+							if(data.code == 404){
+								console.log("SQL failed");
+							}else{		
+								$scope.initLoad();
+								console.log("Ride Ended successfully");
+							}					
+											
+						});
+					}
 				}
 		
 				$scope.loadMyRide = function(){							
@@ -392,7 +426,9 @@
 				  var endLoc = new Array();
 				  endLoc[0] = destination;
 
-				  $scope.getDistance(source,destination);
+				  $scope.getDistance(source,destination,function(){
+					  
+				  });
 
 				  var directionsDisplay = new Array();
 				  
@@ -468,12 +504,13 @@
 				         latlang = {
 				      		lat: results[0].geometry.location.lat(),
 				      		lang: results[0].geometry.location.lng()
-				      };
+				      };				         
 				      $scope.addcmp = results[0].address_components;
+				      callback(latlang);
 				    } else {
 				      alert('Geocode was not successful for the following reason: ' + status);
-				    }
-				    callback(latlang);
+				      callback(latlang);
+				    }				    
 				  });
 				}
 
@@ -515,7 +552,9 @@
 				  		$scope.geocodeAddress(source, function(latlang) {
 				  		
 				  			
-				  			$scope.zipcoe = $scope.addcmp[6].short_name; 
+				  			//$scope.zipcoe = $scope.addcmp[6].short_name;
+				  			
+				  			$scope.zipcoe = "95110";
 				  			console.log("zip"+$scope.addcmp );
 				  			
 				  			$scope.srclatlang =  latlang;
@@ -550,6 +589,7 @@
 									method : 'post',
 									url : '/bookaride',
 									data : {
+										"drivername" : $scope.driverDetails.driver,
 										"distance" : $scope.distance,
 										"duration" : $scope.duration,
 										"reqtime" : $scope.reqTime,

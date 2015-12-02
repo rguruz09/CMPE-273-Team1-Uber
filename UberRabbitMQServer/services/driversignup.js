@@ -31,11 +31,12 @@ function handle_request(msg, callback){
 			console.log("From Get Driver result of querydb: "	+ JSON.stringify(user));			
 			res.code = 401;
 			res.value = "duplicate";
+			res.isapproved = user.isapproved;
 			//res.user = user;						
 			callback(null,res);
 
 		} else {
-				coll.insert({firstname:msg.firstname,lastname:msg.lastname,password:msg.password,address:msg.address,city:msg.city,zip:msg.zip,state:msg.state,mobile:msg.mobile,email:msg.email}, function(err, user){
+				coll.insert({firstname:msg.firstname,lastname:msg.lastname,password:msg.password,address:msg.address,city:msg.city,zip:msg.zip,state:msg.state,mobile:msg.mobile,email:msg.email,isapproved:0}, function(err, user){
 			if(user)
 			{
 				console.log("results");
@@ -71,11 +72,20 @@ function handle_request_login(msg, callback){
 
 		coll.findOne({email: msg.email}, function(err, user){
 			if (user) {
-				console.log("Inside success");
-				res.code = 200;
-				res.user=user;
-				res.value = "Success Login";
-				callback(null, res);
+				if(user.isapproved === 1) {
+					console.log("Inside success");
+					res.code = 200;
+					res.user=user;
+					res.value = "Success Login";
+					callback(null, res);
+				} else {
+					console.log("From Get Driver result of querydb: "	+ JSON.stringify(user));			
+					res.code = 207;
+					res.user = user;
+					res.value = "notapproved";
+					callback(null,res);				
+				}
+				
 
 			} else {
 				console.log("Inside failure");

@@ -1,4 +1,11 @@
 <div ng-controller="carDetailsCtrl">
+<div class="col-md-10">
+
+<div class="alert alert-success" ng-hide="update_success">
+	<strong>Car details updated successfully</strong>
+</div>
+</div>
+
 <!-- PROFILE -->
 <div class="col-md-1">
 </div>
@@ -8,7 +15,7 @@
 		</div>
 		&nbsp &nbsp
 		
-		<form>
+		<form name ="cardetails">
 			<div class = "row">
 				<div class="form-group col-xs-6">
 					MAKE:									
@@ -43,7 +50,7 @@
 			</div>
 			<div class="row">
 			<div class="form-group col-xs-6">
-			<select aria-label="Year" name="Year" ng-model="formDetails.year">
+			<select aria-label="Year" name="Year" ng-model="formDetails.year" required>
 			<option value="" selected="">Choose Vehicle Year</option>
 			<option value="2010">2010</option>
 			<option value="2011">2011</option>
@@ -65,7 +72,7 @@
 			</div>
 			<div class="row">
 			<div class="form-group col-xs-6">
-			<select aria-label="Color" name="Color" ng-model="formDetails.Color">
+			<select aria-label="Color" name="Color" ng-model="formDetails.Color" required>
 			<option value="" selected="">Choose Vehicle Year</option>
 			<option value="Black">Black</option>
 			<option value="White">White</option>

@@ -123,7 +123,7 @@ function handle_login_rider_queue(msg,callback) {
 	var email = msg.email;	
 	var res = {};
 
-	mysql.authenticate("customer", email, function(err, rows) {		
+	mysql.authenticate_approval("customer", email, function(err, rows) {		
 		if (err) {			
 			console.log("Unexpected Error in Rider authentication");
 			res.code = err.code;
@@ -138,7 +138,8 @@ function handle_login_rider_queue(msg,callback) {
 			res.value = "Success";
 			res.password = rows[0].password;	
 			res.firstname = rows[0].firstname;	
-			res.lastname = rows[0].lastname;						
+			res.lastname = rows[0].lastname;
+			res.isapproved = rows[0].isapproved;
 			callback(null,res);
 			}
 			else

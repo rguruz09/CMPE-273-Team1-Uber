@@ -39,7 +39,8 @@
 			}).success(function(data) {
 				console.log("In paymentPage Controller");
 				console.log("Deleted card details ");
-	            $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+				$("#success-alert1").show();
+	            $("#success-alert1").fadeTo(2000, 500).slideUp(500, function(){
 	            window.location.assign('/paymentPage');
 	              
 	            });

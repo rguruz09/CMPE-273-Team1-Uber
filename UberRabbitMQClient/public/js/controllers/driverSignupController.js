@@ -116,6 +116,11 @@ uberApp.controller('driverSignupCtrl', function($scope, $http, $location,globals
 					
 				});
 				
+			} else if(data.statusCode == 207) {
+				$("#failure-alert_1").show();
+	        	$("#failure-alert_1").fadeTo(2000, 500).slideUp(500, function(){
+	        	//window.location.assign("/");
+	         });
 			}
 			/*if (data.status == "User Validated!") {
 				console.log("Failure Driver Login");

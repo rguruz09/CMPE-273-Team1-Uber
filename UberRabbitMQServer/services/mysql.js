@@ -28,7 +28,28 @@ exports.authenticate = function(tableName,email, callback) {
     });
 };
 
-
+exports.authenticate_approval = function(tableName, email, callback) {
+	var sql = "SELECT firstname,lastname,isapproved,password FROM " + tableName
+			+ " where email = ?";
+	// get a connection from the pool
+	var arr = [ email ];
+	pool.getConnection(function(err, connection) {
+		if (err) {
+			console.log(err);
+			callback(true);
+			return;
+		}
+		// make the query
+		connection.query(sql, arr, function(err, results) {
+			if (err) {
+				console.log(err);
+				callback(true, err);
+				return;
+			}
+			callback(false, results);
+		});
+	});
+};
 exports.insert = function(tableName, arr, callback) {
 	var sql = "INSERT into " + tableName + " SET ?";
 	console.log(arr);
@@ -211,4 +232,70 @@ exports.selectAll = function(tableName,callback) {
 		callback(false, results);
 	});
     });
+}
+
+
+
+exports.selectAllApproved = function(tableName,callback) {
+	console.log("Getting Details from " + tableName );
+	var sql = "SELECT * FROM  " + tableName   + " where isapproved = 1";
+	
+	console.log(sql);
+    pool.getConnection(function(err, connection) {
+        if(err) { console.log(err); callback(true); return; }
+        // make the query
+	connection.query(sql,function(err, results) {
+		if (err) {
+			console.log(err);
+			callback(true, err);
+			return;
+		}
+		callback(false, results);
+	});
+    });
+}
+
+exports.selectAllUApproved = function(tableName, callback) {
+	console.log("Getting Details from " + tableName);
+	var sql = "SELECT * FROM  " + tableName + " where isapproved = 0";
+
+	console.log(sql);
+	pool.getConnection(function(err, connection) {
+		if (err) {
+			console.log(err);
+			callback(true);
+			return;
+		}
+		// make the query
+		connection.query(sql, function(err, results) {
+			if (err) {
+				console.log(err);
+				callback(true, err);
+				return;
+			}
+			callback(false, results);
+		});
+	});
+}
+
+exports.approveRider = function(tableName,email, callback) {
+	console.log("Getting Details from " + tableName);
+	var sql = "UPDATE " + tableName + " SET isapproved = 1 " + " where email =\"" + email + "\"";	
+	console.log(sql);
+	pool.getConnection(function(err, connection) {
+		if (err) {
+			console.log(err);
+			callback(true);
+			return;
+		}
+		// make the query
+		connection.query(sql, function(err, results) {
+			if (err) {
+				console.log(err);
+				callback(true, err);
+				return;
+			}
+			callback(false, results);
+		});
+	});
 }

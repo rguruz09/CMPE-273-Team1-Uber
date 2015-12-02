@@ -36,8 +36,8 @@ exports.handle_request_bookaRide = function(msg,callback){
 								
 								price = Number((price).toFixed(2));
 								var sts = -1;
-								query = "insert into RIDES(DRIVER_ID, CUSTOMER_ID, SOURCE_LAT, SOURCE_LANG, DESTINATION_LAT, DESTINATION_LANG, DURATION, DISTANCE, REQ_TIME, PRICE, RIDE_STATUS, ZIPCODE)" + 
-								"  values('"+msg.driverID+"','"+msg.custID+"',"+msg.srcLat+","+msg.srcLng+","+msg.descLat+","+msg.descLng+","+msg.duration+","+msg.distance+",'"+msg.reqtime+"',"+price+","+sts+","+msg.zipcode+")";
+								query = "insert into RIDES(DRIVER_ID, CUSTOMER_ID, SOURCE_LAT, SOURCE_LANG, DESTINATION_LAT, DESTINATION_LANG, DURATION, DISTANCE, REQ_TIME, PRICE, RIDE_STATUS, ZIPCODE, DFNAME, DLNAME, CFNAME, CLNAME )" + 
+								"  values('"+msg.driverID+"','"+msg.custID+"',"+msg.srcLat+","+msg.srcLng+","+msg.descLat+","+msg.descLng+","+msg.duration+","+msg.distance+",'"+msg.reqtime+"',"+price+","+sts+","+msg.zipcode+",'"+msg.dfname+"','"+msg.dlname+"','"+msg.cfname+"','"+msg.clname+"')";
 								
 								console.log("Query - "+ query);
 								
@@ -156,10 +156,11 @@ exports.handle_request_endRide = function(msg,callback) {
 	
 	var rideID = msg.rideID;
 	var endTime = msg.endTime;
+	var ratings  = msg.ratings;
 	
 	var res = {};
 	  
-	var query1 = "update RIDES set RIDE_STATUS = 1, END_TIME = '"+endTime+"' where RIDE_ID = "+rideID ;
+	var query1 = "update RIDES set RIDE_STATUS = 1, END_TIME = '"+endTime+"' , CUSTOMER_RATING = "+ ratings + " where RIDE_ID = "+rideID ;
 	var query2 = "select * from RIDES where RIDE_ID = "+rideID ;
 	console.log("Query "+query1);
 	
@@ -200,7 +201,7 @@ exports.handle_request_checkRide = function(msg,callback) {
 	var res = {};
 	  
 	var query = "select A.DRIVER_ID, A.CUSTOMER_ID, SOURCE_LAT, SOURCE_LANG, DESTINATION_LAT, DESTINATION_LANG,  B.firstname, "+
-	"B.lastname, B.phone, B.status, A.RIDE_STATUS ,B.ratings from RIDES A, customer B where CUSTOMER_ID = '"+custID+"' and RIDE_STATUS IN (-1,0)  and A.CUSTOMER_ID = B.email";
+	"B.lastname, B.phone, B.status, A.RIDE_STATUS ,B.ratings from RIDES A, customer B where A.CUSTOMER_ID = '"+custID+"' and RIDE_STATUS IN (-1,0)  and A.CUSTOMER_ID = B.email";
 	
 	console.log("Query "+query);
 	

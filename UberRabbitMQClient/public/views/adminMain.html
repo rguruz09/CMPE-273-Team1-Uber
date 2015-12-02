@@ -12,35 +12,35 @@
 	</div>
 	<hr />
 	<div class="row">
-		<div class="col-md-6" align="right">
+		<div class="col-md-12" align="center">
 			<h3>
 				<strong>RIDER SETTINGS</strong>
 			</h3>
 			<div>
-				<button class="btn btn-primary btn-lg" ng-click='goNext("/getAllRidersPage")' type="submit">List All Riders</button>
+				<button class="btn btn-primary btn-lg" ng-click='goNext("/getAllRidersPage")' type="submit">List All Riders</button>			
+				<button class="btn btn-success btn-lg" ng-click='goNext("/getAllURidersPage")' type="submit">Approve Riders</button>
 			</div>
 		</div>
+	</div>
+	<hr />
+	<div class="row">
+		<div class="col-md-6" align="right">
+			<h3>
+				<strong>RIDES SETTINGS</strong> </h3>
+				<div>
+					<button class="btn btn-primary btn-lg" ng-click='goNext("/getAllRidesPage")' type="submit">List all Rides</button>
+				</div>
+			
+		</div>
+		
 		<div class="col-md-6" align="left">
 			<h3>
 				<strong>BILLS SETTINGS</strong>
 			</h3>
-			<div">
-				<button class="btn btn-success btn-lg"
-					ng-click='goNext("/getAllBillsPage")' type="submit">List
-					All Bills</button>
+			<div>
+				<button class="btn btn-success btn-lg" ng-click='goNext("/getAllBillsPage")' type="submit">List All Bills</button>
 			</div>
 		</div>
-
-	</div>
-	<hr />
-	<div class="row">
-		<h3 align="center">
-			<strong>RIDES SETTINGS</strong>
-			<div align="center">
-				<button class="btn btn-primary btn-lg"
-					ng-click='goNext("/getAllRidesPage")' type="submit">List all Rides</button>
-			</div>
-		</h3>
 	</div>
 	<hr />
 	<div class="row">

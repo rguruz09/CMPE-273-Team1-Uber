@@ -13,24 +13,22 @@
 </div>
 </div>
 
+<div class="col-md-8">
 
-<div class="col-md-1" >
-</div>
-<div class="col-md-7">
 	<div class="row">
 		<h3 align = "center"> <strong>PROFILE</strong> </h3>
 		<hr/>
-		<form>
+		<form name="updateData">
 			<div class = "row">
 				<div class="form-group col-xs-2">
 					Name:									
 				</div>
 			</div>
 			<div class="row">
-				<div class="form-group col-xs-3">
+				<div class="form-group col-xs-4">
 					<input class="form-control input-sm" type="text" id="firstName" name="firstname" placeholder="First Name" ng-model="formDetails.firstname" required />												
 				</div>
-				<div class="form-group col-xs-3">				
+				<div class="form-group col-xs-4">				
 					<input class="form-control input-sm" type="text" id="lastName" name="lastname" placeholder="Last Name" ng-model="formDetails.lastname" required />								
 				</div>		
 			</div>
@@ -49,11 +47,15 @@
 							
 			</div>
 			<div class="row">
-			<div class="form-group col-xs-2">
+			<div class="form-group col-xs-3">
 					<input class="form-control input-sm" type="text" id="city" name="city" placeholder="City" ng-model="formDetails.city" required />
 				</div>	
-				<div class="form-group col-xs-2">
-					<input class="form-control input-sm" type="text" id="zip" name="zip" placeholder="Zip Code" ng-model="formDetails.zip" required />
+				<div class="form-group col-xs-3">
+					<input class="form-control input-sm" type="text" id="zip" name="zip" placeholder="Zip Code" ng-model="formDetails.zip" required ng-pattern="/^[0-9]{5}(-[0-9]{4})?$/"/>
+				<div role="alert">
+						<span style="color:red;" class="error" ng-show="updateData.zip.$error.pattern">Invalid postal code!</span>
+						</div>
+				
 				</div>	
 				
 				<div class="form-group col-xs-2">	
@@ -125,7 +127,11 @@
 			
 			<div class="row">
 				<div class="form-group col-xs-4">
-					<input class="form-control input-sm" type="tel" id="mobile" name="mobile" placeholder="Phone" ng-model="formDetails.mobile" required />
+					<input class="form-control input-sm" type="tel" id="mobile" name="mobile" placeholder="Phone" ng-model="formDetails.mobile" required ng-pattern="/^[0-9]{10}$/" />
+				<div role="alert">
+						<span style="color:red;" class="error" ng-show="updateData.mobile.$error.pattern">Invalid mobile number!</span>
+			    </div>
+				
 				</div>	
 			</div>
 			<hr/>
@@ -151,7 +157,7 @@
 			</div>
 			<hr/>
 			<div class="row" align = "center">
-				<input type="submit" class="btn btn-info" value="Update Profile" ng-click="updateProfile(formDetails);"></input>
+				<input type="submit" class="btn btn-info" value="Update Profile" ng-click="updateProfile(formDetails)" ng-disabled="updateData.$invalid"></input>
 			</div>
 			<hr/>
 

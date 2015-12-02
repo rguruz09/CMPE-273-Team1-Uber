@@ -772,5 +772,41 @@ cnn.on('ready', function() {
 	});
 });
 	
+	cnn.queue('admin_get_all_uriders_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+			admin.handle_admin_get_all_uriders_queue(message, function(err, res) {
+				console.log("After  admin_get_all_uriders_queue Handle" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});
+	
+	cnn.queue('admin_approve_rider_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+			admin.handle_admin_approve_rider_queue(message, function(err, res) {
+				console.log("After  admin_approve_rider_queue Handle" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});
+	
 	
 });

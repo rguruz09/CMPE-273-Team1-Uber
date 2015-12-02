@@ -5,7 +5,7 @@ function handle_get_all_drivers_queue(msg, callback) {
 	var res = {};	
 	mongo.connect(mongoURL, function() {
 		var coll = mongo.collection('drivers');
-		coll.find({}).toArray(function(err, result) {
+		coll.find({"isapproved":1}).toArray(function(err, result) {
 			console.log(result);
 			if (err) {
 				console.log("Fail :(")
@@ -24,7 +24,7 @@ function handle_admin_get_unapproved_drivers_queue(msg, callback) {
 	var res = {};	
 	mongo.connect(mongoURL, function() {
 		var coll = mongo.collection('drivers');
-		coll.find({"isApproved":"false"}).toArray(function(err, result) {
+		coll.find({"isapproved":0}).toArray(function(err, result) {
 			console.log(result);
 			if (err) {
 				console.log("Fail :(")
@@ -56,7 +56,7 @@ function handle_admin_approve_driver_queue(msg, callback) {
 	console.log("Approving Details of " + email);
 	mongo.connect(mongoURL, function() {
 		var coll = mongo.collection('drivers');
-		coll.updateOne({"email":email} , { $set : {"isApproved":"true"}},function(err, result) {
+		coll.updateOne({"email":email} , { $set : {"isapproved":1}},function(err, result) {
 			console.log(result);
 			if (err) {
 				console.log("Fail")

@@ -174,6 +174,13 @@ exports.checkDrivers = function(req,res){
 					console.log("Passwords do not match");
 					res.send(json_responses);
 					}
+			} else if(results.code === 207) {
+				//Unauthorized Driver 
+				json_responses = {
+						"statusCode" : results.code							
+				};
+				console.log("Unauthorized Request for user");
+				res.send(json_responses);
 			} else {
 				json_responses = {
 						"statusCode" : 301
@@ -315,7 +322,7 @@ exports.getCurDriverLatlng = function(req,res){
 exports.addcarDetails = function(req,res){
 	console.log("In addcarDetails client ");
 
-	var email = req.param("email");
+	var email = req.session.driverID;
 	var Make = req.param("Make");
 	var Year = req.param("Year");
 	var color = req.param("color");

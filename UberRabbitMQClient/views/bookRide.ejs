@@ -158,13 +158,24 @@
 		</div>
 		
 		<hr/>
-		<div class="row" ng-hide=!bfirstTime>
+		<div class="row" ng-hide="!bfirstTime">
 			<b><input type="button" class="btn btn-info btn-lg col-md-4" data-toggle="collapse" ng-model="btnBookRide" ng-click="BookRide()" value="REQUEST UBERX"></b>
 			<b><input type="button" class="btn btn-info btn-lg col-md-4" data-toggle="collapse" ng-model="btnFareEstimate" ng-click="GetFare()" value="FARE ESTIMATOR"></b>
 		</div>	
-		<div class="row" ng-hide=bfirstTime>
+		<div class="row" ng-hide=" bfirstTime || endbydriv ">
 			<b><input type="button" class="btn btn-info btn-lg col-md-4" data-toggle="collapse" ng-model="btnEditRide" ng-click="editRide()" value="EDIT RIDE"></b>
 			<b><input type="button" class="btn btn-info btn-lg col-md-4" data-toggle="collapse" ng-model="btnCancelRide" ng-click="" value="CANCEL RIDE"></b>
+		</div>	
+		<div class="row"  align = "center" ng-hide=" bfirstTime || !endbydriv || mybool  ">
+			<select aria-label="Year" name="Year" ng-model="cusrating">
+          		<option value="" selected="">Rate Customer</option>
+          		<option value="5">5</option>
+          		<option value="4">4</option>
+          		<option value="3">3</option>
+          		<option value="2">2</option>
+          		<option value="1">1</option>
+        </select><br><br>
+			<b><input type="button" class="btn btn-info btn-lg " data-toggle="collapse" ng-model="btnEditRide" ng-click="EndMyRide()" value="END RIDE"></b>
 		</div>	
 	</div>
 		<div class="alert alert-success col-md-10" id="success-alert-bookconfirm" style="display: none ">
