@@ -9,7 +9,9 @@
 		<li ng-class="{ active:panel.isSelected(4)}"><a href
 			ng-click="panel.selectedTab(4);gettimebasedstats();">Time Based</a></li>
 		<li ng-class="{active:panel.isSelected(5)}"><a href
-			ng-click="panel.selectedTab(5);getlocationbasedstats();">Location Based</a></li>
+			ng-click="panel.selectedTab(5);getlocationbasedstats();">Revenue Based</a></li>
+		<li ng-class="{active:panel.isSelected(6)}"><a href
+			ng-click="panel.selectedTab(6);getlocationbasedstats();">Location Based</a></li>
 	</ul>
 	<br />
 	<div ng-show="panel.isSelected(1)">
@@ -23,9 +25,11 @@
 		<h3>Revenue/Driver - PIE Chart</h3>
 	
 		<div id="driverTable2"></div>
-		<hr/>		
+		<hr/>						
 				
 		<h3>Tabular Format</h3>
+		<label>All <input class="form-control input-sm" ng-model="search1.$"></label>	
+	
 		<table class="table table-striped hover">
 		<tr>
 			<th colspan="1">#</th>
@@ -36,7 +40,7 @@
 								
 		</tr>
 		<tbody>
-			<tr ng-repeat="stat in ridesPerDriver">
+			<tr ng-repeat="stat in ridesPerDriver | filter:search1">
 				<td>{{$index+1}}</td>
 				<td>{{stat.firstname}} {{stat.lastname}}</td>
 				<td>{{stat.label}}</td>
@@ -57,6 +61,8 @@
 		<hr/>		
 				
 		<h3>Tabular Format</h3>
+		<label>All <input class="form-control input-sm"	ng-model="search.$"></label>
+		
 		<table class="table table-striped hover">
 		<tr>
 			<th colspan="1">#</th>
@@ -67,7 +73,7 @@
 								
 		</tr>
 		<tbody>
-			<tr ng-repeat="stat in ridesPerRider">
+			<tr ng-repeat="stat in ridesPerRider | filter:search">
 				<td>{{$index+1}}</td>
 				<td>{{stat.firstname}} {{stat.lastname}}</td>
 				<td>{{stat.label}}</td>
@@ -86,6 +92,9 @@
 		<hr/>		
 				
 		<h3>Tabular Format</h3>
+		<label>All <input class="form-control input-sm"
+		ng-model="search2.$"></label>
+		
 		<table class="table table-striped hover">
 		<tr>
 			<th colspan="1">#</th>
@@ -93,7 +102,7 @@
 			<th colspan="1">Rides Requested</th>								
 		</tr>
 		<tbody>
-			<tr ng-repeat="stat in timebasedstats">
+			<tr ng-repeat="stat in timebasedstats | filter:search3">
 				<td>{{$index+1}}</td>
 				<td>{{stat.label}}</td>
 				<td>{{stat.value}}</td>								
@@ -111,6 +120,8 @@
 		<hr/>		
 				
 		<h3>Tabular Format</h3>
+		<label>All <input class="form-control input-sm"
+		ng-model="search4.$"></label>
 		<table class="table table-striped hover">
 		<tr>
 			<th colspan="1">#</th>
@@ -119,7 +130,7 @@
 			<th colspan="1">Revenue</th>								
 		</tr>
 		<tbody>
-			<tr ng-repeat="stat in revenuebasedstats">
+			<tr ng-repeat="stat in revenuebasedstats | filter:search4">
 				<td>{{$index+1}}</td>
 				<td>{{stat.label}}</td>
 				<td>{{stat.value}}</td>	

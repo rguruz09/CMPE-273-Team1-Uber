@@ -1,10 +1,10 @@
 var mongo = require("./mongo");
-var mongoURL = "mongodb://localhost:27017/driver";
+var mongoURL = "mongodb://localhost:27017/uberdb";
 
 function handle_get_all_drivers_queue(msg, callback) {
 	var res = {};	
 	mongo.connect(mongoURL, function() {
-		var coll = mongo.collection('driver');
+		var coll = mongo.collection('drivers');
 		coll.find({}).toArray(function(err, result) {
 			console.log(result);
 			if (err) {
@@ -23,7 +23,7 @@ function handle_get_all_drivers_queue(msg, callback) {
 function handle_admin_get_unapproved_drivers_queue(msg, callback) {
 	var res = {};	
 	mongo.connect(mongoURL, function() {
-		var coll = mongo.collection('driver');
+		var coll = mongo.collection('drivers');
 		coll.find({"isApproved":"false"}).toArray(function(err, result) {
 			console.log(result);
 			if (err) {
@@ -55,7 +55,7 @@ function handle_admin_approve_driver_queue(msg, callback) {
 	var email = msg.email;	
 	console.log("Approving Details of " + email);
 	mongo.connect(mongoURL, function() {
-		var coll = mongo.collection('driver');
+		var coll = mongo.collection('drivers');
 		coll.updateOne({"email":email} , { $set : {"isApproved":"true"}},function(err, result) {
 			console.log(result);
 			if (err) {

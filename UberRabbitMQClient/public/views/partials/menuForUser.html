@@ -1,82 +1,142 @@
-<section ng-controller="ProfileController as panel">
+<section ng-controller="StatsController as panel">
 	<ul class="nav nav-pills navbar-custom ">
 		<li ng-class="{ active:panel.isSelected(1)}"><a href
-			ng-click="panel.selectedTab(1);postsByMe();">Timeline</a></li>
-		<li ng-class="{ active:panel.isSelected(2)}"><a href
-			ng-click="panel.selectedTab(2);getAbout();">About</a></li>
+			ng-click="panel.selectedTab(1);getAllRides();">Map Based</a></li>
+		<li ng-class="{ active:panel.isSelected(2)};"><a href
+			ng-click="panel.selectedTab(2);getDriverBasedStats();">Driver Based</a></li>
 		<li ng-class="{ active:panel.isSelected(3)}"><a href
-			ng-click="panel.selectedTab(3);loadFriendList();loadPendingFriendList();">Friends</a></li>
+			ng-click="panel.selectedTab(3);getRiderBasedStats();">Rider Based</a></li>
 		<li ng-class="{ active:panel.isSelected(4)}"><a href
-			ng-click="panel.selectedTab(4)">Photos</a></li>
+			ng-click="panel.selectedTab(4);gettimebasedstats();">Time Based</a></li>
 		<li ng-class="{active:panel.isSelected(5)}"><a href
-			ng-click="panel.selectedTab(5)">More</a></li>
+			ng-click="panel.selectedTab(5);getlocationbasedstats();">Revenue Based</a></li>
+		<li ng-class="{active:panel.isSelected(6)}"><a href
+			ng-click="panel.selectedTab(6);getlocationbasedstats();">Location Based</a></li>
 	</ul>
 	<br />
 	<div ng-show="panel.isSelected(1)">
-		<div class="alert alert-gray" ng-repeat="post in myNewsFeedList">
-			<h4>{{post.details}}</h4>
-			<h6>
-				<i> {{post.date_posted}}</i>i>
-			</h6>
-		</div>
+		<div id="map" style="width: 900px; height: 600px;"></div>		
 	</div>
 
-	<div ng-show="panel.isSelected(2)">
-		<h2>About</h2>
-		<hr>
-		<h4>From City: {{aboutInfo.fromcity}}</h4>
-		<h4>Current Lives in: {{aboutInfo.currentcity}}</h4>
-		<hr>
-		<h4>Works at: {{aboutInfo.work}}</h4>
-		<h4>Studies/Studied at: {{aboutInfo.education}}</h4>
-		<h4>Contact me at: {{aboutInfo.contact}}</h4>
-		<h4>More about me: {{aboutInfo.about}}</h4>
-		<h2>Interests</h2>
-		<hr>
-		<h4>My Choice of Music: {{aboutInfo.music}}</h4>
-		<h4>My Favourite Sports: {{aboutInfo.sports}}</h4>
-		<h4>Shows I love watching: {{aboutInfo.interests}}</h4>
-		<br /> <br /> <br /> <br />
+	<div ng-show="panel.isSelected(2)">			
+		<h3>Number of Rides/Driver - PIE Chart</h3>
+		<div id="driverTable"></div>
+		<hr/>
+		<h3>Revenue/Driver - PIE Chart</h3>
+	
+		<div id="driverTable2"></div>
+		<hr/>						
+				
+		<h3>Tabular Format</h3>
+		<label>All <input class="form-control input-sm" ng-model="search1.$"></label>	
+	
+		<table class="table table-striped hover">
+		<tr>
+			<th colspan="1">#</th>
+			<th colspan="1">Name</th>
+			<th colspan="1">Email</th>
+			<th colspan="1">No Of Rides</th>
+			<th colspan="1">Revenue Generated</th>
+								
+		</tr>
+		<tbody>
+			<tr ng-repeat="stat in ridesPerDriver | filter:search1">
+				<td>{{$index+1}}</td>
+				<td>{{stat.firstname}} {{stat.lastname}}</td>
+				<td>{{stat.label}}</td>
+				<td>{{stat.value}}</td>		
+				<td>{{stat.revenue}}</td>				
+			</tr>
+		</tbody>
+	</table>
 	</div>
 
 	<div ng-show="panel.isSelected(3)">
-
-		<div class="row">
-			<div ng-show="(pendingFriendList.length > 0)">
-				<h3>Pending Friend Requests</h3>
-				<div class="alert alert-gray col-sm-4"
-					ng-repeat="friend in pendingFriendList">
-					<h4 ng-click="displayAnotherUser(friend.user_id)">{{friend.firstname}}
-						{{friend.lastname}}</h4>
-					<img src="../images/avatar.png" alt="logo"
-						style="width: 40px; height: 40px;"></img> <input type="submit"
-						ng-click="acceptFriend(friend._id,friend.firstname,friend.lastname,true);"
-						class="btn btn-success " value="Accept "> <input
-						type="submit" ng-click="acceptFriend(friend._id,friend.firstname,friend.lastname,false);"
-						class="btn btn-danger " value="Reject ">
-				</div>
-
-			</div>
-		</div>
-
-		<hr>
-
-		<div class="row">
-			<div ng-click="displayAnotherUser(friend.user_id)"
-				class="alert alert-gray col-sm-4" ng-repeat="friend in friendList">
-				<h4>{{friend.firstname}} {{friend.lastname}}</h4>
-				<img src="../images/avatar.png" alt="logo"
-					style="width: 40px; height: 40px;"></img>
-			</div>
-		</div>
+		<h3>Number of Rides/Rider - PIE Chart</h3>
+		<div id="riderTable"></div>
+		<hr/>
+		<h3>Revenue/Rider - PIE Chart</h3>
+	
+		<div id="riderTable2"></div>
+		<hr/>		
+				
+		<h3>Tabular Format</h3>
+		<label>All <input class="form-control input-sm"	ng-model="search.$"></label>
+		
+		<table class="table table-striped hover">
+		<tr>
+			<th colspan="1">#</th>
+			<th colspan="1">Name</th>
+			<th colspan="1">Email</th>
+			<th colspan="1">No Of Rides</th>
+			<th colspan="1">Revenue Generated</th>
+								
+		</tr>
+		<tbody>
+			<tr ng-repeat="stat in ridesPerRider | filter:search">
+				<td>{{$index+1}}</td>
+				<td>{{stat.firstname}} {{stat.lastname}}</td>
+				<td>{{stat.label}}</td>
+				<td>{{stat.value}}</td>		
+				<td>{{stat.revenue}}</td>				
+			</tr>
+		</tbody>
+	</table>
 	</div>
 
 	<div class="panel" ng-show="panel.isSelected(4)">
-		<h4>Photos</h4>
+		<h3>Time Based Bar Chart</h3>
+		<div id="timebased1"></div>
+		<hr/>
+		<div id="timebased2"></div>
+		<hr/>		
+				
+		<h3>Tabular Format</h3>
+		<label>All <input class="form-control input-sm"
+		ng-model="search2.$"></label>
+		
+		<table class="table table-striped hover">
+		<tr>
+			<th colspan="1">#</th>
+			<th colspan="1">Time of Day</th>
+			<th colspan="1">Rides Requested</th>								
+		</tr>
+		<tbody>
+			<tr ng-repeat="stat in timebasedstats | filter:search3">
+				<td>{{$index+1}}</td>
+				<td>{{stat.label}}</td>
+				<td>{{stat.value}}</td>								
+			</tr>
+		</tbody>
+	</table>
 	</div>
 
 	<div class="panel" ng-show="panel.isSelected(5)">
-		<h4>More</h4>
+		<h3>Rides/Year - Pie Chart</h3>
+		<div id="revenuebased1"></div>
+		<hr/>
+		<h3>Revenue Share/Year - Pie Chart</h3>
+		<div id="revenuebased2"></div>
+		<hr/>		
+				
+		<h3>Tabular Format</h3>
+		<label>All <input class="form-control input-sm"
+		ng-model="search4.$"></label>
+		<table class="table table-striped hover">
+		<tr>
+			<th colspan="1">#</th>
+			<th colspan="1">Year</th>
+			<th colspan="1">Rides Requested</th>
+			<th colspan="1">Revenue</th>								
+		</tr>
+		<tbody>
+			<tr ng-repeat="stat in revenuebasedstats | filter:search4">
+				<td>{{$index+1}}</td>
+				<td>{{stat.label}}</td>
+				<td>{{stat.value}}</td>	
+				<td>{{stat.revenue}}</td>								
+			</tr>
+		</tbody>
 	</div>
 
 </section>

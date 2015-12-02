@@ -323,8 +323,7 @@ home.controller("BillController", function($scope, $http, $location,sharedProper
 				"RIDE_ID":sharedProperties.get()
 			}
 		}).success(function(data) {			
-			if (data) {
-				console.log(data.billDetails);
+			if (data) {				
 				$scope.billDetails = data.billDetails;		
 				$scope.loadMap();
 			} else {
@@ -416,7 +415,7 @@ home.controller("StatsController", function($scope, $http, $location,
 									  new google.maps.LatLng(	$scope.rides[i].DESTINATION_LAT,$scope.rides[i].DESTINATION_LANG) ];							
 							$scope.srcdest.push(sd);
 						}
-						console.log($scope.srcdest.length);
+						//console.log($scope.srcdest.length);
 
 						$scope.loadMap();
 					} else {
@@ -437,7 +436,7 @@ home.controller("StatsController", function($scope, $http, $location,
 				lat : 0,
 				lng : -180
 			},
-			mapTypeId : google.maps.MapTypeId.TERRAIN
+			mapTypeId : google.maps.MapTypeId.ROADMAP
 		});
 		var flightPlanCoordinates = $scope.srcdest[0];
 		for (var i = 0; i < $scope.srcdest.length; i++) {
@@ -461,9 +460,21 @@ home.controller("StatsController", function($scope, $http, $location,
 			}
 		}).success(function(data) {			
 			if (data) {				
-				$scope.ridesPerDriver = data.ridesPerDriver;
-				console.log($scope.ridesPerDriver);
+				
+				var dataJSON = [];
+				//var temp = JSON.parse(data.ridesPerRider);				
+				if(data.ridesPerDriver.length>10) {
+					for(var indx = 0 ; indx < 10 ; indx++) {
+						//console.log("data.ridesPerDriver" + data.ridesPerDriver[indx].lastname);
+						dataJSON.push(data.ridesPerDriver[indx]);
+					}
+				} else {
+					dataJSON = data.ridesPerDriver
+				}				
+				$scope.ridesPerDriver = data.ridesPerDriver;				
+				
 				document.getElementById('driverTable');
+				
 				d3.piechart_2.build('#driverTable', data.ridesPerDriver, {
 					width : 700,
 					height : 600
@@ -473,11 +484,7 @@ home.controller("StatsController", function($scope, $http, $location,
 					width : 700,
 					height : 600
 				});
-				
-				d3.animatedBarChart.build('#driverTable3', data.ridesPerDriver, {
-					width : 700,
-					height : 600
-				});
+			
 				
 			} else {
 				console.log("Error in Data Fetching");
@@ -498,21 +505,29 @@ home.controller("StatsController", function($scope, $http, $location,
 			}
 		}).success(function(data) {			
 			if (data) {				
-				$scope.ridesPerRider = data.ridesPerRider;				
-				d3.piechart_2.build('#riderTable', data.ridesPerRider, {
+				$scope.ridesPerRider = data.ridesPerRider;		
+				var dataJSON = [];
+				//var temp = JSON.parse(data.ridesPerRider);
+				
+				if(data.ridesPerRider.length>10) {
+					for(var indx = 0 ; indx < 10 ; indx++) {
+						console.log("data.ridesPerRider" + data.ridesPerRider[indx].lastname);
+						dataJSON.push(data.ridesPerRider[indx]);
+					}
+				} else {
+					dataJSON = data.ridesPerRider
+				}
+				
+				
+				d3.piechart_2.build('#riderTable', dataJSON, {
 					width : 700,
 					height : 600
 				});
 				
-				d3.piechart_3.build('#riderTable2', data.ridesPerRider, {
+				d3.piechart_3.build('#riderTable2', dataJSON, {
 					width : 700,
 					height : 600
-				});
-				
-				d3.animatedBarChart.build('#riderTable3', data.ridesPerDriver, {
-					width : 700,
-					height : 600
-				});
+				});			
 				
 			} else {
 				console.log("Error in Data Fetching");
@@ -533,8 +548,17 @@ home.controller("StatsController", function($scope, $http, $location,
 			}
 		}).success(function(data) {			
 			if (data) {				
-				$scope.timebasedstats = data.timebasedstats;				
-				d3.piechart_2.build('#timebased1', data.timebasedstats, {
+				$scope.timebasedstats = data.timebasedstats;		
+				var dataJSON = [];						
+				if(data.timebasedstats.length>10) {
+					for(var indx = 0 ; indx < 10 ; indx++) {						
+						dataJSON.push(data.timebasedstats[indx]);
+					}
+				} else {
+					dataJSON = data.timebasedstats
+				}		
+									
+				d3.piechart_5.build('#timebased1', dataJSON, {
 					width : 700,
 					height : 600
 				});			
@@ -543,7 +567,7 @@ home.controller("StatsController", function($scope, $http, $location,
 				$scope.unexpected_error = true;
 			}
 		}).error(function(error) {
-			console.log("In getDriverDetails failed");
+			console.log("In timebased stats failed");
 			$scope.unexpected_error = true;
 		});		
 	}
@@ -559,11 +583,11 @@ home.controller("StatsController", function($scope, $http, $location,
 			if (data) {				
 				console.log(data.revenuebasedstats);
 				$scope.revenuebasedstats = data.revenuebasedstats;				
-				d3.piechart_2.build('#revenuebased1', data.revenuebasedstats, {
+				d3.piechart_4.build('#revenuebased1', data.revenuebasedstats, {
 					width : 700,
 					height : 600
 				});	
-				d3.piechart_3.build('#revenuebased2', data.revenuebasedstats, {
+				d3.piechart_5.build('#revenuebased2', data.revenuebasedstats, {
 					width : 700,
 					height : 600
 				});	

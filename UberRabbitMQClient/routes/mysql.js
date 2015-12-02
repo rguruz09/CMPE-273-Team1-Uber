@@ -4,12 +4,12 @@ function getConnection(){
 	var connection = mysql.createConnection({
 	    host     : 'localhost',
 	    user     : 'root',
-	    password : 'raghu',
-	    database : 'uber'
+	    password : '',
+	    database : 'UBERFINAL',
+	    port:'3307'
 	});
 	return connection;
 }
-
 //getting driver details
 exports.executeQuery = function(query, callback){
 	console.log("In execute query - "+ query);

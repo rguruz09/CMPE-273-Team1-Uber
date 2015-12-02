@@ -8,4 +8,9 @@
     	 
       		window.location.assign("/driverSignin");
     }
+     $scope.adminSignin=function(){
+    	 
+   		window.location.assign("/adminSignin");
+ }
+     
 });

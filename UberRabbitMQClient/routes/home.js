@@ -26,6 +26,11 @@ function rideHistory(req,res){
 	res.render("rideHistory");
 	}
 
+function adminSignin(req,res){
+	res.render("adminSignin");
+	}
+
+
 function driverProfile(req,res){
 	 if (!req.session.driverID) 
 		 res.redirect('/');
@@ -33,6 +38,8 @@ function driverProfile(req,res){
 		 res.render('driverProfile',{ "email":req.session.driverID});
 	}
 
+
+exports.adminSignin= adminSignin;
 exports.driverSignup= driverSignup;
 exports.commonLogin= commonLogin;
 exports.driverSignin= driverSignin;

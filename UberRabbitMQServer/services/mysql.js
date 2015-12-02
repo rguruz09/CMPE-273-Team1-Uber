@@ -1,20 +1,23 @@
 var mysql = require('mysql');
 
-function getConnection(){
-	var connection = mysql.createConnection({
-	    host     : 'localhost',
-	    user     : 'root',
-	    password : 'raghu',
-	    database : 'uber'
-	});
-	return connection;
-}
+
+var pool = mysql.createPool({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'UBERFINAL',
+    port:3307,
+    connectionLimit: 100,
+    supportBigNumbers: true
+});
 
 exports.authenticate = function(tableName,email, callback) {
     var sql = "SELECT firstname,lastname,password FROM " + tableName + " where email = ?";
     // get a connection from the pool
     var arr =[email];
-    var connection = getConnection();
+    pool.getConnection(function(err, connection) {
+        if(err) { console.log(err); callback(true); return; }
+        // make the query
 	connection.query(sql, arr, function(err, results) {
 		if (err) {
 			console.log(err);
@@ -23,14 +26,16 @@ exports.authenticate = function(tableName,email, callback) {
 		}
 		callback(false, results);
 	});
+    });
 };
 
 
 exports.insert = function(tableName, arr, callback) {
 	var sql = "INSERT into " + tableName + " SET ?";
 	console.log(arr);
-	var connection = getConnection();
-
+    pool.getConnection(function(err, connection) {
+        if(err) { console.log(err); callback(true); return; }
+        // make the query
 	connection.query(sql, arr, function(err, results) {
 		if (err) {
 			console.log(err);
@@ -39,6 +44,7 @@ exports.insert = function(tableName, arr, callback) {
 		}
 		callback(false, results);
 	});
+    });
 };
 
 exports.insert1 = function(tableName, arr, callback) {
@@ -68,7 +74,9 @@ exports.update = function(tableName,arr,whereParam, callback){
 	console.log(arr);
     var sql = "UPDATE  "+tableName+" SET ? WHERE email='"+whereParam+"'"; 
     console.log(sql);
-       var connection = getConnection();
+    pool.getConnection(function(err, connection) {
+        if(err) { console.log(err); callback(true); return; }
+        // make the query
 	connection.query(sql,arr,function(err, results) {
 		if (err) {
 			console.log(err);
@@ -76,6 +84,7 @@ exports.update = function(tableName,arr,whereParam, callback){
 			return;
 		}
 		callback(false, results);
+	});
 	});
 };
 
@@ -85,9 +94,9 @@ exports.getData = function(tableName, id, whereParam, callback) {
 	//console.log("connection.escape(whereParam);" + connection.escape(whereParam));
 	var sql = "SELECT * FROM  " + tableName + " WHERE " + id + " = \"" + whereParam+"\";";
 	console.log(sql);
-	
-	//sql = "SELECT * FROM  customer WHERE email = \"manasa@gmail.com\"";
-	var connection = getConnection();
+    pool.getConnection(function(err, connection) {
+        if(err) { console.log(err); callback(true); return; }
+        // make the query
 	connection.query(sql,function(err, results) {
 		if (err) {
 			console.log(err);
@@ -96,6 +105,7 @@ exports.getData = function(tableName, id, whereParam, callback) {
 		}
 		callback(false, results);
 	});
+    });
 };
 
 
@@ -104,9 +114,9 @@ exports.deleteData = function(tableName, whereParam1, whereParam2, callback) {
 	//console.log("connection.escape(whereParam);" + connection.escape(whereParam));
 	var sql = "DELETE FROM  " + tableName + " WHERE email =\"" + whereParam1+"\" AND cardnumber_4= \""+ whereParam2 +"\";";
 	console.log(sql);
-	
-	//sql = "SELECT * FROM  customer WHERE email = \"manasa@gmail.com\"";
-	var connection = getConnection();
+    pool.getConnection(function(err, connection) {
+        if(err) { console.log(err); callback(true); return; }
+        // make the query
 	connection.query(sql,function(err, results) {
 		if (err) {
 			console.log(err);
@@ -115,12 +125,15 @@ exports.deleteData = function(tableName, whereParam1, whereParam2, callback) {
 		}
 		callback(false, results);
 	});
+    });
 };
 
 
 exports.executeQuerywithParam = function(query, param, callback){
 	console.log("In execute query1 "+ query);
-	var connection = getConnection();
+    pool.getConnection(function(err, connection) {
+        if(err) { console.log(err); callback(true); return; }
+        // make the query
 	if(connection){
 		connection.query(query, param, function(err, results) {
 			if (err) {
@@ -137,6 +150,7 @@ exports.executeQuerywithParam = function(query, param, callback){
 		console.log("Unable to get SQL connection");
 		callback(true, null);
 	}
+    });
 }
 
 
@@ -144,7 +158,9 @@ exports.executeQuerywithParam = function(query, param, callback){
 //getting driver details
 exports.executeQuery = function(query, callback){
 	console.log("In execute query - "+ query);
-	var connection = getConnection();
+    pool.getConnection(function(err, connection) {
+        if(err) { console.log(err); callback(true); return; }
+        // make the query
 	if(connection){
 		connection.query(query, function(err, results) {
 			if (err) {
@@ -161,4 +177,39 @@ exports.executeQuery = function(query, callback){
 		console.log("Unable to get SQL connection");
 		callback(true, null);
 	}
+});
 };
+
+exports.getStatsData = function(sql, callback) {
+	console.log(sql);
+    pool.getConnection(function(err, connection) {
+        if(err) { console.log(err); callback(true); return; }
+        // make the query
+	connection.query(sql,function(err, results) {
+		if (err) {
+			console.log(err);
+			callback(true, err);
+			return;
+		}
+		callback(false, results);
+	});
+    });
+};
+
+exports.selectAll = function(tableName,callback) {
+	console.log("Getting Details from " + tableName);
+	var sql = "SELECT * FROM  " + tableName;
+		
+    pool.getConnection(function(err, connection) {
+        if(err) { console.log(err); callback(true); return; }
+        // make the query
+	connection.query(sql,function(err, results) {
+		if (err) {
+			console.log(err);
+			callback(true, err);
+			return;
+		}
+		callback(false, results);
+	});
+    });
+}
