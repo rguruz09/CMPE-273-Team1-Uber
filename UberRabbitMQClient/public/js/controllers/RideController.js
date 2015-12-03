@@ -117,8 +117,10 @@
 						}).success(function(data) {								
 							if(data.code == 404){
 								console.log("SQL failed");
-							}else{		
-								$scope.initLoad();
+							}else{
+								$scope.bshowbil = true;
+								$scope.drvname =  $scope.driverDetails.driber;
+								$scope.dprice =	$scope.maxPrice;
 								console.log("Ride Ended successfully");
 							}					
 											

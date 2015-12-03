@@ -36,7 +36,7 @@ function handle_request(msg, callback){
 			callback(null,res);
 
 		} else {
-				coll.insert({firstname:msg.firstname,lastname:msg.lastname,password:msg.password,address:msg.address,city:msg.city,zip:msg.zip,state:msg.state,mobile:msg.mobile,email:msg.email,isapproved:0}, function(err, user){
+				coll.insert({firstname:msg.firstname,lastname:msg.lastname,password:msg.password,address:msg.address,city:msg.city,zip:msg.zip,state:msg.state,mobile:msg.mobile,email:msg.email,ratings:5,status:0,isapproved:0}, function(err, user){
 			if(user)
 			{
 				console.log("results");

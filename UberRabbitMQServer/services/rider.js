@@ -291,8 +291,55 @@ function handle_get_all_drivertrips_queue(msg, callback) {
 	}
 }
 
+function handle_get_each_trips_queue(msg,callback) {	
+	var json_responses;
+	var RIDE_ID = msg.RIDE_ID;	
+	var res = {};
+
+	mysql.getData("RIDES","RIDE_ID", RIDE_ID, function(err, rows) {		
+		if (err) {			
+			console.log("Unexpected Error in bill details");
+			res.code = err.code;
+			res.value = "Unexpected Error!";
+			console.log(err);			
+			callback(null,res);			
+		} else {						
+			console.log("From eachTripDetails result of querydb: "	+ JSON.stringify(rows));			
+			res.code = "200";
+			res.value = "Success";
+			
+			if(rows.length > 0)
+				res.eachTripDetails = rows[0];			
+			callback(null,res);
+		}		
+	});	
+}
 
 
+
+function handle_get_drivereach_trips_queue(msg,callback) {	
+	var json_responses;
+	var RIDE_ID = msg.RIDE_ID;	
+	var res = {};
+
+	mysql.getData("RIDES","RIDE_ID", RIDE_ID, function(err, rows) {		
+		if (err) {			
+			console.log("Unexpected Error in bill details");
+			res.code = err.code;
+			res.value = "Unexpected Error!";
+			console.log(err);			
+			callback(null,res);			
+		} else {						
+			console.log("From eachdriverTripDetails result of querydb: "	+ JSON.stringify(rows));			
+			res.code = "200";
+			res.value = "Success";
+			
+			if(rows.length > 0)
+				res.eachdriverTripDetails = rows[0];			
+			callback(null,res);
+		}		
+	});	
+}
 //
 exports.handle_request_saveNewCard = handle_request_saveNewCard;
 exports.handle_delete_paymentInfo_queue = handle_delete_paymentInfo_queue;
@@ -303,3 +350,5 @@ exports.handle_request_addRider = handle_request_addRider;
 exports.handle_login_rider_queue = handle_login_rider_queue;
 exports.handle_get_all_trips_queue =handle_get_all_trips_queue;
 exports.handle_get_all_drivertrips_queue =handle_get_all_drivertrips_queue;
+exports.handle_get_drivereach_trips_queue =handle_get_drivereach_trips_queue;
+exports.handle_get_each_trips_queue =handle_get_each_trips_queue;

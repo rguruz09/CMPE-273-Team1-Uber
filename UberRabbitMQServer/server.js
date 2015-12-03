@@ -564,6 +564,42 @@ cnn.on('ready', function() {
 		});
 	});
 	
+	cnn.queue('get_each_trips_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+			rider.handle_get_each_trips_queue(message, function(err, res) {
+				console.log("After  get_each_trips_queue Handle" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});
+	
+	cnn.queue('get_drivereach_trips_queue', function(q) {
+		q.subscribe(function(message, headers, deliveryInfo, m) {
+			util.log(util.format(deliveryInfo.routingKey, message));
+			util.log("Message: " + JSON.stringify(message));
+			util.log("DeliveryInfo: " + JSON.stringify(deliveryInfo));
+
+			rider.handle_get_drivereach_trips_queue(message, function(err, res) {
+				console.log("After  get_each_trips_queue Handle" + res);
+				// return index sent
+				cnn.publish(m.replyTo, res, {
+					contentType : 'application/json',
+					contentEncoding : 'utf-8',
+					correlationId : m.correlationId
+				});
+			});
+		});
+	});
+	
 	cnn.queue('get_all_drivertrips_queue', function(q) {
 		q.subscribe(function(message, headers, deliveryInfo, m) {
 			util.log(util.format(deliveryInfo.routingKey, message));

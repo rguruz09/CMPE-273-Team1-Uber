@@ -17,7 +17,6 @@ var express = require('express')
   , path = require('path')
   , cluster = require('cluster');
 
-
 var mongoSessionConnectURL = "mongodb://localhost:27017/sessions";
 var expressSession = require("express-session");
 var mongoStore = require("connect-mongo")(expressSession);
@@ -118,6 +117,10 @@ app.post('/getfareEstimate',billing.getfareEstimate);
 app.get('/getAllBills',bills.getAllBills);
 app.post('/getBillDetails',bills.getBillDetails);
 
+//Trips Module
+app.post('/geteachTripDetails',trips.geteachTripDetails);
+
+
 //Rides
 app.post('/bookaride',rides.bookaride);
 app.post('/getRideRequest',rides.getRideRequest);
@@ -139,6 +142,7 @@ app.get('/driverRides', driver.driverRides);
 app.post('/getTripDetails',trips.getTripDetails);
 app.post('/getdriverTripDetails',trips.getdriverTripDetails);
 app.get('/rideHistory',home.rideHistory);
+app.post('/eachdriverTripDetails',trips.eachdriverTripDetails);
 
 
 

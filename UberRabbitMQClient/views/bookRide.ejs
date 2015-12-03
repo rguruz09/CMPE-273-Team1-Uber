@@ -91,9 +91,23 @@
 	<!-- END MENU -->
 	</div>
 	
+	<div class="col-md-3" ng-show=bshowbil>
+		<h3 align>
+			<strong>Ride ended successfully..!! Please check the bill details in your rides table </strong>
+		</h3>
+		<br/>
+		<hr/>
+		<b>
+		<!--	<div id="Foo"  align="center" >
+			    <h3 align="left">Driver Name: {{drvname}}</h3>			    
+			    <h3 align="left">Bill Amount: {{}}</h3>			    
+			    <h3 align="left">Please click on My Trips for more details</h3>
+			</div>  -->
+		</b>
+	</div>
 	
 	<!-- PROFILE -->
-	<div class="col-md-7">
+	<div class="col-md-7" ng-hide=bshowbil>
 		<div class="row">
 			<h3 align = "center"> <strong>BOOK RIDE</strong> </h3>
 			<hr/>	
@@ -141,10 +155,9 @@
 			    <h3 align="left">Ratings: {{driverDetails.rating}}</h3>			    
 			    <h3 align="left">Car Details: {{driverDetails.Detais}}</h3>
 			    <hr/>
-			     <video controls loop>
-					  <source src="../images/H264_test2_Talkinghead_mp4_480x320.mp4" type="video/mp4">				  
-				  Your browser does not support the video tag.
-				</video> 
+			    <object width="420" height="315"
+					data="https://www.youtube.com/v/z9Lvtv0MP_4">
+				</object>
 				<br/>
 				<br/>
 			</div>
@@ -192,6 +205,9 @@
 	<div class="col-md-3">
 	</div>
 	</div>
+	
+	
+	
 	
 	
 
